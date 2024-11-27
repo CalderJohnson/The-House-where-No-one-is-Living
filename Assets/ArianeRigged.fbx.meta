@@ -633,7 +633,7 @@ ModelImporter:
     - name: index1.r.002
       parentName: index1.r
       position: {x: 0.000000055413693, y: 0.033845093, z: 0.000000014901161}
-      rotation: {x: 0.006130684, y: -0.0025320544, z: -0.03918362, w: 0.99921}
+      rotation: {x: 0.0061306846, y: -0.0025320544, z: -0.039183624, w: 0.99921}
       scale: {x: 1.0000005, y: 1.0000002, z: 1.0000001}
     - name: index1.r.001
       parentName: index1.r.002
