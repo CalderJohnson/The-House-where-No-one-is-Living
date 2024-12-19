@@ -9,6 +9,7 @@ public class Door : MonoBehaviour
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
