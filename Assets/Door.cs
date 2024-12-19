@@ -44,10 +44,14 @@ public class Door : MonoBehaviour
     {
         if (isInteractable && Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("interact");
-            gameObject.SetActive(false);
-            Player.transform.position = new Vector3(x, y, z);
-            gameObject.SetActive(true);
+            Debug.Log("Teleport to: "+ x + y + z);
+
+            Player.gameObject.SetActive(false);
+            Player.gameObject.transform.position = new Vector3(x, y, z);
+            Player.gameObject.SetActive(true);
+
+            isInteractable = false;
+            Player = null;
 
         }
     }
