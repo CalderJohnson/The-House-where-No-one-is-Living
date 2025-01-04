@@ -35,7 +35,7 @@ public class Door : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("exit");
+            //Debug.Log("exit");
             isInteractable = false;
             Player = null;
         }

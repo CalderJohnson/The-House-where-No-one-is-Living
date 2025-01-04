@@ -6,7 +6,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     // Moving
-    public Camera playerCamera;
+    //public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
     public float jumpPower = 7f;
@@ -23,13 +23,13 @@ public class Controller : MonoBehaviour
 
     private bool canMove = true;
 
-    // Attacking
-    public GameObject knifePrefab;      // Knife prefab
-    public Transform attackPoint;       // Position where the knife attack spawns
-    public float attackRange = 1.5f;    // Range of the knife attack
-    public float attackCooldown = 1f;   // Cooldown between attacks
+    // // Attacking
+    // public GameObject knifePrefab;      // Knife prefab
+    // public Transform attackPoint;       // Position where the knife attack spawns
+    // public float attackRange = 1.5f;    // Range of the knife attack
+    // public float attackCooldown = 1f;   // Cooldown between attacks
 
-    private float nextAttackTime = 0f;
+    // private float nextAttackTime = 0f;
 
     void Start()
     {
@@ -87,29 +87,29 @@ public class Controller : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
-        // Knife attack
-        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTime)
-        {
-            PerformKnifeAttack();
-            nextAttackTime = Time.time + attackCooldown; // Set next attack time
-        }
+        // // Knife attack
+        // if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextAttackTime)
+        // {
+        //     PerformKnifeAttack();
+        //     nextAttackTime = Time.time + attackCooldown; // Set next attack time
+        // }
     }
 
-    void PerformKnifeAttack()
-    {
-        // Short range damage
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
-        foreach (Collider enemy in hitEnemies)
-        {
-            if (enemy.CompareTag("Enemy"))
-            {
-                Debug.Log("Hit enemy: " + enemy.name);
-                enemy.GetComponent<EnemyController>().TakeDamage(20);
-            }
-        }
+    // void PerformKnifeAttack()
+    // {
+    //     // Short range damage
+    //     Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
+    //     foreach (Collider enemy in hitEnemies)
+    //     {
+    //         if (enemy.CompareTag("Enemy"))
+    //         {
+    //             Debug.Log("Hit enemy: " + enemy.name);
+    //             enemy.GetComponent<EnemyController>().TakeDamage(20);
+    //         }
+    //     }
 
-        // Visual effect
-        GameObject knife = Instantiate(knifePrefab, attackPoint.position, Quaternion.identity);
-        Destroy(knife, 0.5f); // Destroy the visual effect after 0.5 seconds
-    }
+    //     // Visual effect
+    //     GameObject knife = Instantiate(knifePrefab, attackPoint.position, Quaternion.identity);
+    //     Destroy(knife, 0.5f); // Destroy the visual effect after 0.5 seconds
+    // }
 }
