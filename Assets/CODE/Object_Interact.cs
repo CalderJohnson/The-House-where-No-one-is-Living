@@ -7,16 +7,14 @@ public class Object_Interact : MonoBehaviour
 {
     bool isInteractable = false;
     Collider Player;
-    public float x = 0f;
-    public float y = 0f;
-    public float z = 0f;
+    
     public UnityEvent Object_Action;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("enter");
+            Debug.Log("enter");
             isInteractable = true;
             Player = other;
         }
@@ -37,7 +35,7 @@ public class Object_Interact : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("exit");
+            Debug.Log("exit");
             isInteractable = false;
             Player = null;
         }
@@ -45,6 +43,7 @@ public class Object_Interact : MonoBehaviour
 
     void Update()
     {
+        
         if (isInteractable && Input.GetKeyDown(KeyCode.Q))
         {
             Object_Action.Invoke();

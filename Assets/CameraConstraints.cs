@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class CameraConstraints : MonoBehaviour
 {
+    
+    public Transform player;
+    public float positiveX = 20f;
+    public float negativeX = -20f;
+    public float positiveZ = 20f;
+    public float negativeZ = -20f;
+
+    public float offsetX = 0f;
+    public float offsetY = 15f;
+    public float offsetz = -17f;
+    // Update is called once per frame
+    // Set these in the inspector to tune your bounds.
+    private Vector3 MinCamPosition; //= new Vector3(negativeX,-20,negativeZ);
+    private Vector3 MaxCamPosition; //= new Vector3(positiveX,20,positiveX);
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        MinCamPosition = new Vector3(negativeX,-20,negativeZ);
+        MaxCamPosition = new Vector3(positiveX,20,positiveX);
     }
-    public Transform player;
-    public float positiveX = 20;
-    public float negativeX = -20;
-    public float positiveZ = 20;
-    public float negativeZ = -20;
-    // Update is called once per frame
-    // Set these in the inspector to tune your bounds.
-    private Vector3 MinCamPosition = new Vector3(-20,-20,-20);
-    private Vector3 MaxCamPosition = new Vector3(20,20,20);
-
 
     void Update()
     {
+        
 
         transform.position = new Vector3(
             Mathf.Clamp(player.transform.position.x, MinCamPosition.x, MaxCamPosition.x),
