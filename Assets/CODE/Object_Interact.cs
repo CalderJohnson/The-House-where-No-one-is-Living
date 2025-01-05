@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Object_Interact : MonoBehaviour
 {
@@ -9,12 +10,13 @@ public class Object_Interact : MonoBehaviour
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
+    public UnityEvent Object_Action;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("enter");
+            //Debug.Log("enter");
             isInteractable = true;
             Player = other;
         }
@@ -35,7 +37,7 @@ public class Object_Interact : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("exit");
+            //Debug.Log("exit");
             isInteractable = false;
             Player = null;
         }
@@ -45,11 +47,7 @@ public class Object_Interact : MonoBehaviour
     {
         if (isInteractable && Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("Teleport to: " + x + y + z);
-
-            Player.gameObject.SetActive(false);
-            Player.gameObject.transform.position = new Vector3(x, y, z);
-            Player.gameObject.SetActive(true);
+            Object_Action.Invoke();
 
             isInteractable = false;
             Player = null;
