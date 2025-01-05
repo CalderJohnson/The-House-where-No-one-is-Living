@@ -24,13 +24,13 @@ public class Object_Interact : MonoBehaviour
             interactionIcon.SetActive(false);
         }
     }
-
+  
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("enter");
+            Debug.Log("enter");
             isInteractable = true;
             Player = other;
         }
@@ -59,7 +59,7 @@ public class Object_Interact : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("exit");
+            Debug.Log("exit");
             isInteractable = false;
             Player = null;
         }
@@ -75,6 +75,7 @@ public class Object_Interact : MonoBehaviour
 
     void Update()
     {
+
         if (isInteractable && Input.GetKeyDown(KeyCode.Q) && !isOpen )
         {
             OpenWardrobe();

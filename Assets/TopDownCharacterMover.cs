@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//https://www.youtube.com/watch?v=-0GFb9l3NHM
 [RequireComponent(typeof(InputHandler))]
 public class TopDownCharacterMover : MonoBehaviour
 {
@@ -45,7 +45,7 @@ public class TopDownCharacterMover : MonoBehaviour
     private void RotateFromMouseVector()
     {
         Ray ray = Camera.ScreenPointToRay(_input.MousePosition);
-
+        //Debug.Log(_input.MousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, maxDistance: 300f))
         {
             var target = hitInfo.point;
