@@ -265,6 +265,12 @@ MonoBehaviour:
   MovementSpeed: 10
   RotationSpeed: 10
   Camera: {fileID: 1326126352}
+  Right_Hand:
+    m_PersistentCalls:
+      m_Calls: []
+  Left_Hand:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &198772494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,6 +897,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 626991094810869614, guid: b68e17dce26130a4c854383db45728f7,
         type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626991094810869614, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
       propertyPath: m_TagString
       value: Object
       objectReference: {fileID: 0}
@@ -914,6 +925,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2239811110192179355, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2331721717917225745, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4579124908587620010, guid: b68e17dce26130a4c854383db45728f7,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -953,6 +974,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8230848924106753800, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144487058764739541, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170182604268340816, guid: b68e17dce26130a4c854383db45728f7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1464,21 +1500,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object_Action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 701593108}
-        m_TargetAssemblyTypeName: OpenDoorrs, Assembly-CSharp
-        m_MethodName: talk
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  x: 0
+  y: 0
+  z: 0
+  interactionIcon: {fileID: 0}
+  leftDoorAnimator: {fileID: 0}
+  rightDoorAnimator: {fileID: 0}
 --- !u!1 &1249751974
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,7 +2033,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acfed76c01f1aac4f90cdc6f259b263b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knifePrefab: {fileID: 1553762604}
+  knifePrefab: {fileID: 8925181041396057471, guid: a805d94c9020fc241a74ea77d105347d,
+    type: 3}
   attackPoint: {fileID: 1553762605}
   attackRange: 1.5
   attackCooldown: 1

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 //https://www.youtube.com/watch?v=-0GFb9l3NHM
 [RequireComponent(typeof(InputHandler))]
 public class TopDownCharacterMover : MonoBehaviour
@@ -24,6 +25,8 @@ public class TopDownCharacterMover : MonoBehaviour
         _input = GetComponent<InputHandler>();
     }
 
+    public UnityEvent Right_Hand;
+    public UnityEvent Left_Hand;
     // Update is called once per frame
     void Update()
     {
@@ -38,6 +41,11 @@ public class TopDownCharacterMover : MonoBehaviour
         if (RotateTowardMouse)
         {
             RotateFromMouseVector();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Mouse0)){
+            Right_Hand.Invoke(); //attack with right hand
+            Left_Hand.Invoke(); //attack with left hand
         }
 
     }

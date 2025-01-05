@@ -7,13 +7,9 @@ public class Object_Interact : MonoBehaviour
 {
     bool isInteractable = false;
     Collider Player;
-    public float x = 0f;
-    public float y = 0f;
-    public float z = 0f;
-
+    
     public GameObject interactionIcon;
-    public Animator leftDoorAnimator; 
-    public Animator rightDoorAnimator; 
+    public UnityEvent Object_Action; 
     private bool isOpen = false;
 
     private void Start()
@@ -78,7 +74,12 @@ public class Object_Interact : MonoBehaviour
 
         if (isInteractable && Input.GetKeyDown(KeyCode.Q) && !isOpen )
         {
-            OpenWardrobe();
+            Object_Action.Invoke();
+            isOpen = true; 
+            if (interactionIcon != null)
+            {
+                interactionIcon.SetActive(false);
+            }
 
             isInteractable = false;
             Player = null;
@@ -86,18 +87,5 @@ public class Object_Interact : MonoBehaviour
         }
     }
 
-    private void OpenWardrobe()
-    {
-        isOpen = true; // Mark the wardrobe as opened.
-
-       
-        leftDoorAnimator.Play("DoorOpen_Left");
-        rightDoorAnimator.Play("DoorOpen_Right");
-
-        // Hide the interaction icon.
-        if (interactionIcon != null)
-        {
-            interactionIcon.SetActive(false);
-        }
-    }
+    
 }
