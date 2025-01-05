@@ -240,7 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9104aecddd65f1e4eaa7726e61ead16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
 --- !u!1001 &261716143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1458,7 +1457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19f78b301578df47a5914ad8d13daa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
   walkSpeed: 6
   runSpeed: 12
   jumpPower: 7

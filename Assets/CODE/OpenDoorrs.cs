@@ -8,9 +8,15 @@ public class OpenDoorrs : MonoBehaviour
     public float RotationSpeed;
     // Start is called before the first frame update
     public void talk(){
-        //Debug.Log("michael is cool");
+        Debug.Log("michael is cool");
 
-        gameObject.transform.Rotate ( Vector3.up * ( RotationSpeed * Time.deltaTime ) );
+        int counter = 0;
+        while(counter <= RotationSpeed){
+            transform.Rotate ( new Vector3(0,RotationSpeed, 0) *  Time.deltaTime );
+            counter = counter + 1;
+        }
+    }
+    void Update(){
         
     }
 }
