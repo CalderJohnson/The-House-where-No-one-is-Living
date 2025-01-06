@@ -43,7 +43,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if (isInteractable && Input.GetKeyDown(KeyCode.Q))
+        if (isInteractable && Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Teleport to: "+ x + y + z);
 

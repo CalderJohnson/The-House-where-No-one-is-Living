@@ -15,6 +15,8 @@ public class TopDownCharacterMover : MonoBehaviour
     [SerializeField]
     private float MovementSpeed;
     [SerializeField]
+    private float SprintSpeed;
+    [SerializeField]
     private float RotationSpeed;
 
     [SerializeField]
@@ -69,7 +71,14 @@ public class TopDownCharacterMover : MonoBehaviour
         var speed = MovementSpeed * Time.deltaTime;
         // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime)); Demonstrate why this doesn't work
         //transform.Translate(targetVector * (MovementSpeed * Time.deltaTime), Camera.gameObject.transform);
-
+        if(Input.GetKey(KeyCode.LeftShift)){
+            speed = SprintSpeed * Time.deltaTime;
+            RotateTowardMouse = false;
+        }
+        else{
+            speed = MovementSpeed * Time.deltaTime;
+            RotateTowardMouse = true;
+        }
         targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
         var targetPosition = transform.position + targetVector * speed;
         transform.position = targetPosition;

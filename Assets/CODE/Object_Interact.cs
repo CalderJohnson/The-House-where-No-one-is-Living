@@ -72,7 +72,7 @@ public class Object_Interact : MonoBehaviour
     void Update()
     {
 
-        if (isInteractable && Input.GetKeyDown(KeyCode.Q) && !isOpen )
+        if (isInteractable && Input.GetKeyDown(KeyCode.E) && !isOpen )
         {
             Object_Action.Invoke();
             isOpen = true; 
@@ -85,6 +85,11 @@ public class Object_Interact : MonoBehaviour
             Player = null;
 
         }
+    }
+
+    public void resetState(){
+        isOpen = false;
+        isInteractable = true;
     }
 
     
