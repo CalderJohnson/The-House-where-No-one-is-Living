@@ -10,7 +10,7 @@ public class knife : MonoBehaviour
     public float attackRange = 1.5f;    // Range of the knife attack
     public float attackCooldown;   // Cooldown between attacks
 
-    private float nextAttackTime = 0f;
+    //private float nextAttackTime = 0f;
     float lastAttack;
 
     // Start is called before the first frame update
@@ -20,22 +20,23 @@ public class knife : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextAttackTime)
-        // {
-        //     PerformKnifeAttack();
-        //     nextAttackTime = Time.time + attackCooldown; // Set next attack time
-        // }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextAttackTime)
+    //     {
+    //         PerformKnifeAttack();
+    //         nextAttackTime = Time.time + attackCooldown; // Set next attack time
+    //     }
         
-    }
+    // }
 
     public void PerformKnifeAttack()
     {
         
-        if(Time.time-lastAttack>attackCooldown){
+        if(Time.time-lastAttack>attackCooldown){ //cooldown system
             
             lastAttack = Time.time;
+
             Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach (Collider enemy in hitEnemies)
             {
@@ -45,6 +46,7 @@ public class knife : MonoBehaviour
                     enemy.GetComponent<EnemyController>().TakeDamage(20);
                 }
             }
+
             //Debug.Log("attack");
             AttackEffect();
             return;
@@ -75,7 +77,7 @@ public class knife : MonoBehaviour
         
     }
 
-    public void AttackEffect(){
+    public void AttackEffect(){ //particle effects
         GameObject effect = Instantiate(knifePrefab,attackPoint.position,Quaternion.identity);
         Destroy(effect,1f);
     }

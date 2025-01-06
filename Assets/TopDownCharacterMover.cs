@@ -43,8 +43,10 @@ public class TopDownCharacterMover : MonoBehaviour
             RotateFromMouseVector();
         }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0)){
+        if(Input.GetKeyDown(KeyCode.Mouse0)){//left click
             Right_Hand.Invoke(); //attack with right hand
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse1)){ //right click
             Left_Hand.Invoke(); //attack with left hand
         }
 
