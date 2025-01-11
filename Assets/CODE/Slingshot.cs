@@ -13,17 +13,17 @@ public class Slingshot : MonoBehaviour
     private float nextAttackTime = 0f;
 
     // Update is called once per frame
-    void Update()
-    {
-        // Check for input and cooldown
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextAttackTime)
-        {
-            ShootProjectile();
-            nextAttackTime = Time.time + attackCooldown; // Set the cooldown
-        }
-    }
+    //void Update()
+    //{
+    //    // Check for input and cooldown
+    //    if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextAttackTime)
+    //    {
+    //        ShootProjectile();
+    //        nextAttackTime = Time.time + attackCooldown; // Set the cooldown
+    //    }
+    //}
 
-    void ShootProjectile()
+    public void ShootProjectile()
     {
         // Instantiate the projectile
         GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
