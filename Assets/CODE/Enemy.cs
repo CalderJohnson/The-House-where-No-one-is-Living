@@ -110,6 +110,7 @@ public class EnemyController : MonoBehaviour
     private void RetreatBehavior()
     {
         Vector3 directionAwayFromPlayer = (transform.position - target.position).normalized;
+        directionAwayFromPlayer.y = 0; // Enemy cannot travel up
         transform.position += directionAwayFromPlayer * speed * Time.deltaTime;
     }
 
