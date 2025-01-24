@@ -1,0 +1,3 @@
+Alice: Hey Bob, how are you? I'm testing out if this textbox can get text from a file.
+This is a narrator line with no character name to see if the textbox can dynamically change.
+Bob: I'm fine, Alice, thank you! Hope you're looking forward to The House Where No One's Living!
