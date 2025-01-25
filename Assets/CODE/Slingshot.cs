@@ -25,6 +25,10 @@ public class Slingshot : MonoBehaviour
 
     public void ShootProjectile()
     {
+        if (!(Time.time >= nextAttackTime))
+        {
+            return;
+        }
         // Instantiate the projectile
         GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, shootPoint.rotation);
 
@@ -35,7 +39,9 @@ public class Slingshot : MonoBehaviour
             rb.velocity = shootPoint.forward * projectileSpeed;
         }
 
-        // Optional: Destroy the projectile after a set time to prevent memory leaks
+        // Destroy the projectile after a set time to prevent memory leaks
         Destroy(projectile, 5f);
+
+        nextAttackTime = Time.time + attackCooldown;
     }
 }

@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            collision.gameObject.GetComponent<Healthbar>().TakeDamage(damage);
             Debug.Log("Ranged hit enemy");
             Destroy(gameObject); // Destroy the projectile on impact
         }

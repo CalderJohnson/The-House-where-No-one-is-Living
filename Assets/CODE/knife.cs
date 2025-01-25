@@ -44,7 +44,7 @@ public class knife : MonoBehaviour
                 if (enemy.CompareTag("Enemy"))
                 {
                     Debug.Log("Hit enemy: " + enemy.name);
-                    enemy.GetComponent<EnemyController>().TakeDamage(20);
+                    enemy.GetComponent<Healthbar>().TakeDamage(20);
                 }
             }
 
