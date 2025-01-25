@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     // Attributes
-    private float maxHealth;
     private float speed;
+    private float maxHealth = 100f;
+    private float health;
+    private Healthbar healthbar;
     private float attackRangeClose = 2f;
     private float attackRangeRanged = 5f;
     private float retreatThreshold = 20f;
@@ -24,24 +26,27 @@ public class EnemyController : MonoBehaviour
         Retreat
     }
 
-    // Weights (attributes taken into account when calculating state transition)
     private State currentState;
-    private float health;
-
 
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         speed = 3f;
-        maxHealth = 100f;
         health = maxHealth;
         currentState = State.Wander;
         SetWanderTarget();
+        healthbar = GetComponent<Healthbar>();
+        if (healthbar != null)
+        {
+            healthbar.Initialize(100); // Set initial health
+            healthbar.OnDeath += HandleDeath; // Subscribe to the death event
+        }
     }
 
     void Update()
     {
+        health = healthbar.getHealth();
         switch (currentState)
         {
             case State.Wander:
@@ -144,16 +149,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
+    private void HandleDeath()
     {
         Debug.Log(gameObject.name + " died!");
         Destroy(gameObject);
