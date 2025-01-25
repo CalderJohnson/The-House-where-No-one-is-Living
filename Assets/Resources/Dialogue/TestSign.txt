@@ -1,0 +1,6 @@
+Just a sign...
+Rowan: Just kidding!
+Test: Actually, while I may look like Rowan, I'm just a test object. {1}
+Test: Here's me shifting sprites to expose my true nature. I'm here to see if sprites are working correctly within the Dialogue Box. {2}
+Test: Guess you've figured out my secret now. And 3's all the sprites that I have. {3}
+So, goodbye...for now!
