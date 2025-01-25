@@ -7,10 +7,13 @@ public class Object_Interact : MonoBehaviour
 {
     bool isInteractable = false;
     Collider Player;
-    
+
     public GameObject interactionIcon;
     public UnityEvent Object_Action; 
     private bool isOpen = false;
+
+    public Dialogue dialogueInstance; // Reference to the Dialogue script
+    public string dialogueFileName;  // Name of the dialogue file for this object
 
     private void Start()
     {
@@ -21,7 +24,6 @@ public class Object_Interact : MonoBehaviour
         }
     }
   
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -38,17 +40,6 @@ public class Object_Interact : MonoBehaviour
                 interactionIcon.SetActive(true);
             }
         }
-
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-
-
-        }
-
     }
 
     void OnTriggerExit(Collider other)
@@ -71,9 +62,14 @@ public class Object_Interact : MonoBehaviour
 
     void Update()
     {
-
-        if (isInteractable && Input.GetKeyDown(KeyCode.E) && !isOpen )
+        if (isInteractable && Input.GetKeyDown(KeyCode.E) && !isOpen)
         {
+            if (dialogueInstance != null)
+            {
+                // Set the dialogue file dynamically before invoking Object_Action
+                dialogueInstance.SetDialogueFileName(dialogueFileName);
+            }
+
             Object_Action.Invoke();
             isOpen = true; 
             if (interactionIcon != null)
@@ -83,14 +79,12 @@ public class Object_Interact : MonoBehaviour
 
             isInteractable = false;
             Player = null;
-
         }
     }
 
-    public void resetState(){
+    public void resetState()
+    {
         isOpen = false;
         isInteractable = true;
     }
-
-    
 }

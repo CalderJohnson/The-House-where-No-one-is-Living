@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Dialogue : MonoBehaviour
@@ -13,34 +14,32 @@ public class Dialogue : MonoBehaviour
     public string[] lines;
     public TextMeshProUGUI textComponent;
     public TextMeshProUGUI nameComponent;
-    public RectTransform textComponentRect; // Reference to the text box's RectTransform
-    public RectTransform nameComponentRect; // Reference to the name box's RectTransform
     public float textSpeed;
     private int index;
 
-    private Vector2 originalTextSize; // Store default text box size
+    public Image dialogueSprite; // Sprite UI element for displaying character sprites
+    private RectTransform textComponentRect; // RectTransform for resizing the text box
+    private RectTransform nameComponentRect; // RectTransform for resizing the name box
 
     // File path for external dialogue file
     public string dialogueFileName; // Set this in Unity Inspector
 
-    // Start is called before the first frame update
     void Start()
     {
         textComponentRect = textComponent.GetComponent<RectTransform>();
+        nameComponentRect = nameComponent.GetComponent<RectTransform>();
 
-        // Store original sizes
-        originalTextSize = textComponentRect.sizeDelta;
-
-        //Construct full file path
-        string fullFilePath = $"Assets/Resources/Dialogue/{dialogueFileName}.txt";
-        
-        if (!string.IsNullOrEmpty(dialogueFileName) && File.Exists(fullFilePath))
+        if (!string.IsNullOrEmpty(dialogueFileName))
         {
-            LoadLinesFromFile(fullFilePath);
+            LoadDialogueFile();
         }
 
         textComponent.text = string.Empty;
         nameComponent.text = charaName;
+
+        // Hide sprite by default
+        dialogueSprite.gameObject.SetActive(false);
+
         StartDialogue();
     }
 
@@ -78,8 +77,9 @@ public class Dialogue : MonoBehaviour
 
     void DisplayCurrentLine()
     {
-        // Reset textComponent size to default
-        textComponentRect.sizeDelta = originalTextSize; 
+        textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
+        nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
+        dialogueSprite.gameObject.SetActive(false);
 
         string[] splitLine = lines[index].Split(new[] { ": " }, 2, System.StringSplitOptions.None);
 
@@ -92,11 +92,42 @@ public class Dialogue : MonoBehaviour
 
             // Set textComponent to only display the dialogue part
             lines[index] = splitLine[1];
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-
-            // Ensure textComponent retains original top value
             textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, -60);
+            
+            System.Text.RegularExpressions.Regex spriteRegex = new System.Text.RegularExpressions.Regex(@"\{(\d+)\}$");
+            var match = spriteRegex.Match(lines[index]);
+            if (match.Success)
+            {
+                // Extract sprite index
+                int spriteIndex = int.Parse(match.Groups[1].Value);
+
+                // Load the sprite dynamically
+                string spritePath = $"Sprites/DialogueSprites/{charaName}/{charaName}_{spriteIndex}";
+                Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
+
+                if (loadedSprite != null)
+                {
+                    // Adjust the text box to account for the sprite
+                    textComponentRect.offsetMin = new Vector2(500, textComponentRect.offsetMin.y);
+                    nameComponentRect.offsetMin = new Vector2(500, nameComponentRect.offsetMin.y);
+
+                    // Display the sprite
+                    dialogueSprite.sprite = loadedSprite;
+                    dialogueSprite.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Sprite not found at path: {spritePath}");
+                    ResetSpriteAndTextBox();
+                }
+
+                // Remove the sprite tag from the dialogue text
+                lines[index] = spriteRegex.Replace(lines[index], string.Empty);
+            }
+            else
+            {
+                ResetSpriteAndTextBox();
+            }
         }
         else
         {
@@ -104,12 +135,63 @@ public class Dialogue : MonoBehaviour
             nameComponent.text = string.Empty;
             nameComponent.gameObject.SetActive(false);
 
-            // Adjust textComponent's top value to occupy nameComponent's space
             textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, 0);
-
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
         }
+        
+        textComponent.text = string.Empty;
+        StartCoroutine(TypeLine());
+    
+    }
+
+    void AdjustForSpriteIfPresent(string currentLine)
+    { 
+        // Check for a sprite tag at the end of the line
+        System.Text.RegularExpressions.Regex spriteRegex = new System.Text.RegularExpressions.Regex(@"\{(\d+)\}$");
+        var match = spriteRegex.Match(currentLine);
+
+        if (match.Success)
+        {
+            // Extract sprite index
+            int spriteIndex = int.Parse(match.Groups[1].Value);
+
+            // Load the sprite dynamically
+            string spritePath = $"Sprites/DialogueSprites/{charaName}/{charaName}_{spriteIndex}";
+            Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
+
+            if (loadedSprite != null)
+            {
+                // Adjust the text box to account for the sprite
+                textComponentRect.offsetMax = new Vector2(600, textComponentRect.offsetMax.y);
+                nameComponentRect.offsetMax = new Vector2(600, nameComponentRect.offsetMax.y);
+
+                // Display the sprite
+                dialogueSprite.sprite = loadedSprite;
+                dialogueSprite.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning($"Sprite not found at path: {spritePath}");
+                ResetSpriteAndTextBox();
+            }
+
+            // Remove the sprite tag from the dialogue text
+            lines[index] = spriteRegex.Replace(currentLine, string.Empty);
+        }
+        else
+        {
+            ResetSpriteAndTextBox();
+        }
+
+        textComponent.text = string.Empty;
+        StartCoroutine(TypeLine());
+    }
+
+    void ResetSpriteAndTextBox()
+    {
+        // Hide the sprite and reset text box to original size
+        dialogueSprite.gameObject.SetActive(false);
+        textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
+        nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
     }
 
     void NextLine()
@@ -145,5 +227,26 @@ public class Dialogue : MonoBehaviour
         {
             Debug.LogError($"Error reading dialogue file: {e.Message}");
         }
+    }
+
+    void LoadDialogueFile()
+    {
+        string fullFilePath = $"Assets/Resources/Dialogue/{dialogueFileName}.txt";
+
+        if (!string.IsNullOrEmpty(dialogueFileName) && File.Exists(fullFilePath))
+        {
+            LoadLinesFromFile(fullFilePath);
+        }
+        else
+        {
+            Debug.LogError("Dialogue file not found or filename is empty.");
+        }
+    }
+
+    // New method to dynamically set the dialogue file name
+    public void SetDialogueFileName(string newFileName)
+    {
+        dialogueFileName = newFileName;
+        LoadDialogueFile(); // Reload dialogue from the new file
     }
 }
