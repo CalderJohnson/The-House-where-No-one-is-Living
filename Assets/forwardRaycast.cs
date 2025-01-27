@@ -65,6 +65,8 @@ public class forwardRaycast : MonoBehaviour
                 if (distanceToHit > stepLength)
                 {
                     targetObject.transform.position = hitInfo.point;
+                    //ROTATION FOR BAT WINGS
+                    
                 }
             }
         }
