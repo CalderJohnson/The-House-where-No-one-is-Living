@@ -60,9 +60,16 @@ public class TopDownCharacterMover : MonoBehaviour
         //Debug.Log(_input.MousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, maxDistance: 300f))
         {
+            // var target = hitInfo.point;
+            // target.y = transform.position.y;
+            // transform.LookAt(target);
+
             var target = hitInfo.point;
             target.y = transform.position.y;
-            transform.LookAt(target);
+            Vector3 direction = target - transform.position;
+            float rotationSpeed = 5f; // Adjust this value for speed of rotation
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
