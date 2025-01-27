@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/InventoryMenu.uss?fileID=7433441132597879392&amp;guid=eb69c930c20cc724fb0f8a7e99048f04&amp;type=3#InventoryMenu" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1;">
+        <ui:VisualElement name="Container" style="flex-grow: 1; align-items: center; width: 437px; align-self: center;" />
+    </ui:VisualElement>
+</ui:UXML>
