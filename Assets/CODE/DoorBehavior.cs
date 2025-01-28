@@ -1,49 +1,57 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    public Animator doorAnimator; // Assign the door's Animator in the Inspector
-    public Transform teleportTarget; // Assign the target position for teleportation
-    public DoorScript linkedDoor; // Reference to the other door
+    public Animator doorAnimator; // Assign the Animator for this door
+    public DoorScript linkedDoor; // Reference to the other door's DoorScript
+    public Transform teleportTarget; // The location where the player should be teleported
+    private bool isDoorActive = true; // To prevent re-triggering while the door is in use
 
-    private bool isDoorActive = true; // To prevent interaction after the door is triggered
-
-    // This method is triggered by Object_Interact when the player interacts with the door
+    // Function to trigger door behavior
     public void TriggerDoor()
     {
-        if (!isDoorActive) return; // Do nothing if the door is inactive
-        StartCoroutine(OpenAndTeleport());
+        if (!isDoorActive) return; // Prevent interaction if the door is already active
+
+        StartCoroutine(DoorSequence());
     }
 
-    private IEnumerator OpenAndTeleport()
+    private IEnumerator DoorSequence()
     {
-        // Play the door opening animation
-        doorAnimator.SetTrigger("Open");
-        yield return new WaitForSeconds(1f); // Wait for the door animation to finish
+        isDoorActive = false;
 
-        // Teleport the player to the linked door's position
+        // Open this door
+        if (doorAnimator != null)
+        {
+            doorAnimator.Play("DoorOpen");
+        }
+        yield return new WaitForSeconds(1f); // Wait for the door to open
+
+        // Open the linked door
+        if (linkedDoor != null && linkedDoor.doorAnimator != null)
+        {
+            linkedDoor.doorAnimator.Play("DoorOpen");
+        }
+        yield return new WaitForSeconds(1f); // Wait for the linked door to open
+
         GameObject player = GameObject.FindWithTag("Player");
-        if (player != null && linkedDoor != null)
+        if (player != null && teleportTarget != null)
         {
             player.transform.position = linkedDoor.teleportTarget.position;
         }
 
-        // Close the door after teleportation
-        linkedDoor.StartCoroutine(linkedDoor.CloseDoor());
 
-        // Deactivate the current door to prevent immediate re-use
-        isDoorActive = false;
+        // Close both doors
+        if (doorAnimator != null)
+        {
+            doorAnimator.Play("DoorClose");
+        }
+        if (linkedDoor != null && linkedDoor.doorAnimator != null)
+        {
+            linkedDoor.doorAnimator.Play("DoorClose");
+        }
+        yield return new WaitForSeconds(1f); // Wait for the doors to close
 
-        // Reactivate the door after a short delay
-        yield return new WaitForSeconds(1f);
-        isDoorActive = true;
-    }
-
-    private IEnumerator CloseDoor()
-    {
-        // Play the door closing animation
-        doorAnimator.SetTrigger("Close");
-        yield return new WaitForSeconds(1f);
+        isDoorActive = true; // Reactivate the door for future use
     }
 }
