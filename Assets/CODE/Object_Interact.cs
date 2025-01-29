@@ -25,6 +25,7 @@ public class Object_Interact : MonoBehaviour
         }
     }
   
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -82,7 +83,7 @@ public class Object_Interact : MonoBehaviour
             Player = null;
             
             if(isRepeatable == true){
-                delay_time(5f);
+                delay_time(0.1f);
                 resetState();
             }
         }

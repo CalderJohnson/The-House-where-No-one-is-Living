@@ -409,7 +409,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1990420974}
   linkedDoor: {fileID: 1523406293}
-  teleportTarget: {fileID: 1523406295}
   x: 16.91
   y: 0.3
   z: 23
@@ -425,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRepeatable: 0
   interactionIcon: {fileID: 169466908}
   Object_Action:
     m_PersistentCalls:
@@ -2906,7 +2906,7 @@ PrefabInstance:
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
       propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
@@ -2917,7 +2917,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 749188173}
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
       propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -2931,12 +2931,17 @@ PrefabInstance:
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
       propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ShootProjectile
       objectReference: {fileID: 0}
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
       propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ShootProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
+        type: 3}
+      propertyPath: Right_Hand.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Slingshot, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8157974692092206951, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
@@ -2955,17 +2960,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5571306548178640697, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 845352852223938357, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
-      insertIndex: 1
+      insertIndex: 0
       addedObject: {fileID: 749188171}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 888617340}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
 --- !u!4 &888617337 stripped
 Transform:
@@ -2973,34 +2975,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 888617336}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &888617338 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 893644426476743419, guid: aec91d2d46bfbe348b950e771dcec8e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 888617336}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &888617339 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 888617336}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &888617340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 888617339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c63da59884e13694faaca4313f77af6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knifePrefab: {fileID: 0}
-  attackPoint: {fileID: 888617338}
-  attackRange: 1.5
-  attackCooldown: 0
 --- !u!1 &961090625
 GameObject:
   m_ObjectHideFlags: 0
@@ -4322,6 +4296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRepeatable: 0
   interactionIcon: {fileID: 578030119}
   Object_Action:
     m_PersistentCalls:
@@ -4396,7 +4371,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 512497749}
   linkedDoor: {fileID: 53873333}
-  teleportTarget: {fileID: 53873337}
   x: 69.64
   y: 0.3
   z: 23
@@ -6069,6 +6043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRepeatable: 0
   interactionIcon: {fileID: 617201319}
   Object_Action:
     m_PersistentCalls:
