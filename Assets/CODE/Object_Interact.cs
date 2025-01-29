@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Object_Interact : MonoBehaviour
-{
+{   
+    public bool isRepeatable = false;
     bool isInteractable = false;
     Collider Player;
 
@@ -79,12 +80,22 @@ public class Object_Interact : MonoBehaviour
 
             isInteractable = false;
             Player = null;
+            
+            if(isRepeatable == true){
+                delay_time(5f);
+                resetState();
+            }
         }
+
     }
 
     public void resetState()
     {
         isOpen = false;
         isInteractable = true;
+    }
+
+    IEnumerator delay_time(float waitTime){
+        yield return new WaitForSeconds(waitTime);
     }
 }

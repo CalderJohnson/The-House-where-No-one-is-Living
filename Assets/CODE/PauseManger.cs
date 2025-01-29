@@ -16,7 +16,7 @@ public class PauseManager : MonoBehaviour
         // Check if Escape is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            transform.position = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
+            //transform.position = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 
             if (isPaused)
                 ResumeGame();
