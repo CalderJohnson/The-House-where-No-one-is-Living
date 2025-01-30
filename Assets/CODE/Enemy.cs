@@ -85,14 +85,15 @@ public class EnemyController : MonoBehaviour
         {
             SetWanderTarget();
         }
-
+        transform.LookAt(wanderTarget); // Rotate towards the player
         transform.position = Vector3.MoveTowards(transform.position, wanderTarget, speed * Time.deltaTime);
     }
 
     private void ChaseBehavior()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-    }
+{
+    transform.LookAt(target); // Rotate towards the player
+    transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+}
 
     private void AttackCloseBehavior()
     {
@@ -114,6 +115,7 @@ public class EnemyController : MonoBehaviour
 
     private void RetreatBehavior()
     {
+        transform.LookAt(target);
         Vector3 directionAwayFromPlayer = (transform.position - target.position).normalized;
         directionAwayFromPlayer.y = 0; // Enemy cannot travel up
         transform.position += directionAwayFromPlayer * speed * Time.deltaTime;
