@@ -83,7 +83,7 @@ public class Object_Interact : MonoBehaviour
             Player = null;
             
             if(isRepeatable == true){
-                delay_time(0.1f);
+                delay_time(5f);
                 resetState();
             }
         }
@@ -93,7 +93,7 @@ public class Object_Interact : MonoBehaviour
     public void resetState()
     {
         isOpen = false;
-        isInteractable = true;
+        //isInteractable = true;
     }
 
     IEnumerator delay_time(float waitTime){
