@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        speed = 3f;
+        speed = 3.5f;
         health = maxHealth;
         currentState = State.Wander;
         SetWanderTarget();
@@ -76,16 +76,20 @@ public class EnemyController : MonoBehaviour
     private void SetWanderTarget()
     {
         // Pick a random direction to wander
-        wanderTarget = transform.position + new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+        wanderTarget = transform.position + new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
     }
 
     private void WanderBehavior()
     {
-        if (Vector3.Distance(transform.position, wanderTarget) < 0.5f)
+        if (Vector3.Distance(transform.position, wanderTarget) < 7f)
         {
+            delay_time(1f);
             SetWanderTarget();
         }
-        transform.LookAt(wanderTarget); // Rotate towards the player
+        transform.LookAt(target); // Rotate towards the player
+        //Vector3 direction = (wanderTarget - transform.position).normalized;
+        //Quaternion targetRotation = Quaternion.LookRotation(direction);
+        //Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, wanderTarget, speed * Time.deltaTime);
     }
 
@@ -117,7 +121,8 @@ public class EnemyController : MonoBehaviour
     {
         transform.LookAt(target);
         Vector3 directionAwayFromPlayer = (transform.position - target.position).normalized;
-        directionAwayFromPlayer.y = 0; // Enemy cannot travel up
+        //directionAwayFromPlayer.y = 0; // Enemy cannot travel up
+        directionAwayFromPlayer.y = Random.Range(0,0.2f); 
         transform.position += directionAwayFromPlayer * speed * Time.deltaTime;
     }
 
@@ -155,5 +160,9 @@ public class EnemyController : MonoBehaviour
     {
         Debug.Log(gameObject.name + " died!");
         Destroy(gameObject);
+    }
+
+    IEnumerator delay_time(float waitTime){
+        yield return new WaitForSeconds(waitTime);
     }
 }
