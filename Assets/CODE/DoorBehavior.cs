@@ -6,7 +6,6 @@ public class DoorScript : MonoBehaviour
 {
     public Animator doorAnimator; // Assign the Animator for this door
     public DoorScript linkedDoor; // Reference to the other door's DoorScript
-    public Transform teleportTarget; // The location where the player should be teleported
     private bool isDoorActive = true; // To prevent re-triggering while the door is in use
     public float x = 0f;
     public float y = 0f;
