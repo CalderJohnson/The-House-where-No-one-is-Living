@@ -1,5 +1,30 @@
 .hide {
+    display: none;
 }
 
 .panel {
+    background-image: url("project://database/Assets/Models/Materials/TEMPMenuBackground.jpg?fileID=2800000&guid=8a98ab3e30439ba4292bd90247705dfd&type=3#TEMPMenuBackground");
+}
+
+.mainmenubutton {
+    background-color: rgb(253, 199, 83);
+    -unity-font: url("project://database/Assets/Plugins/TextMesh%20Pro/Fonts/LinLibertine/LinLibertine_R.ttf?fileID=12800000&guid=0ae8c8484c83a6d4485a9b1434e71c41&type=3#LinLibertine_R");
+    -unity-font-definition: url("project://database/Assets/Plugins/TextMesh%20Pro/Fonts/LinLibertine/LinLibertine_R%20SDF.asset?fileID=11400000&guid=c5357662271beaf4fbabd96f5e812df6&type=2#LinLibertine_R SDF");
+    font-size: 50px;
+    color: rgb(186, 199, 5);
+    -unity-text-align: middle-center;
+    text-shadow: 200px 200px 26px rgba(0, 0, 0, 0.48);
+    margin-top: 15px;
+    margin-right: 150px;
+    margin-bottom: 15px;
+    margin-left: 150px;
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 5px;
+    -unity-text-outline-color: rgb(73, 128, 58);
+    transition-timing-function: ease;
+    transition-duration: 2s;
 }
