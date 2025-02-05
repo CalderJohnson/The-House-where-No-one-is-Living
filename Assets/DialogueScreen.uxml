@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/DialogueScreen.uss?fileID=7433441132597879392&amp;guid=39be9dc502c209b4e9aedfe692942877&amp;type=3#DialogueScreen" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1;">
+        <ui:VisualElement name="TextContainer" style="flex-grow: 1; width: 1130px; align-self: center; justify-content: center; margin-top: 125px; margin-bottom: 125px;">
+            <ui:Label tabindex="-1" text="Long long ago, in a land far far away..." parse-escape-sequences="true" display-tooltip-when-elided="true" name="DialogueText" style="height: 800px; -unity-font: resource(&apos;Fonts &amp; Materials/Pixel Georgia&apos;); color: rgb(255, 255, 255); font-size: 40px; -unity-font-definition: resource(&apos;Fonts &amp; Materials/Pixel Georgia SDF Font Asset&apos;); -unity-text-align: middle-center;">
+                <ui:ScrollView />
+            </ui:Label>
+            <ui:VisualElement name="ArrowContainer" class="arrow" style="transition-duration: 0s, 0.05s; transition-timing-function: ease, ease-in-out;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

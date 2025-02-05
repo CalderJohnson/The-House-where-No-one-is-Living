@@ -947,7 +947,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 73.240234, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &7141008841071897704
@@ -1173,6 +1173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRepeatable: 0
   interactionIcon: {fileID: 6241353760343424267}
   Object_Action:
     m_PersistentCalls:

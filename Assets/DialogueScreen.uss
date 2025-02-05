@@ -1,0 +1,35 @@
+.panel {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.arrow {
+    flex-grow: 1;
+    background-image: url("project://database/Assets/Models/Materials/Arrow.png?fileID=2800000&guid=4ea0191f793a0f844a7d12159a4df0fe&type=3#Arrow");
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: center;
+    width: 71px;
+    -unity-background-scale-mode: scale-to-fit;
+    height: auto;
+    align-items: stretch;
+    justify-content: flex-start;
+    left: auto;
+    bottom: auto;
+    -unity-slice-scale: 1px;
+    -unity-text-align: upper-left;
+    scale: 2 2;
+    transition-property: all translate;
+    transition-duration: 0s 2s;
+    transition-timing-function: ease linear;
+    transition-delay: 0s 0s;
+}
+
+.arrow:hover {
+    translate: 0 10px;
+}
