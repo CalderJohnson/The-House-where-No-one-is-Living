@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Attributes
-    private float speed;
+    // Fixed attributes
+    private float speed = 3f;
     private float maxHealth = 100f;
     private float health;
-    private Healthbar healthbar;
+    private float vision = 20f;
     private float attackRangeClose = 2f;
-    private float attackRangeRanged = 5f;
-    private float retreatThreshold = 20f;
+    private float attackRangeRanged = 20f;
+    private Healthbar healthbar;
     private Transform target;
     private Vector3 wanderTarget;
+
+    // Variable attributes (parameters)
+    private float retreatThreshold = 20f; // Health threshold to retreat and attempt to regenerate
+
+    // Data collected about player to influence behavior
+    // Players distance over last 180 frames (3 seconds) to see if player moving towards/away
+    // 
+
 
     // FSM controlling enemy behavior
     private enum State
@@ -32,7 +40,6 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        speed = 3f;
         health = maxHealth;
         currentState = State.Wander;
         SetWanderTarget();
@@ -46,7 +53,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        health = healthbar.getHealth();
+        health = healthbar.GetHealth();
         switch (currentState)
         {
             case State.Wander:
@@ -69,6 +76,11 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
+        if (healthbar.GetLastDamageTime() > 0 && Time.time - healthbar.GetLastDamageTime() >= 5f) // Regenerate
+        {
+            Debug.Log($"Regenerating! {health}");
+            healthbar.SetHealth(health + 1);
+        }
         StateTransitions();
     }
 
@@ -90,27 +102,28 @@ public class EnemyController : MonoBehaviour
     }
 
     private void ChaseBehavior()
-{
-    transform.LookAt(target); // Rotate towards the player
-    transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-}
+    {
+        // TODO: replace this with actual pathfinding algorithm
+        transform.LookAt(target); // Rotate towards the player
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+    }
 
     private void AttackCloseBehavior()
     {
         // Placeholder for attack logic
-        //Debug.Log("Attacking close!");
+        Debug.Log("Attacking close!");
     }
 
     private void AttackRangedBehavior()
     {
         // Placeholder for ranged attack logic
-        //Debug.Log("Attacking ranged!");
+        Debug.Log("Attacking ranged!");
     }
 
     private void DefendBehavior()
     {
         // Placeholder for defend logic
-        // Debug.Log("Defending!");
+        Debug.Log("Defending!");
     }
 
     private void RetreatBehavior()
@@ -125,29 +138,32 @@ public class EnemyController : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
-        if (health <= retreatThreshold)
+        switch (currentState)
         {
-            currentState = State.Retreat;
-        }
-        else if (distanceToPlayer <= attackRangeClose)
-        {
-            currentState = State.AttackClose;
-        }
-        else if (distanceToPlayer <= attackRangeRanged)
-        {
-            currentState = State.AttackRanged;
-        }
-        else if (distanceToPlayer > attackRangeRanged && health < maxHealth)
-        {
-            currentState = State.Defend;
-        }
-        else if (distanceToPlayer <= 10f)
-        {
-            currentState = State.Chase;
-        }
-        else
-        {
-            currentState = State.Wander;
+            case State.Wander:
+                if (distanceToPlayer <= vision) // If enemy can see player, chase!
+                {
+                    currentState = State.Chase;
+                }
+                break;
+            case State.Chase:
+                if (distanceToPlayer >= vision) // If player gets too far away, wander
+                {
+                    currentState = State.Wander;
+                }
+                break;
+            case State.AttackClose:
+                AttackCloseBehavior();
+                break;
+            case State.AttackRanged:
+                AttackRangedBehavior();
+                break;
+            case State.Defend:
+                DefendBehavior();
+                break;
+            case State.Retreat:
+                RetreatBehavior();
+                break;
         }
     }
 
