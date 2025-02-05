@@ -77,9 +77,11 @@ public class Dialogue : MonoBehaviour
 
     void DisplayCurrentLine()
     {
-        textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
-        nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
-        dialogueSprite.gameObject.SetActive(false);
+        if(dialogueSprite.gameObject.activeSelf){
+            textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
+            nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
+            dialogueSprite.gameObject.SetActive(false);
+        }
 
         string[] splitLine = lines[index].Split(new[] { ": " }, 2, System.StringSplitOptions.None);
 
@@ -135,7 +137,9 @@ public class Dialogue : MonoBehaviour
             nameComponent.text = string.Empty;
             nameComponent.gameObject.SetActive(false);
 
-            textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, 0);
+            if (textComponentRect.offsetMax.y == -60) {
+                textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, 0);
+            }
         }
         
         textComponent.text = string.Empty;
