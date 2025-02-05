@@ -15,7 +15,7 @@ public class Healthbar : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
+        health -= damage +20;
         Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
