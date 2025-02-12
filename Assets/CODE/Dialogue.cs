@@ -16,7 +16,7 @@ public class Dialogue : MonoBehaviour
     public TextMeshProUGUI nameComponent;
     public float textSpeed;
     private int index;
-
+    public GameObject dialogueBox;
     public Image dialogueSprite; // Sprite UI element for displaying character sprites
     private RectTransform textComponentRect; // RectTransform for resizing the text box
     private RectTransform nameComponentRect; // RectTransform for resizing the name box
@@ -24,15 +24,57 @@ public class Dialogue : MonoBehaviour
     // File path for external dialogue file
     public string dialogueFileName; // Set this in Unity Inspector
 
-    void Start()
-    {
-        textComponentRect = textComponent.GetComponent<RectTransform>();
-        nameComponentRect = nameComponent.GetComponent<RectTransform>();
+    private static Dialogue _instance;
 
+    public static Dialogue Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<Dialogue>();
+                if (_instance == null)
+                {
+                    Debug.LogWarning("DialogueManager instance not found in the scene!");
+                }
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else if (_instance != this)
+        {
+            // Transfer the dialogue file before replacing the instance
+            string previousDialogueFile = _instance.dialogueFileName;
+            
+            // Destroy the old instance to free memory
+            Destroy(_instance.gameObject);
+
+            // Assign the new instance
+            _instance = this;
+
+            // Restore the dialogue file from the old instance
+            _instance.dialogueFileName = previousDialogueFile;
+        }
+    }
+
+
+    void Start()
+    {   
         if (!string.IsNullOrEmpty(dialogueFileName))
         {
             LoadDialogueFile();
+            Debug.LogWarning($"Dialogue Instance starting, with {dialogueFileName}!");
         }
+
+        textComponentRect = textComponent.GetComponent<RectTransform>();
+        nameComponentRect = nameComponent.GetComponent<RectTransform>();
 
         textComponent.text = string.Empty;
         nameComponent.text = charaName;
@@ -60,13 +102,17 @@ public class Dialogue : MonoBehaviour
     }
 
     void StartDialogue()
-    {
+    {   
+        gameObject.SetActive(true);
         index = 0;
         DisplayCurrentLine();
     }
 
     IEnumerator TypeLine()
     {
+        if(!dialogueBox.gameObject.activeSelf){
+            dialogueBox.gameObject.SetActive(true);
+        }
         // Type each character 1 by 1
         foreach (char c in lines[index].ToCharArray())
         {
@@ -240,6 +286,7 @@ public class Dialogue : MonoBehaviour
         if (!string.IsNullOrEmpty(dialogueFileName) && File.Exists(fullFilePath))
         {
             LoadLinesFromFile(fullFilePath);
+            Debug.Log($"Dialogue loaded from: {dialogueFileName}.");
         }
         else
         {
@@ -251,6 +298,8 @@ public class Dialogue : MonoBehaviour
     public void SetDialogueFileName(string newFileName)
     {
         dialogueFileName = newFileName;
+        Debug.Log($"Dialogue set to: {newFileName}.");
         LoadDialogueFile(); // Reload dialogue from the new file
+        StartDialogue();
     }
 }
