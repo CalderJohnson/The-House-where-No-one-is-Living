@@ -27,9 +27,16 @@ public class PlayerInteract : MonoBehaviour
         foreach (var obj in interactables)
         {
             float distance = Vector3.Distance(transform.position, obj.transform.position);
-            obj.UpdateIconVisibility(distance, interactionRange);
+            obj.UpdateIconVisibility(distance, interactionRange, transform); // Pass the player transform
 
-            if (distance < minDistance)
+            // Get direction from player to object
+            Vector3 directionToObject = (obj.transform.position - transform.position).normalized;
+
+            // Check if the player is facing the front of the object
+            float dotProduct = Vector3.Dot(obj.transform.forward, directionToObject);
+            bool isFacingCorrectly = dotProduct < -0.8f;
+
+            if (distance < minDistance && isFacingCorrectly)
             {
                 minDistance = distance;
                 closestObject = obj;

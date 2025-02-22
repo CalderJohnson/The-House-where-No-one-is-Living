@@ -13,13 +13,23 @@ public class DoorScript : MonoBehaviour
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
+    //public string requiredItem; // Leave empty if no item is required
+
 
     // Function to trigger door behavior
     public void TriggerDoor()
     {
         if (!isDoorActive) return; // Prevent interaction if the door is already active
 
-        StartCoroutine(DoorSequence());
+        //if (string.IsNullOrEmpty(requiredItem) || playerInventory.HasItem(requiredItem))
+        //{
+            StartCoroutine(DoorSequence());
+       // }
+        //else
+        //{
+            //Debug.Log("You need " + requiredItem + " to open this door!");
+       // }
+     
     }
 
     private IEnumerator DoorSequence()
