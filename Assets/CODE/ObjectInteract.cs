@@ -6,22 +6,23 @@ public class ObjectInteract : MonoBehaviour
 {
     [Header("Interaction Settings")]
     public bool isRepeatable = false;
-    public UnityEvent Object_Action; // Action(s) to invoke on interaction.
+    public UnityEvent Object_Action; // Actions to invoke on interaction.
 
     [Header("Dialogue Settings")]
-    // Instead of having a local Dialogue reference, we'll use a global DialogueManager.
-    public string dialogueFileName;   // Dialogue file name for this object.
+    public string dialogueFileName;
     public GameObject DialogueCanvas;
 
     [Header("Icon Settings")]
-    public GameObject interactionIcon; // The icon to indicate interaction availability.
-    public bool enableBlinkEffect = true; // Toggle for enabling/disabling the blink effect.
+    public GameObject interactionIcon;
+    public bool enableBlinkEffect = true;
+
+    [Header("Interaction Direction")]
+    public Vector3 interactionDirection = Vector3.forward; // Default to front interaction.
 
     private bool isOpen = false;
 
     private void Start()
     {
-        // Ensure the icon is initially hidden.
         if (interactionIcon != null)
         {
             interactionIcon.SetActive(false);
@@ -31,26 +32,36 @@ public class ObjectInteract : MonoBehaviour
     /// <summary>
     /// Called by the PlayerInteract script to perform the interaction.
     /// </summary>
-    public IEnumerator Interact()
+    public IEnumerator Interact(Transform playerTransform)
     {
-        if (isOpen)
-            yield break; // Already interacted with; do nothing.
+        Debug.Log($"Interact called on {gameObject.name}");
 
-        // Blink the interaction icon before hiding it, if enabled.
+        if (isOpen)
+        {
+            Debug.Log("Object already interacted with.");
+            yield break;
+        }
+
+        if (!IsPlayerFacingCorrectDirection(playerTransform))
+        {
+            Debug.Log("Player is not in the correct position to interact.");
+            yield break;
+        }
+
+        Debug.Log("Starting interaction sequence...");
+
         if (enableBlinkEffect)
         {
             yield return StartCoroutine(BlinkIcon());
         }
-        else if (interactionIcon != null)
+        else
         {
-            interactionIcon.SetActive(false);
+            interactionIcon?.SetActive(false);
         }
 
         if (Dialogue.Instance != null && !string.IsNullOrEmpty(dialogueFileName))
         {
             Dialogue.Instance.SetDialogueFileName(dialogueFileName);
-
-            // Activate the dialogue UI elements if they exist
             DialogueCanvas.SetActive(true);
         }
         else
@@ -58,54 +69,45 @@ public class ObjectInteract : MonoBehaviour
             Debug.LogWarning("Dialogue instance not found in the scene!");
         }
 
-        // Invoke any object-specific actions.
         Object_Action.Invoke();
+        Debug.Log("Object Action Invoked!");
 
-        // Mark the object as having been interacted with.
         isOpen = true;
 
-        // Hide the interaction icon permanently if it's not repeatable.
-        if (!isRepeatable && interactionIcon != null)
+        if (!isRepeatable)
         {
-            interactionIcon.SetActive(false);
+            interactionIcon?.SetActive(false);
         }
-
-        // If the interaction is repeatable, reset state after a delay.
-        if (isRepeatable)
+        else
         {
-            yield return new WaitForSeconds(3f);
-            ResetState();
+            StartCoroutine(ResetAfterDelay(3f));
         }
     }
 
-    /// <summary>
-    /// Resets the object's interaction state.
-    /// </summary>
+    private IEnumerator ResetAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ResetState();
+    }
+
     public void ResetState()
     {
+        Debug.Log($"{gameObject.name} has been reset. It is now interactable again.");
         isOpen = false;
     }
 
-    /// <summary>
-    /// Blinks the interaction icon before it is hidden.
-    /// </summary>
-    IEnumerator BlinkIcon()
+    private IEnumerator BlinkIcon()
     {
-        if (interactionIcon == null)
-            yield break;
+        if (interactionIcon == null) yield break;
 
-        float blinkDuration = 0.5f;   // Total duration of blinking.
-        float blinkInterval = 0.2f;   // Interval between toggles.
+        float blinkDuration = 0.5f;
+        float blinkInterval = 0.2f;
         float elapsed = 0f;
 
         while (elapsed < blinkDuration)
         {
-            // Toggle off.
-            interactionIcon.SetActive(false);
-            yield return new WaitForSeconds(blinkInterval * 0.5f);
-            // Toggle on.
-            interactionIcon.SetActive(true);
-            yield return new WaitForSeconds(blinkInterval * 0.5f);
+            interactionIcon.SetActive(!interactionIcon.activeSelf);
+            yield return new WaitForSeconds(blinkInterval);
             elapsed += blinkInterval;
         }
 
@@ -113,58 +115,40 @@ public class ObjectInteract : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the icon’s visibility, transparency, and color based on the player's distance and direction.
-    /// Call this method from your PlayerInteract script every frame.
+    /// Checks if the player is facing the correct interaction direction.
     /// </summary>
-    /// <param name="distance">Current distance from the player.</param>
-    /// <param name="interactionRange">The maximum distance at which interaction is possible.</param>
-    /// <param name="playerTransform">The transform of the player.</param>
+    private bool IsPlayerFacingCorrectDirection(Transform playerTransform)
+    {
+        Vector3 toObject = (transform.position - playerTransform.position).normalized;
+        Vector3 requiredDirection = transform.TransformDirection(interactionDirection).normalized;
+        float dot = Vector3.Dot(requiredDirection, toObject);
+        return dot > 0.5f;
+    }
+
+    /// <summary>
+    /// Updates the icon’s visibility, transparency, and color based on the player's distance and position.
+    /// </summary>
     public void UpdateIconVisibility(float distance, float interactionRange, Transform playerTransform)
     {
-        if (interactionIcon == null)
+        if (interactionIcon == null || (!isRepeatable && isOpen))
             return;
 
-        // If the object is not repeatable and has already been interacted with, hide the icon.
-        if (!isRepeatable && isOpen)
-        {
-            interactionIcon.SetActive(false);
-            return;
-        }
-
-        // Get direction from player to object
-        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        float dotProduct = Vector3.Dot(transform.forward, directionToPlayer);
-        bool isFacingCorrectly = dotProduct > 0.8f; // Ensures the player is in front
-
-        // Calculate transparency based on distance
+        bool facingCorrectDirection = IsPlayerFacingCorrectDirection(playerTransform);
         float alpha = Mathf.Clamp01(1 - (distance / interactionRange));
+        bool isVisible = alpha > 0 && facingCorrectDirection;
 
-        // If the player is not facing correctly, hide the icon
-        if (!isFacingCorrectly)
-        {
-            alpha = 0;
-        }
-
-        // Change color based on proximity
-        Color newColor = (distance <= 1.0f ? Color.yellow : Color.white);
+        Color newColor = (distance <= 1.0f) ? Color.yellow : Color.white;
         newColor.a = alpha;
 
-        // Update SpriteRenderer or CanvasGroup
-        SpriteRenderer sr = interactionIcon.GetComponent<SpriteRenderer>();
-        if (sr != null)
+        if (interactionIcon.TryGetComponent(out SpriteRenderer sr))
         {
             sr.color = newColor;
         }
-        else
+        else if (interactionIcon.TryGetComponent(out CanvasGroup cg))
         {
-            CanvasGroup cg = interactionIcon.GetComponent<CanvasGroup>();
-            if (cg != null)
-            {
-                cg.alpha = alpha;
-            }
+            cg.alpha = alpha;
         }
 
-        // Set active based on alpha
-        interactionIcon.SetActive(alpha > 0);
+        interactionIcon.SetActive(isVisible);
     }
 }
