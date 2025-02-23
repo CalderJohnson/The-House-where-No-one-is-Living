@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityHFSM;
 
 public class EnemyController : MonoBehaviour
 {
     // Fixed attributes
-    private float speed = 3f;
+    private float speed = 6f;
     private float maxHealth = 100f;
     private float health;
     private float vision = 20f;
-    private float attackRangeClose = 2f;
-    private float attackRangeRanged = 20f;
+    private float attackRangeClose = 4f;
+    private float attackRangeRanged = 10f;
     private Healthbar healthbar;
     private Transform target;
     private Vector3 wanderTarget;
@@ -22,69 +23,87 @@ public class EnemyController : MonoBehaviour
     // Players distance over last 180 frames (3 seconds) to see if player moving towards/away
     // 
 
-
     // FSM controlling enemy behavior
-    private enum State
-    {
-        Wander,
-        Chase,
-        AttackClose,
-        AttackRanged,
-        Defend,
-        Retreat
-    }
-
+    private StateMachine fsm = new StateMachine();
     private State currentState;
+
+    // Objects the enemy holds
+    private Knife knife;
+    private Slingshot slingshot;
+    private float lastShotTime = -1;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get player position, initialize healthbar
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        speed = 3f;
-        health = maxHealth;
-        currentState = State.Wander;
-        SetWanderTarget();
         healthbar = GetComponent<Healthbar>();
         if (healthbar != null)
         {
-            healthbar.Initialize(100); // Set initial health
+            healthbar.Initialize(maxHealth); // Set initial health
             healthbar.OnDeath += HandleDeath; // Subscribe to the death event
         }
+
+        // Initialize weapons
+        slingshot = GetComponentInChildren<Slingshot>();
+
+        // Define FSM
+        fsm.AddState("Wander", new State(
+            onLogic: (s) => WanderBehavior(),
+            onEnter: (s) => SetWanderTarget()
+        ));
+
+        fsm.AddState("Chase", new State(
+            onLogic: (s) => ChaseBehavior()
+        ));
+
+        fsm.AddState("AttackClose", new State(
+            onLogic: (s) => AttackCloseBehavior()
+        ));
+
+        fsm.AddState("AttackRanged", new State(
+            onLogic: (s) => AttackRangedBehavior()
+        ));
+
+        fsm.AddState("Defend", new State(
+            onLogic: (s) => DefendBehavior()
+        ));
+
+        fsm.AddState("Retreat", new State(
+            onLogic: (s) => RetreatBehavior()
+        ));
+
+
+        // Transitions
+        fsm.AddTwoWayTransition(new Transition("Wander", "Chase", (t) => Vector3.Distance(transform.position, target.position) <= vision));
+        fsm.AddTwoWayTransition(new Transition("Chase", "AttackClose", (t) => Vector3.Distance(transform.position, target.position) <= attackRangeClose));
+        fsm.AddTwoWayTransition(new Transition("Chase", "AttackRanged", (t) => Vector3.Distance(transform.position, target.position) <= attackRangeRanged));
+        fsm.AddTransition(new Transition("AttackRanged", "AttackClose", (t) => Vector3.Distance(transform.position, target.position) <= attackRangeClose));
+        fsm.AddTransition(new Transition("AttackRanged", "Retreat", (t) => healthbar.GetHealth() <= retreatThreshold));
+        fsm.AddTwoWayTransition(new Transition("Chase", "Retreat", (t) => healthbar.GetHealth() <= retreatThreshold));
+        // TODO: implement block fsm.AddTransition(new Transition("Retreat", "Defend", (t) => Vector3.Distance(transform.position, target.position) >= attackRangeRanged));
+
+        fsm.SetStartState("Wander");
+        fsm.Init();
+
+        SetWanderTarget();
     }
 
     void Update()
     {
         health = healthbar.GetHealth();
-        switch (currentState)
-        {
-            case State.Wander:
-                WanderBehavior();
-                break;
-            case State.Chase:
-                ChaseBehavior();
-                break;
-            case State.AttackClose:
-                AttackCloseBehavior();
-                break;
-            case State.AttackRanged:
-                AttackRangedBehavior();
-                break;
-            case State.Defend:
-                DefendBehavior();
-                break;
-            case State.Retreat:
-                RetreatBehavior();
-                break;
-        }
+        fsm.OnLogic();
+        RegenerateHealth();
+    }
 
-        if (healthbar.GetLastDamageTime() > 0 && Time.time - healthbar.GetLastDamageTime() >= 5f) // Regenerate
+    private void RegenerateHealth()
+    {
+        if (healthbar.GetLastDamageTime() > 0 && Time.time - healthbar.GetLastDamageTime() >= 5f && health < maxHealth)
         {
             Debug.Log($"Regenerating! {health}");
             healthbar.SetHealth(health + 1);
         }
-        StateTransitions();
     }
-
 
     private void SetWanderTarget()
     {
@@ -104,6 +123,7 @@ public class EnemyController : MonoBehaviour
         //Quaternion targetRotation = Quaternion.LookRotation(direction);
         //Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
         transform.position = Vector3.MoveTowards(transform.position, wanderTarget, speed * Time.deltaTime);
+        Debug.Log("Wandering...");
     }
 
     private void ChaseBehavior()
@@ -111,6 +131,7 @@ public class EnemyController : MonoBehaviour
         // TODO: replace this with actual pathfinding algorithm
         transform.LookAt(target); // Rotate towards the player
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        Debug.Log("Chasing!");
     }
 
     private void AttackCloseBehavior()
@@ -121,8 +142,12 @@ public class EnemyController : MonoBehaviour
 
     private void AttackRangedBehavior()
     {
-        // Placeholder for ranged attack logic
-        Debug.Log("Attacking ranged!");
+        if (lastShotTime < 0 || (Time.time - lastShotTime) >= 2f)
+        {
+            Debug.Log("Attacking Ranged!");
+            slingshot.ShootProjectile();
+            lastShotTime = Time.time;
+        }
     }
 
     private void DefendBehavior()
@@ -138,39 +163,7 @@ public class EnemyController : MonoBehaviour
         //directionAwayFromPlayer.y = 0; // Enemy cannot travel up
         directionAwayFromPlayer.y = Random.Range(0,0.2f); 
         transform.position += directionAwayFromPlayer * speed * Time.deltaTime;
-    }
-
-    private void StateTransitions()
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-        switch (currentState)
-        {
-            case State.Wander:
-                if (distanceToPlayer <= vision) // If enemy can see player, chase!
-                {
-                    currentState = State.Chase;
-                }
-                break;
-            case State.Chase:
-                if (distanceToPlayer >= vision) // If player gets too far away, wander
-                {
-                    currentState = State.Wander;
-                }
-                break;
-            case State.AttackClose:
-                AttackCloseBehavior();
-                break;
-            case State.AttackRanged:
-                AttackRangedBehavior();
-                break;
-            case State.Defend:
-                DefendBehavior();
-                break;
-            case State.Retreat:
-                RetreatBehavior();
-                break;
-        }
+        Debug.Log("Retreating!");
     }
 
     private void HandleDeath()
@@ -179,7 +172,8 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator delay_time(float waitTime){
+    IEnumerator delay_time(float waitTime)
+    {
         yield return new WaitForSeconds(waitTime);
     }
 }
