@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityHFSM;
 
 public class EnemyController : MonoBehaviour
@@ -15,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private Healthbar healthbar;
     private Transform target;
     private Vector3 wanderTarget;
+    private NavMeshAgent pathfindingAgent; // For pathfinding
 
     // Variable attributes (parameters)
     private float retreatThreshold = 20f; // Health threshold to retreat and attempt to regenerate
@@ -43,6 +45,10 @@ public class EnemyController : MonoBehaviour
             healthbar.Initialize(maxHealth); // Set initial health
             healthbar.OnDeath += HandleDeath; // Subscribe to the death event
         }
+
+        // Initialize pathfinding
+        pathfindingAgent = GetComponent<NavMeshAgent>();
+        pathfindingAgent.speed = speed;
 
         // Initialize weapons
         slingshot = GetComponentInChildren<Slingshot>();
@@ -109,28 +115,30 @@ public class EnemyController : MonoBehaviour
     {
         // Pick a random direction to wander
         wanderTarget = transform.position + new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
+        pathfindingAgent.SetDestination(wanderTarget);
+    }
+
+    private void StopAgent()
+    {
+        pathfindingAgent.isStopped = true;
+        pathfindingAgent.velocity = Vector3.zero;
     }
 
     private void WanderBehavior()
     {
-        if (Vector3.Distance(transform.position, wanderTarget) < 7f)
+        if (Vector3.Distance(transform.position, wanderTarget) < 2f)
         {
-            delay_time(1f);
-            SetWanderTarget();
+            StartCoroutine(DelayThenWander(1f));
         }
-        transform.LookAt(target); // Rotate towards the player
-        //Vector3 direction = (wanderTarget - transform.position).normalized;
-        //Quaternion targetRotation = Quaternion.LookRotation(direction);
-        //Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, wanderTarget, speed * Time.deltaTime);
         Debug.Log("Wandering...");
     }
 
     private void ChaseBehavior()
     {
-        // TODO: replace this with actual pathfinding algorithm
-        transform.LookAt(target); // Rotate towards the player
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        if (target != null)
+        {
+            pathfindingAgent.SetDestination(target.position);
+        }
         Debug.Log("Chasing!");
     }
 
@@ -158,12 +166,12 @@ public class EnemyController : MonoBehaviour
 
     private void RetreatBehavior()
     {
-        transform.LookAt(target);
-        Vector3 directionAwayFromPlayer = (transform.position - target.position).normalized;
-        //directionAwayFromPlayer.y = 0; // Enemy cannot travel up
-        directionAwayFromPlayer.y = Random.Range(0,0.2f); 
-        transform.position += directionAwayFromPlayer * speed * Time.deltaTime;
-        Debug.Log("Retreating!");
+        if (target != null)
+        {
+            Vector3 directionAwayFromPlayer = (transform.position - target.position).normalized;
+            Vector3 retreatPosition = transform.position + directionAwayFromPlayer * 10f;
+            pathfindingAgent.SetDestination(retreatPosition);
+        }
     }
 
     private void HandleDeath()
@@ -172,8 +180,9 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    IEnumerator delay_time(float waitTime)
+    IEnumerator DelayThenWander(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        SetWanderTarget();
     }
 }
