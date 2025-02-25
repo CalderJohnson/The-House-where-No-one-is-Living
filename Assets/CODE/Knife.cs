@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class knife : MonoBehaviour
+public class Knife : MonoBehaviour
 {
     // Attacking
     public GameObject knifePrefab;      // Knife prefab
@@ -41,7 +41,7 @@ public class knife : MonoBehaviour
             Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach (Collider enemy in hitEnemies)
             {
-                if (enemy.CompareTag("Enemy"))
+                if (enemy.CompareTag("Enemy") || enemy.CompareTag("Player"))
                 {
                     Debug.Log("Hit enemy: " + enemy.name);
                     enemy.GetComponent<Healthbar>().TakeDamage(20);

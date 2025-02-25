@@ -5,24 +5,27 @@ using UnityEngine.Events;
 public class ObjectInteract : MonoBehaviour
 {
     [Header("Interaction Settings")]
-    public bool isRepeatable = false;
+    public int interactionLimit = -1; // Number of interactions allowed (-1 = unlimited)
+    private int interactionCount = 0; // Tracks the number of times the object has been interacted with
+    public bool isRepeatable = false; // Determines if the object can be interacted with multiple times
     public UnityEvent Object_Action; // Actions to invoke on interaction.
 
     [Header("Dialogue Settings")]
-    public string dialogueFileName;
-    public GameObject DialogueCanvas;
+    public string dialogueFileName; // File name for dialogue, if applicable
+    public GameObject DialogueCanvas; // Canvas to display dialogue UI
 
     [Header("Icon Settings")]
-    public GameObject interactionIcon;
-    public bool enableBlinkEffect = true;
+    public GameObject interactionIcon; // Icon that appears when object is interactable
+    public bool enableBlinkEffect = true; // Determines if the interaction icon should blink when in range
 
     [Header("Interaction Direction")]
     public Vector3 interactionDirection = Vector3.forward; // Default to front interaction.
 
-    private bool isOpen = false;
+    private bool isOpen = false; // Tracks if the object has already been interacted with
 
     private void Start()
     {
+        // Hide interaction icon at the start
         if (interactionIcon != null)
         {
             interactionIcon.SetActive(false);
@@ -36,12 +39,14 @@ public class ObjectInteract : MonoBehaviour
     {
         Debug.Log($"Interact called on {gameObject.name}");
 
-        if (isOpen)
+        // Check if the interaction limit has been reached (if set)
+        if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
-            Debug.Log("Object already interacted with.");
+            Debug.Log($"{gameObject.name} has reached max interactions.");
             yield break;
         }
 
+        // Ensure the player is facing the correct direction to interact
         if (!IsPlayerFacingCorrectDirection(playerTransform))
         {
             Debug.Log("Player is not in the correct position to interact.");
@@ -49,7 +54,9 @@ public class ObjectInteract : MonoBehaviour
         }
 
         Debug.Log("Starting interaction sequence...");
+        interactionCount++; // Increment interaction counter
 
+        // Handle interaction icon blink effect
         if (enableBlinkEffect)
         {
             yield return StartCoroutine(BlinkIcon());
@@ -59,6 +66,7 @@ public class ObjectInteract : MonoBehaviour
             interactionIcon?.SetActive(false);
         }
 
+        // Handle dialogue if applicable
         if (Dialogue.Instance != null && !string.IsNullOrEmpty(dialogueFileName))
         {
             Dialogue.Instance.SetDialogueFileName(dialogueFileName);
@@ -69,45 +77,55 @@ public class ObjectInteract : MonoBehaviour
             Debug.LogWarning("Dialogue instance not found in the scene!");
         }
 
+        // Invoke interaction action(s)
         Object_Action.Invoke();
-        Debug.Log("Object Action Invoked!");
+        Debug.Log($"Object Action Invoked! Interaction count: {interactionCount}");
 
-        isOpen = true;
-
-        if (!isRepeatable)
+        // If the interaction limit has been reached, disable further interactions
+        if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
-            interactionIcon?.SetActive(false);
+            interactionIcon?.SetActive(false); // Hide icon permanently after limit reached
         }
-        else
+        else if (isRepeatable)
         {
-            StartCoroutine(ResetAfterDelay(3f));
+            StartCoroutine(ResetAfterDelay(3f)); // Reset object after delay if repeatable
         }
     }
 
+    /// <summary>
+    /// Resets the object's interaction state after a delay.
+    /// </summary>
     private IEnumerator ResetAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ResetState();
     }
 
+    /// <summary>
+    /// Resets the interaction state, allowing the object to be interacted with again.
+    /// </summary>
     public void ResetState()
     {
         Debug.Log($"{gameObject.name} has been reset. It is now interactable again.");
         isOpen = false;
+        interactionCount = 0; // Reset interaction count
     }
 
+    /// <summary>
+    /// Handles the blinking effect for the interaction icon.
+    /// </summary>
     private IEnumerator BlinkIcon()
     {
         if (interactionIcon == null) yield break;
 
-        float blinkDuration = 0.5f;
-        float blinkInterval = 0.2f;
-        float elapsed = 0f;
+        float blinkDuration = 0.5f, blinkInterval = 0.2f, elapsed = 0f;
 
         while (elapsed < blinkDuration)
         {
-            interactionIcon.SetActive(!interactionIcon.activeSelf);
-            yield return new WaitForSeconds(blinkInterval);
+            interactionIcon.SetActive(false);
+            yield return new WaitForSeconds(blinkInterval * 0.5f);
+            interactionIcon.SetActive(true);
+            yield return new WaitForSeconds(blinkInterval * 0.5f);
             elapsed += blinkInterval;
         }
 
@@ -130,13 +148,15 @@ public class ObjectInteract : MonoBehaviour
     /// </summary>
     public void UpdateIconVisibility(float distance, float interactionRange, Transform playerTransform)
     {
-        if (interactionIcon == null || (!isRepeatable && isOpen))
+        // If interaction is limited and max interactions have been reached, disable icon
+        if (interactionIcon == null || (interactionLimit > 0 && interactionCount >= interactionLimit))
             return;
 
         bool facingCorrectDirection = IsPlayerFacingCorrectDirection(playerTransform);
         float alpha = Mathf.Clamp01(1 - (distance / interactionRange));
         bool isVisible = alpha > 0 && facingCorrectDirection;
 
+        // Adjust icon color based on distance
         Color newColor = (distance <= 1.0f) ? Color.yellow : Color.white;
         newColor.a = alpha;
 
