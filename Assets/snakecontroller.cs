@@ -15,6 +15,7 @@ public class SnakeController : MonoBehaviour {
 
     // Lists
     private List<GameObject> BodyParts = new List<GameObject>();
+    
     private List<Vector3> PositionsHistory = new List<Vector3>();
 
     // Start is called before the first frame update
@@ -42,14 +43,18 @@ public class SnakeController : MonoBehaviour {
         // Move body parts
         int index = 0;
         foreach (var body in BodyParts) {
+            Transform childTransform =body.transform.GetChild(0); 
+            
             Vector3 point = PositionsHistory[Mathf.Clamp(index * Gap, 0, PositionsHistory.Count - 1)];
 
             // Move body towards the point along the snakes path
-            Vector3 moveDirection = point - body.transform.position;
-            body.transform.position += moveDirection * BodySpeed * Time.deltaTime;
-
+            //Vector3 moveDirection = point - body.transform.position;
+            Vector3 moveDirection = point - childTransform.position;
+            //body.transform.position += moveDirection * BodySpeed * Time.deltaTime;
+            childTransform.transform.position += moveDirection * BodySpeed * Time.deltaTime;
             // Rotate body towards the point along the snakes path
-            body.transform.LookAt(point);
+            //body.transform.LookAt(point);
+            childTransform.transform.LookAt(point);
 
             index++;
         }
