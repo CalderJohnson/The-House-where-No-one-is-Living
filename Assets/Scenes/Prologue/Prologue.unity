@@ -5170,159 +5170,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f86cad54e8fcbc4696dea3c7aa3c578, type: 3}
---- !u!1 &556002059
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 556002064}
-  - component: {fileID: 556002063}
-  - component: {fileID: 556002062}
-  - component: {fileID: 556002061}
-  - component: {fileID: 556002065}
-  - component: {fileID: 556002066}
-  - component: {fileID: 556002060}
-  m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &556002060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d12e9f845674ca4f8c25f2bd2b7da7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!135 &556002061
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &556002062
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &556002063
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &556002064
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.0000153, y: 1, z: -5}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &556002065
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.6
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &556002066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556002059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &557153705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5700,6 +5547,46 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8253036677e369a47a60dca6e4c81eb8, type: 3}
+--- !u!1 &595150830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7760007815479658996, guid: 743a266564ae0f8419c86c286386f0ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 2758737831098315615}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &595150836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595150830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6538aa648fbf2d2429dda241127bc712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLimit: -1
+  isRepeatable: 1
+  Object_Action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 639869348}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  dialogueFileName: 
+  DialogueCanvas: {fileID: 0}
+  interactionIcon: {fileID: 0}
+  enableBlinkEffect: 1
+  interactionDirection: {x: 0, y: 0, z: 1}
 --- !u!1 &598580554
 GameObject:
   m_ObjectHideFlags: 0
@@ -6018,6 +5905,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d642bdb2862b6664191fa636b60b4678, type: 3}
+--- !u!1 &639869348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4423232626045567407, guid: 743a266564ae0f8419c86c286386f0ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 2758737831098315615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &644013711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12450,6 +12343,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftDoorAnimator: {fileID: 1174729324}
   rightDoorAnimator: {fileID: 1174729323}
+  storedItem: {fileID: 0}
+  audioSource: {fileID: 0}
+  openSound: {fileID: 0}
 --- !u!95 &1174729323
 Animator:
   serializedVersion: 5
@@ -12504,25 +12400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRepeatable: 0
-  interactionIcon: {fileID: 1531196420}
-  Object_Action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1174729318}
-        m_TargetAssemblyTypeName: WardrobeDoors, Assembly-CSharp
-        m_MethodName: OpenWardrobe
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  dialogueInstance: {fileID: 0}
-  dialogueFileName: 
 --- !u!65 &1174729326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16059,34 +15936,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1051309732}
   m_SourcePrefab: {fileID: 100100000, guid: 83f83f83c309b554394085851b06f2b5, type: 3}
---- !u!1 &1506221637 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2065491583470263454}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1506221641 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 893644426476743419, guid: aec91d2d46bfbe348b950e771dcec8e2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2065491583470263454}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1506221642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506221637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c63da59884e13694faaca4313f77af6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knifePrefab: {fileID: 0}
-  attackPoint: {fileID: 1506221641}
-  attackRange: 1.5
-  attackCooldown: 0
 --- !u!1001 &1513134258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19697,6 +19546,7 @@ MonoBehaviour:
   x: 69.64
   y: 0.3
   z: 23
+  requiredItem: 
 --- !u!95 &1979453238
 Animator:
   serializedVersion: 5
@@ -19730,25 +19580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845d375e42a57874da63e6aea40fab60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRepeatable: 1
-  interactionIcon: {fileID: 1815788367}
-  Object_Action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1979453237}
-        m_TargetAssemblyTypeName: DoorScript, Assembly-CSharp
-        m_MethodName: TriggerDoor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  dialogueInstance: {fileID: 0}
-  dialogueFileName: 
 --- !u!65 &1979453240
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22529,21 +22360,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5571306548178640697, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 845352852223938357, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
-      insertIndex: 1
+      insertIndex: 0
       addedObject: {fileID: 550586943}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8607580015364672909, guid: aec91d2d46bfbe348b950e771dcec8e2,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2065491583470263456}
-    - targetCorrespondingSourceObject: {fileID: 517083222846681153, guid: aec91d2d46bfbe348b950e771dcec8e2,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1506221642}
   m_SourcePrefab: {fileID: 100100000, guid: aec91d2d46bfbe348b950e771dcec8e2, type: 3}
 --- !u!1 &2065491583470263455 stripped
 GameObject:
@@ -22721,10 +22549,15 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 40
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1746025024483058114, guid: 743a266564ae0f8419c86c286386f0ed, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7760007815479658996, guid: 743a266564ae0f8419c86c286386f0ed,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 595150836}
   m_SourcePrefab: {fileID: 100100000, guid: 743a266564ae0f8419c86c286386f0ed, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -22746,7 +22579,6 @@ SceneRoots:
   - {fileID: 1339297269}
   - {fileID: 682030497}
   - {fileID: 838632432}
-  - {fileID: 556002064}
   - {fileID: 2072389034}
   - {fileID: 776382776}
   - {fileID: 822073863}
