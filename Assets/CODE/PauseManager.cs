@@ -2,19 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// NOTE: By the way, when accepting clicks from the user on the book, use Render Texture instead of Main or Raytracing Camera
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu; // Assign your Pause Menu Canvas in the Inspector
     private bool isPaused = false;
+    Animator Book;
     //public Camera mainCamera; // Assign your camera in the Inspector
     //public GameObject raytracing;
     //public float distanceFromCamera = 1f;
 
-    
+    private void Awake(){
+        Book = pauseMenu.GetComponent<Animator>();
+    }
     void Update()
     {
+        if(Input.GetKey(KeyCode.RightArrow) && isPaused){
+            Debug.Log("Right key is being pressed!");
+            Book.SetBool("Right", true);
+        } else {
+            Book.SetBool("Right", false);
+        }
+
         // Check if Escape is pressed
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             //transform.position = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
 

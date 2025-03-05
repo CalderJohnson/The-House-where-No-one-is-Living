@@ -33,7 +33,7 @@ public class TopDownCharacterMover : MonoBehaviour
     public UnityEvent Right_Hand;
     public UnityEvent Left_Hand;
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
@@ -96,7 +96,8 @@ public class TopDownCharacterMover : MonoBehaviour
             playerAnim.SetBool("running",true);
             playerAnim.SetBool("Walking",false);
         }
-        else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.W) ){
+        // else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.W) ){
+        else if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0){
             speed = MovementSpeed * Time.deltaTime;
             RotateTowardMouse = true;
             playerAnim.SetBool("running",false);
