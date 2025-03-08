@@ -17,22 +17,29 @@ public class PauseManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKey(KeyCode.RightArrow) && isPaused){
-            Debug.Log("Right key is being pressed!");
-            Book.SetBool("Right", true);
-        } else {
-            Book.SetBool("Right", false);
-        }
-
-        // Check if Escape is pressed
+        // Check if Tab is pressed
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             //transform.position = mainCamera.transform.position + mainCamera.transform.forward * distanceFromCamera;
-
-            if (isPaused)
+            if (isPaused){
                 ResumeGame();
-            else
+            } else {
                 PauseGame();
+            }
+        }
+
+        if(pauseMenu.activeSelf){
+            if(Input.GetKey(KeyCode.RightArrow) && isPaused){
+                Book.SetBool("Right", true);
+            } else {
+                Book.SetBool("Right", false);
+            }
+
+            if(Input.GetKey(KeyCode.LeftArrow) && isPaused){
+                Book.SetBool("Left", true);
+            } else {
+                Book.SetBool("Left", false);
+            }
         }
 
     }
@@ -40,18 +47,43 @@ public class PauseManager : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
-        //raytracing.SetActive(false);
+        // raytracing.SetActive(false);
         pauseMenu.SetActive(true); // Show the pause menu
         Time.timeScale = 0f; // Freeze game time
+        // Reset animation state
+        Book.SetBool("Tab2Close", false);
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
-        pauseMenu.SetActive(false); // Hide the pause menu
-        
-        Time.timeScale = 1f; // Resume game time
+        // Enable the closing animation to be played
+        Book.SetBool("Tab2Close", true);
+
+        // Resume time before waiting for animation
+        Time.timeScale = 1f; 
+
+        StartCoroutine(CloseBookAndExit());
     }
+
+    private IEnumerator CloseBookAndExit()
+    {
+        while (true)
+        {
+            AnimatorStateInfo currentState = Book.GetCurrentAnimatorStateInfo(0);
+
+            if (currentState.IsName("Book Close") && currentState.normalizedTime >= 1f && !Book.IsInTransition(0))
+            {
+                break;
+            }
+            yield return null; // Wait for next frame
+        }
+
+        // Now disable the menu
+        pauseMenu.SetActive(false);
+
+        isPaused = false;
+    }
+
 
     public void QuitGame() // Optional: For a quit button in the pause menu
     {
