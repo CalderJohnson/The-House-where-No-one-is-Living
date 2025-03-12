@@ -570,9 +570,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1990420974}
   linkedDoor: {fileID: 1523406293}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 31
   y: 0.3
   z: 23
+  requiredItem: 
 --- !u!114 &53873334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2303,7 +2307,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31220
+    surfaceParameter: 29732
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -3113,7 +3117,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31220
+    surfaceParameter: 29732
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -4578,9 +4582,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1255217800}
   linkedDoor: {fileID: 1346965505}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 55
   y: 0.5
   z: 139
+  requiredItem: 
 --- !u!4 &539985887 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -5611,9 +5619,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 2136456895}
   linkedDoor: {fileID: 2129270501}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 12
   y: 0.3
   z: -68
+  requiredItem: 
 --- !u!114 &664932288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10129,7 +10141,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31220
+    surfaceParameter: 29732
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -11461,9 +11473,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1213212592}
   linkedDoor: {fileID: 1849854770}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 15
   y: 0.3
   z: 110
+  requiredItem: 
 --- !u!95 &1213212592
 Animator:
   serializedVersion: 5
@@ -11926,9 +11942,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1320802861}
   linkedDoor: {fileID: 1484740290}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 53
   y: 0.5
   z: 220
+  requiredItem: 
 --- !u!4 &1230963828 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -12200,7 +12220,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 30994
+    surfaceParameter: 29376
     meshQueryIndex: 0
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -13021,9 +13041,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 840812087}
   linkedDoor: {fileID: 539985886}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 28
   y: 0.5
   z: 139
+  requiredItem: 
 --- !u!4 &1346965506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -14279,9 +14303,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 761208974}
   linkedDoor: {fileID: 1230963827}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 27
   y: 0.5
   z: 215
+  requiredItem: 
 --- !u!4 &1484740291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -14872,9 +14900,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 512497749}
   linkedDoor: {fileID: 53873333}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 69.64
   y: 0.3
   z: 23
+  requiredItem: 
 --- !u!4 &1523406295 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -15790,7 +15822,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 31150
+    surfaceParameter: 29608
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: -1330962762673692594
@@ -17092,7 +17124,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31220
+    surfaceParameter: 29732
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -17411,7 +17443,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 31084
+    surfaceParameter: 29514
     meshQueryIndex: 0
     subMeshQueryIndex: 0
     geometryHashValue: -5997760464220279249
@@ -19028,9 +19060,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 166485924}
   linkedDoor: {fileID: 1786165887}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 16.91
   y: 0.3
   z: 225
+  requiredItem: 
 --- !u!4 &1780144667 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -19203,9 +19239,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1254913211}
   linkedDoor: {fileID: 1780144666}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 15
   y: 0.3
   z: 279
+  requiredItem: 
 --- !u!4 &1786165888 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -20190,9 +20230,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1849854771}
   linkedDoor: {fileID: 1213212591}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 16.91
   y: 0.3
   z: 23
+  requiredItem: 
 --- !u!95 &1849854771
 Animator:
   serializedVersion: 5
@@ -23701,7 +23745,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31220
+    surfaceParameter: 29732
     meshQueryIndex: 2
     subMeshQueryIndex: 0
     geometryHashValue: -1330962762673692594
@@ -23737,9 +23781,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorAnimator: {fileID: 1450571827}
   linkedDoor: {fileID: 664932287}
+  doorAudioSource: {fileID: 0}
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
   x: 13
   y: 0.3
   z: -18
+  requiredItem: 
 --- !u!4 &2129270502 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651603642805868, guid: fb21c2677f6de9b41b800858634f37f9,
@@ -24042,74 +24090,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1001 &6479702725099523029
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6951039454685736137, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_Name
-      value: Wardrobe
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8191929983626303401, guid: 148c559e7a6baa448a69f631f31549db,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 148c559e7a6baa448a69f631f31549db, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -24128,7 +24108,6 @@ SceneRoots:
   - {fileID: 151540016}
   - {fileID: 692343918}
   - {fileID: 888617336}
-  - {fileID: 6479702725099523029}
   - {fileID: 577966880}
   - {fileID: 1032734116}
   - {fileID: 1250140156}

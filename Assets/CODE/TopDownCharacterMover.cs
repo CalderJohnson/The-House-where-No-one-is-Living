@@ -22,15 +22,18 @@ public class TopDownCharacterMover : MonoBehaviour
     [SerializeField]
     private Camera Camera;
 
+    Animator playerAnim;
+
     private void Awake()
     {
+        playerAnim = GetComponent<Animator>();
         _input = GetComponent<InputHandler>();
     }
 
     public UnityEvent Right_Hand;
     public UnityEvent Left_Hand;
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
@@ -46,12 +49,21 @@ public class TopDownCharacterMover : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse0)){//left click
+            playerAnim.SetBool("Attack",true);
             Right_Hand.Invoke(); //attack with right hand
+            Invoke("ResetAttack", 1f); 
+            
         }
         if(Input.GetKeyDown(KeyCode.Mouse1)){ //right click
             Left_Hand.Invoke(); //attack with left hand
         }
+        
 
+    }
+
+    void ResetAttack()
+    {
+    playerAnim.SetBool("Attack", false);
     }
 
     private void RotateFromMouseVector()
@@ -78,13 +90,24 @@ public class TopDownCharacterMover : MonoBehaviour
         var speed = MovementSpeed * Time.deltaTime;
         // transform.Translate(targetVector * (MovementSpeed * Time.deltaTime)); Demonstrate why this doesn't work
         //transform.Translate(targetVector * (MovementSpeed * Time.deltaTime), Camera.gameObject.transform);
-        if(Input.GetKey(KeyCode.LeftShift)){
+        if(Input.GetKey(KeyCode.LeftShift) && ( Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.W))){
             speed = SprintSpeed * Time.deltaTime;
             RotateTowardMouse = false;
+            playerAnim.SetBool("running",true);
+            playerAnim.SetBool("Walking",false);
+        }
+        // else if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A)||Input.GetKey(KeyCode.W) ){
+        else if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0){
+            speed = MovementSpeed * Time.deltaTime;
+            RotateTowardMouse = true;
+            playerAnim.SetBool("running",false);
+            playerAnim.SetBool("Walking",true);
         }
         else{
             speed = MovementSpeed * Time.deltaTime;
             RotateTowardMouse = true;
+            playerAnim.SetBool("running",false);
+            playerAnim.SetBool("Walking",false);
         }
         targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
         var targetPosition = transform.position + targetVector * speed;
