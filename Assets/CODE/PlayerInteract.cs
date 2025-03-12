@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public float interactionRange = 3f; // Maximum distance to interact
+    public float interactionRange; // Maximum distance to interact
     public LayerMask interactableLayer;
     private ObjectInteract closestObject;
     
