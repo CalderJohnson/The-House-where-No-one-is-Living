@@ -901,6 +901,7 @@ GameObject:
   - component: {fileID: 346597613}
   - component: {fileID: 346597612}
   - component: {fileID: 346597611}
+  - component: {fileID: 346597614}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -972,7 +973,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 346597612}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346597614}
+        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &346597612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1024,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346597609}
   m_CullTransparentMesh: 1
+--- !u!114 &346597614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346597609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6e704c747edae44bc9b93fe05b6953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 749846906}
 --- !u!1 &368190474
 GameObject:
   m_ObjectHideFlags: 0
