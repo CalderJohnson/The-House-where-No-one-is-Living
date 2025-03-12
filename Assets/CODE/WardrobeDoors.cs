@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class WardrobeDoors : MonoBehaviour, IDataPersistence
 {
@@ -29,18 +30,20 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (!isOpen)
         {
+            // Play animations for opening the doors
             leftDoorAnimator.Play("DoorOpen_Left");
             rightDoorAnimator.Play("DoorOpen_Right");
 
+            // Play sound effect if available
             if (audioSource != null && openSound != null)
             {
                 audioSource.PlayOneShot(openSound);
             }
 
             isOpen = true;
-            Debug.Log("Wardrobe opened.");
+            Debug.Log($"Wardrobe {wardrobeID} opened.");
         }
-        else if (!itemCollected) // Only retrieve if item hasn't been taken
+        else if (!itemCollected) // If the wardrobe is already open, allow collecting the item
         {
             RetrieveItem();
         }
@@ -50,23 +53,36 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (storedItem != null)
         {
-            Inventory.Instance.AddItem(storedItem.name);
-            itemCollected = true;  // Mark as collected
-            Destroy(storedItem);    // Remove from scene
+            Inventory.Instance.AddItem(storedItem.name); // Add item to inventory
+            itemCollected = true;
+            Destroy(storedItem); // Remove item from scene
             storedItem = null;
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
         }
     }
 
-    // Load & Save System Integration
     public void LoadData(GameData data)
     {
-        if (data.collectedItems.Contains(wardrobeID))
+        // Load wardrobe open state
+        WardrobeState savedState = data.wardrobeStates.Find(w => w.wardrobeID == wardrobeID);
+        if (savedState != null)
         {
-            itemCollected = true;
-            if (storedItem != null)
+            isOpen = savedState.isOpen;
+            if (isOpen)
             {
-                Destroy(storedItem); // Ensure item doesn't appear if already collected
+                leftDoorAnimator.Play("DoorOpen_Left", 0, 1f);
+                rightDoorAnimator.Play("DoorOpen_Right", 0, 1f);
+            }
+        }
+
+        // Load item collection status
+        CollectedItem savedItem = data.collectedItems.Find(c => c.wardrobeID == wardrobeID);
+        if (savedItem != null)
+        {
+            itemCollected = savedItem.itemCollected;
+            if (itemCollected && storedItem != null)
+            {
+                Destroy(storedItem);
                 storedItem = null;
             }
         }
@@ -74,9 +90,30 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        if (itemCollected)
+        // Ensure list exists
+        if (data.wardrobeStates == null) data.wardrobeStates = new List<WardrobeState>();
+        if (data.collectedItems == null) data.collectedItems = new List<CollectedItem>();
+
+        // Save wardrobe state
+        WardrobeState existingState = data.wardrobeStates.Find(w => w.wardrobeID == wardrobeID);
+        if (existingState != null)
         {
-            data.collectedItems.Add(wardrobeID);
+            existingState.isOpen = isOpen;
+        }
+        else
+        {
+            data.wardrobeStates.Add(new WardrobeState(wardrobeID, isOpen));
+        }
+
+        // Save collected item status
+        CollectedItem existingItem = data.collectedItems.Find(c => c.wardrobeID == wardrobeID);
+        if (existingItem != null)
+        {
+            existingItem.itemCollected = itemCollected;
+        }
+        else
+        {
+            data.collectedItems.Add(new CollectedItem(wardrobeID, itemCollected));
         }
     }
 }
