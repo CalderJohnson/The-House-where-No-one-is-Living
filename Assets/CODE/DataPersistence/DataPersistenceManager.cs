@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -12,17 +13,18 @@ public class DataPersistenceManager : MonoBehaviour
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
-    public static DataPersistenceManager instance { get; private set; }
+    public static DataPersistenceManager Instance { get; private set; }
 
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Debug.LogError("Found more than one Data Persistence Manager in the scene.");
             Destroy(gameObject);
             return;
         }
-        instance = this;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);  // Keep it persistent across scenes
     }
 
     private void Start()
@@ -57,6 +59,12 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        if (gameData == null)
+        {
+            Debug.LogWarning("No game data found. Creating new game data before saving.");
+            NewGame(); // Initialize a new game data instance if none exists
+        }
+
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(ref gameData);
