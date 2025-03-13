@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Required for scene management
 
 public class DoorScript : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class DoorScript : MonoBehaviour
 
     [Header("Item Requirement")]
     public string requiredItem; // Leave empty if no item is required
+
+    [Header("Scene Loading")]
+    public bool loadNewScene = false; // Set this to true if this door loads a new scene
+    public string sceneName; // Name of the scene to load
 
     private PlayerInventory playerInventory;
 
@@ -45,7 +50,17 @@ public class DoorScript : MonoBehaviour
         if (string.IsNullOrEmpty(requiredItem) || Inventory.Instance.HasItem(requiredItem))
         {
             Debug.Log("Door unlocked! Opening...");
-            StartCoroutine(DoorSequence());
+
+            // If loadNewScene is enabled, load the scene instead of teleporting
+            if (loadNewScene && !string.IsNullOrEmpty(sceneName))
+            {
+                Debug.Log($"Loading scene: {sceneName}");
+                SceneManager.LoadScene(sceneName);
+            }
+            else
+            {
+                StartCoroutine(DoorSequence()); // Run normal teleport sequence
+            }
         }
         else
         {
