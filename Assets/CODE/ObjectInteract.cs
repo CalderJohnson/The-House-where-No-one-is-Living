@@ -19,6 +19,7 @@ public class ObjectInteract : MonoBehaviour
     public bool enableBlinkEffect = true; // Determines if the interaction icon should blink when in range
 
     [Header("Interaction Direction")]
+    public bool useDirectionalInteraction = true; // Toggle for directional interaction
     public Vector3 interactionDirection = Vector3.forward; // Default to front interaction.
 
     private bool isOpen = false; // Tracks if the object has already been interacted with
@@ -46,8 +47,8 @@ public class ObjectInteract : MonoBehaviour
             yield break;
         }
 
-        // Ensure the player is facing the correct direction to interact
-        if (!IsPlayerFacingCorrectDirection(playerTransform))
+        // Skip directional check if useDirectionalInteraction is false
+        if (useDirectionalInteraction && !IsPlayerFacingCorrectDirection(playerTransform))
         {
             Debug.Log("Player is not in the correct position to interact.");
             yield break;
@@ -88,7 +89,7 @@ public class ObjectInteract : MonoBehaviour
         }
         else if (isRepeatable)
         {
-            StartCoroutine(ResetAfterDelay(3f)); // Reset object after delay if repeatable
+            StartCoroutine(ResetAfterDelay(3f)); // This method is now defined
         }
     }
 
@@ -137,6 +138,8 @@ public class ObjectInteract : MonoBehaviour
     /// </summary>
     private bool IsPlayerFacingCorrectDirection(Transform playerTransform)
     {
+        if (!useDirectionalInteraction) return true; // Skip direction check
+
         Vector3 toObject = (transform.position - playerTransform.position).normalized;
         Vector3 requiredDirection = transform.TransformDirection(interactionDirection).normalized;
         float dot = Vector3.Dot(requiredDirection, toObject);
@@ -152,7 +155,7 @@ public class ObjectInteract : MonoBehaviour
         if (interactionIcon == null || (interactionLimit > 0 && interactionCount >= interactionLimit))
             return;
 
-        bool facingCorrectDirection = IsPlayerFacingCorrectDirection(playerTransform);
+        bool facingCorrectDirection = useDirectionalInteraction ? IsPlayerFacingCorrectDirection(playerTransform) : true;
         float alpha = Mathf.Clamp01(1 - (distance / interactionRange));
         bool isVisible = alpha > 0 && facingCorrectDirection;
 
