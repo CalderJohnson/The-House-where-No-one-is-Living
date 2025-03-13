@@ -22,8 +22,18 @@ public class SpiderController : BaseEnemy
     {
         if (lastShotTime < 0 || (Time.time - lastShotTime) >= 2f)
         {
-            Debug.Log("Ranged Enemy shooting!");
-            slingshot.ShootProjectile();
+            Debug.Log("Attacking Ranged!");
+
+            if (target != null)
+            {
+                Vector3 pos = target.position;
+                Debug.Log($"Target Position: x={pos.x}, y={pos.y}, z={pos.z}");
+            }
+            else
+            {
+                Debug.LogWarning("Target is null!");
+            }
+
             lastShotTime = Time.time;
         }
     }

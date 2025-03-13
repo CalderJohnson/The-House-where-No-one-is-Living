@@ -6,13 +6,15 @@ using UnityHFSM;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
-    // Attributes
+    // Fixed attributes
     protected float speed;
     protected float maxHealth;
     protected float health;
     protected float vision;
     protected float attackRangeClose;
     protected float attackRangeRanged;
+
+    // Params influencing behavior
     protected float retreatThreshold;
 
     protected Transform target;
@@ -93,6 +95,7 @@ public abstract class BaseEnemy : MonoBehaviour
         if (lastShotTime < 0 || (Time.time - lastShotTime) >= 2f)
         {
             Debug.Log("Attacking Ranged!");
+            Debug.Log(target.position);
             lastShotTime = Time.time;
         }
     }
