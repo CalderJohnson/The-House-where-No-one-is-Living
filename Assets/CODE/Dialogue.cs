@@ -72,6 +72,7 @@ public class Dialogue : MonoBehaviour
             LoadDialogueFile();
             Debug.LogWarning($"Dialogue Instance starting, with {dialogueFileName}!");
         }
+        Time.timeScale = 0f; 
 
         textComponentRect = textComponent.GetComponent<RectTransform>();
         nameComponentRect = nameComponent.GetComponent<RectTransform>();
@@ -117,7 +118,7 @@ public class Dialogue : MonoBehaviour
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
 
@@ -254,6 +255,7 @@ public class Dialogue : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+            Time.timeScale = 1f; 
         }
     }
 

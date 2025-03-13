@@ -18378,6 +18378,7 @@ MonoBehaviour:
   interactionIcon: {fileID: 276769502}
   enableBlinkEffect: 1
   useDirectionalInteraction: 1
+  interactionDirection: {x: 1, y: 0, z: 0}
 --- !u!4 &1246036868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: a326321d134433f498b1db891bc46870,
@@ -18704,6 +18705,8 @@ MonoBehaviour:
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 694120328}
   enableBlinkEffect: 1
+  useDirectionalInteraction: 1
+  interactionDirection: {x: 0, y: -1, z: 0}
 --- !u!4 &1257508766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: bcf903531d6a3b340a45c0ac997472c9,
@@ -21189,6 +21192,8 @@ MonoBehaviour:
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 434147021}
   enableBlinkEffect: 1
+  useDirectionalInteraction: 1
+  interactionDirection: {x: -1, y: 0, z: 0}
 --- !u!1001 &1379239786
 PrefabInstance:
   m_ObjectHideFlags: 0
