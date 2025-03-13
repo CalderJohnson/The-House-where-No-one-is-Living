@@ -1,63 +1,63 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ObjectInteract : MonoBehaviour
+public class ObjectInteract : MonoBehaviour, IDataPersistence
 {
     [Header("Interaction Settings")]
-    public int interactionLimit = -1; // Number of interactions allowed (-1 = unlimited)
-    private int interactionCount = 0; // Tracks the number of times the object has been interacted with
-    public bool isRepeatable = false; // Determines if the object can be interacted with multiple times
-    public UnityEvent Object_Action; // Actions to invoke on interaction.
+    public int interactionLimit = -1;
+    private int interactionCount = 0;
+    public bool isRepeatable = false;
+    public UnityEvent Object_Action;
 
     [Header("Dialogue Settings")]
-    public string dialogueFileName; // File name for dialogue, if applicable
-    public GameObject DialogueCanvas; // Canvas to display dialogue UI
+    public string dialogueFileName;
+    public GameObject DialogueCanvas;
 
     [Header("Icon Settings")]
-    public GameObject interactionIcon; // Icon that appears when object is interactable
-    public bool enableBlinkEffect = true; // Determines if the interaction icon should blink when in range
+    public GameObject interactionIcon;
+    public bool enableBlinkEffect = true;
 
     [Header("Interaction Direction")]
-    public bool useDirectionalInteraction = true; // Toggle for directional interaction
-    public Vector3 interactionDirection = Vector3.forward; // Default to front interaction.
+    public bool useDirectionalInteraction = true;
+    public Vector3 interactionDirection = Vector3.forward;
 
-    private bool isOpen = false; // Tracks if the object has already been interacted with
+    [Header("Save System")]
+    public string objectID; // Unique ID for saving interaction state
+
+    private void Awake()
+    {
+        // If the object already has an ID (set in Inspector), do NOT change it.
+        if (string.IsNullOrEmpty(objectID))
+        {
+            objectID = GenerateStableID();
+        }
+    }
 
     private void Start()
     {
-        // Hide interaction icon at the start
         if (interactionIcon != null)
         {
             interactionIcon.SetActive(false);
         }
     }
 
-    /// <summary>
-    /// Called by the PlayerInteract script to perform the interaction.
-    /// </summary>
     public IEnumerator Interact(Transform playerTransform)
     {
-        Debug.Log($"Interact called on {gameObject.name}");
-
-        // Check if the interaction limit has been reached (if set)
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
-            Debug.Log($"{gameObject.name} has reached max interactions.");
             yield break;
         }
 
-        // Skip directional check if useDirectionalInteraction is false
         if (useDirectionalInteraction && !IsPlayerFacingCorrectDirection(playerTransform))
         {
-            Debug.Log("Player is not in the correct position to interact.");
             yield break;
         }
 
-        Debug.Log("Starting interaction sequence...");
-        interactionCount++; // Increment interaction counter
+        interactionCount++;
 
-        // Handle interaction icon blink effect
         if (enableBlinkEffect)
         {
             yield return StartCoroutine(BlinkIcon());
@@ -67,54 +67,35 @@ public class ObjectInteract : MonoBehaviour
             interactionIcon?.SetActive(false);
         }
 
-        // Handle dialogue if applicable
         if (Dialogue.Instance != null && !string.IsNullOrEmpty(dialogueFileName))
         {
             Dialogue.Instance.SetDialogueFileName(dialogueFileName);
             DialogueCanvas.SetActive(true);
         }
-        else
-        {
-            Debug.LogWarning("Dialogue instance not found in the scene!");
-        }
 
-        // Invoke interaction action(s)
         Object_Action.Invoke();
-        Debug.Log($"Object Action Invoked! Interaction count: {interactionCount}");
 
-        // If the interaction limit has been reached, disable further interactions
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
-            interactionIcon?.SetActive(false); // Hide icon permanently after limit reached
+            interactionIcon?.SetActive(false);
         }
         else if (isRepeatable)
         {
-            StartCoroutine(ResetAfterDelay(3f)); // This method is now defined
+            StartCoroutine(ResetAfterDelay(3f));
         }
     }
 
-    /// <summary>
-    /// Resets the object's interaction state after a delay.
-    /// </summary>
     private IEnumerator ResetAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ResetState();
     }
 
-    /// <summary>
-    /// Resets the interaction state, allowing the object to be interacted with again.
-    /// </summary>
     public void ResetState()
     {
-        Debug.Log($"{gameObject.name} has been reset. It is now interactable again.");
-        isOpen = false;
-        interactionCount = 0; // Reset interaction count
+        interactionCount = 0;
     }
 
-    /// <summary>
-    /// Handles the blinking effect for the interaction icon.
-    /// </summary>
     private IEnumerator BlinkIcon()
     {
         if (interactionIcon == null) yield break;
@@ -133,25 +114,17 @@ public class ObjectInteract : MonoBehaviour
         interactionIcon.SetActive(false);
     }
 
-    /// <summary>
-    /// Checks if the player is facing the correct interaction direction.
-    /// </summary>
     private bool IsPlayerFacingCorrectDirection(Transform playerTransform)
     {
-        if (!useDirectionalInteraction) return true; // Skip direction check
+        if (!useDirectionalInteraction) return true;
 
         Vector3 toObject = (transform.position - playerTransform.position).normalized;
         Vector3 requiredDirection = transform.TransformDirection(interactionDirection).normalized;
-        float dot = Vector3.Dot(requiredDirection, toObject);
-        return dot > 0.5f;
+        return Vector3.Dot(requiredDirection, toObject) > 0.5f;
     }
 
-    /// <summary>
-    /// Updates the icon’s visibility, transparency, and color based on the player's distance and position.
-    /// </summary>
     public void UpdateIconVisibility(float distance, float interactionRange, Transform playerTransform)
     {
-        // If interaction is limited and max interactions have been reached, disable icon
         if (interactionIcon == null || (interactionLimit > 0 && interactionCount >= interactionLimit))
             return;
 
@@ -159,7 +132,6 @@ public class ObjectInteract : MonoBehaviour
         float alpha = Mathf.Clamp01(1 - (distance / interactionRange));
         bool isVisible = alpha > 0 && facingCorrectDirection;
 
-        // Adjust icon color based on distance
         Color newColor = (distance <= 1.0f) ? Color.yellow : Color.white;
         newColor.a = alpha;
 
@@ -173,5 +145,51 @@ public class ObjectInteract : MonoBehaviour
         }
 
         interactionIcon.SetActive(isVisible);
+    }
+
+    public void LoadData(GameData data)
+    {
+        foreach (var objState in data.objectInteractions)
+        {
+            if (objState.objectID == objectID)
+            {
+                interactionCount = objState.interactionCount;
+
+                if (interactionLimit > 0 && interactionCount >= interactionLimit)
+                {
+                    interactionIcon?.SetActive(false);
+                }
+
+                return;
+            }
+        }
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        bool found = false;
+
+        for (int i = 0; i < data.objectInteractions.Count; i++)
+        {
+            if (data.objectInteractions[i].objectID == objectID)
+            {
+                data.objectInteractions[i].interactionCount = interactionCount;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            data.objectInteractions.Add(new ObjectInteractionState(objectID, interactionCount));
+        }
+    }
+
+    /// <summary>
+    /// Generates a stable unique ID based on the object's scene and name.
+    /// </summary>
+    private string GenerateStableID()
+    {
+        return gameObject.scene.name + "_" + gameObject.name + "_" + transform.position.ToString();
     }
 }

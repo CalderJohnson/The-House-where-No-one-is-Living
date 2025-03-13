@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 
 [System.Serializable]
 public class GameData
 {
     public List<string> inventoryItems;
-    public List<WardrobeState> wardrobeStates; 
-    public List<CollectedItem> collectedItems; 
+    public List<WardrobeState> wardrobeStates;
+    public List<CollectedItem> collectedItems;
+    public List<ObjectInteractionState> objectInteractions; // Stores interaction counts
 
     public GameData()
     {
         inventoryItems = new List<string>();
-        wardrobeStates = new List<WardrobeState>(); 
-        collectedItems = new List<CollectedItem>(); 
+        wardrobeStates = new List<WardrobeState>();
+        collectedItems = new List<CollectedItem>();
+        objectInteractions = new List<ObjectInteractionState>(); // Initialize list
     }
 }
 
@@ -39,5 +41,18 @@ public class CollectedItem
     {
         wardrobeID = id;
         itemCollected = collected;
+    }
+}
+
+[System.Serializable]
+public class ObjectInteractionState
+{
+    public string objectID;
+    public int interactionCount;
+
+    public ObjectInteractionState(string id, int count)
+    {
+        objectID = id;
+        interactionCount = count;
     }
 }

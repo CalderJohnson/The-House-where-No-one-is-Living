@@ -30,6 +30,10 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (!isOpen)
         {
+            //  Re-enable Animator before playing animations
+            leftDoorAnimator.enabled = true;
+            rightDoorAnimator.enabled = true;
+
             // Play animations for opening the doors
             leftDoorAnimator.Play("DoorOpen_Left");
             rightDoorAnimator.Play("DoorOpen_Right");
@@ -55,8 +59,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         {
             Inventory.Instance.AddItem(storedItem.name); // Add item to inventory
             itemCollected = true;
-            Destroy(storedItem); // Remove item from scene
-            storedItem = null;
+            storedItem.SetActive(false); //  Hide item instead of destroying it
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
         }
     }
@@ -68,11 +71,34 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         if (savedState != null)
         {
             isOpen = savedState.isOpen;
-            if (isOpen)
-            {
-                leftDoorAnimator.Play("DoorOpen_Left", 0, 1f);
-                rightDoorAnimator.Play("DoorOpen_Right", 0, 1f);
-            }
+        }
+        else
+        {
+            isOpen = false; // Default to closed if no save data is found
+        }
+
+        // If wardrobe should be closed, reset doors
+        if (!isOpen)
+        {
+            // Disable Animator to reset doors manually
+            leftDoorAnimator.enabled = false;
+            rightDoorAnimator.enabled = false;
+
+            // Reset door rotation (adjust values based on closed rotation)
+            leftDoorAnimator.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            rightDoorAnimator.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            Debug.Log($"Wardrobe {wardrobeID} reset to closed state.");
+        }
+        else
+        {
+            //  Ensure Animator is enabled so doors stay open if saved that way
+            leftDoorAnimator.enabled = true;
+            rightDoorAnimator.enabled = true;
+
+            //  Play open animation instantly if it was open in save
+            leftDoorAnimator.Play("DoorOpen_Left", 0, 1f);
+            rightDoorAnimator.Play("DoorOpen_Right", 0, 1f);
         }
 
         // Load item collection status
@@ -80,11 +106,20 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         if (savedItem != null)
         {
             itemCollected = savedItem.itemCollected;
-            if (itemCollected && storedItem != null)
-            {
-                Destroy(storedItem);
-                storedItem = null;
-            }
+        }
+        else
+        {
+            itemCollected = false; // Default to not collected
+        }
+
+        //  Restore the item if it was not collected in save
+        if (!itemCollected && storedItem != null)
+        {
+            storedItem.SetActive(true); //  Ensure item is visible again
+        }
+        else if (itemCollected && storedItem != null)
+        {
+            storedItem.SetActive(false); // Hide item if collected
         }
     }
 
