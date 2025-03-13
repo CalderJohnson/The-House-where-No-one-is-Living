@@ -13804,6 +13804,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2021785819}
   m_PrefabAsset: {fileID: 0}
+  isRepeatable: 1
+  Object_Action:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogueFileName: PrologueWaterTower
+  DialogueCanvas: {fileID: 1102039429}
+  interactionIcon: {fileID: 1092692713}
+  enableBlinkEffect: 1
+  interactionDirection: {x: 0, y: 0, z: 1}
 --- !u!1001 &995937039
 PrefabInstance:
   m_ObjectHideFlags: 0
