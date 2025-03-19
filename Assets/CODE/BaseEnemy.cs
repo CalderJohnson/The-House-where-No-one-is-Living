@@ -8,6 +8,7 @@ public abstract class BaseEnemy : MonoBehaviour
 {
     // Fixed attributes
     protected float speed;
+    protected float acceleration;
     protected float maxHealth;
     protected float health;
     protected float vision;
@@ -40,6 +41,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
         pathfindingAgent = GetComponent<NavMeshAgent>();
         pathfindingAgent.speed = speed;
+        pathfindingAgent.acceleration = acceleration;
+        pathfindingAgent.stoppingDistance = 1f;
 
         DefineFSM();
         fsm.SetStartState("Wander");
@@ -75,6 +78,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             StartCoroutine(DelayThenWander(1f));
         }
+        Debug.Log("Wandering...");
     }
 
     protected virtual void ChaseBehavior()
@@ -82,6 +86,9 @@ public abstract class BaseEnemy : MonoBehaviour
         if (target != null)
         {
             pathfindingAgent.SetDestination(target.position);
+            Debug.Log($"Chasing Position: x={target.position.x}, y={target.position.y}, z={target.position.z}");
+            Debug.Log($"NavMeshAgent Enabled: {pathfindingAgent.enabled}");
+            Debug.Log($"NavMeshAgent isStopped: {pathfindingAgent.isStopped}");
         }
     }
 

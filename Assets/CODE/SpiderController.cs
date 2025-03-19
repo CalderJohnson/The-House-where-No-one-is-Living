@@ -8,7 +8,8 @@ public class SpiderController : BaseEnemy
 
     protected override void Start()
     {
-        speed = 4f;
+        speed = 5f;
+        acceleration = 8f;
         maxHealth = 80f;
         vision = 25f;
         attackRangeRanged = 15f;
@@ -27,7 +28,8 @@ public class SpiderController : BaseEnemy
             if (target != null)
             {
                 Vector3 pos = target.position;
-                Debug.Log($"Target Position: x={pos.x}, y={pos.y}, z={pos.z}");
+                Debug.Log($"Shooting target Position: x={pos.x}, y={pos.y}, z={pos.z}");
+                slingshot.ShootProjectile();
             }
             else
             {
