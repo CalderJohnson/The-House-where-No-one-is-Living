@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3436c2616d1014f9388a8a5ab3835fc7, type: 3}
+  m_Name: I6 - Conjunction
+  m_EditorClassIdentifier: 
+  ruleName: I6
+  ruleType: 1
+  forwardPattern: p, q
+  forwardReplacement: p ^ q
+  symmetric: 0
+  englishDescription: Conjunction Rule
+  enabledInPuzzle: 1
