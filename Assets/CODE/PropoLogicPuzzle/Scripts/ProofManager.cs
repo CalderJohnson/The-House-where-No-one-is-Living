@@ -1,10 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class ProofController : MonoBehaviour
-{
+{   
+    public GameObject propoBook;
+
     [Header("Puzzle Data")]
     public PuzzleSO currentPuzzle; // Assign your PuzzleSO asset in the Inspector
 
@@ -17,18 +20,37 @@ public class ProofController : MonoBehaviour
     public GameObject ruleOptionButtonPrefab; // Prefab for a rule option button.
     public float factYOffset = 10f; // Set in Inspector: vertical gap between Facts
     public float ruleYOffset = 15f; // Set in Inspector: vertical gap between Given Rules
-
+    public float proofLineYOffset = 10f; // Set in Inspector: vertical gap between Proof LinesS
 
     private List<ProofLine> proofLines = new List<ProofLine>();
     private Stack<ProofLine> proofHistory = new Stack<ProofLine>();
+    private bool isPaused = false;
+    Animator Book;
+
+    private void Awake(){
+        Book = propoBook.GetComponent<Animator>();
+    }
 
     void Start()
-    {
+    {   
+        isPaused = true;
+        propoBook.SetActive(true); // Show the pause menu
+        Time.timeScale = 0f;
+        Book.SetBool("Tab2Close", false);
         // Display the conclusion at the top.
         if (thingToProveText != null && currentPuzzle.conclusion != null)
             thingToProveText.text = currentPuzzle.conclusion.englishSentence;
         
         LoadGivens();
+    }
+
+    void Update()
+    {
+        // Check if Tab is pressed
+        if (Input.GetKeyDown(KeyCode.P) && isPaused)
+        {
+            EndPuzzle();
+        }
     }
 
     /// <summary>
@@ -103,17 +125,33 @@ public class ProofController : MonoBehaviour
             Debug.LogWarning("Maximum number of proof lines reached!");
             return;
         }
+
+        // Check if an identical line (excluding line number) already exists
+        foreach (ProofLine line in proofLines)
+        {
+            if (line.logicText.text == logicText)
+            {
+                Debug.LogWarning($"Duplicate proof line detected: {englishText} ({logicText})");
+                return;
+            }
+        }
+        
         GameObject newLineGO = Instantiate(proofLinePrefab, proofPanel);
         ProofLine newLine = newLineGO.GetComponent<ProofLine>();
         int lineNumber = proofLines.Count + 1;
         newLine.Initialize(lineNumber, englishText, logicText);
+        newLine.gameObject.SetActive(true); // Since the Prefab is set to false, it shows up as false w/out this
         proofLines.Add(newLine);
         proofHistory.Push(newLine);
+
+        RectTransform rt = newLineGO.GetComponent<RectTransform>();
+        //Hardcoded first Y, may or may not change later
+        float newY = (proofLines.Count == 1) ? -35f : proofLines[proofLines.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - proofLineYOffset;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, newY);
 
         if (CheckProofValidity())
         {
             Debug.Log("Proof is valid!");
-            // Here you can highlight the final line and enable the Submit button.
         }
     }
 
@@ -257,5 +295,35 @@ public class ProofController : MonoBehaviour
         // Here we simply update the existing line.
         selectedLine.UpdateLine(option.resultingEnglish, option.resultingLogic);
         ruleOptionsPanel.SetActive(false);
+    }
+
+    public void EndPuzzle()
+    {
+        // Enable the closing animation to be played
+        Book.SetBool("Tab2Close", true);
+
+        // Resume time before waiting for animation
+        Time.timeScale = 1f; 
+
+        StartCoroutine(CloseBookAndExit());
+    }
+
+    private IEnumerator CloseBookAndExit()
+    {
+        while (true)
+        {
+            AnimatorStateInfo currentState = Book.GetCurrentAnimatorStateInfo(0);
+
+            if (currentState.IsName("Book Close") && currentState.normalizedTime >= 1f && !Book.IsInTransition(0))
+            {
+                break;
+            }
+            yield return null; // Wait for next frame
+        }
+
+        // Now disable the menu
+        propoBook.SetActive(false);
+
+        isPaused = false;
     }
 }
