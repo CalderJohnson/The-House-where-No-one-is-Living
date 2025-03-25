@@ -61,6 +61,13 @@ public class TopDownCharacterMover : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Mouse1)){ //right click
             Left_Hand.Invoke(); //attack with left hand
         }
+
+        if(Input.GetKeyDown(KeyCode.G)){
+            playerAnim.SetBool("sitting",true);
+        }
+        if(Input.GetKeyDown(KeyCode.H)){
+            playerAnim.SetBool("sitting",false);
+        }
         
 
     }
