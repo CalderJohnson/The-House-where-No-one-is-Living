@@ -9,7 +9,7 @@ public class PlayerTracker : MonoBehaviour
     private float distanceMovedAway = 0f;
     private float distanceMovedToward = 0f;
 
-    public float timeWindow = 5.0f;
+    public float timeWindow = 3.0f;
     public float maxEscapeDistance = 10f;  // Max distance player can move away in timeWindow
     public float maxApproachDistance = 10f; // Max distance player can move toward enemy
     private float startTime;

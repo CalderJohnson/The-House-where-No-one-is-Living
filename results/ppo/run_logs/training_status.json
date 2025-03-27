@@ -3,5 +3,54 @@
         "stats_format_version": "0.3.0",
         "mlagents_version": "1.1.0",
         "torch_version": "2.6.0+cpu"
+    },
+    "AdaptAgent": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\ppo\\AdaptAgent\\AdaptAgent-0.onnx",
+                "reward": null,
+                "creation_time": 1742958585.4844882,
+                "auxillary_file_paths": [
+                    "results\\ppo\\AdaptAgent\\AdaptAgent-0.pt"
+                ]
+            },
+            {
+                "steps": 0,
+                "file_path": "results\\ppo\\AdaptAgent\\AdaptAgent-0.onnx",
+                "reward": null,
+                "creation_time": 1742958910.5884717,
+                "auxillary_file_paths": [
+                    "results\\ppo\\AdaptAgent\\AdaptAgent-0.pt"
+                ]
+            },
+            {
+                "steps": 0,
+                "file_path": "results\\ppo\\AdaptAgent\\AdaptAgent-0.onnx",
+                "reward": null,
+                "creation_time": 1742959118.2546835,
+                "auxillary_file_paths": [
+                    "results\\ppo\\AdaptAgent\\AdaptAgent-0.pt"
+                ]
+            },
+            {
+                "steps": 0,
+                "file_path": "results\\ppo\\AdaptAgent\\AdaptAgent-0.onnx",
+                "reward": null,
+                "creation_time": 1742960020.2658007,
+                "auxillary_file_paths": [
+                    "results\\ppo\\AdaptAgent\\AdaptAgent-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results\\ppo\\AdaptAgent.onnx",
+            "reward": null,
+            "creation_time": 1742960020.2658007,
+            "auxillary_file_paths": [
+                "results\\ppo\\AdaptAgent\\AdaptAgent-0.pt"
+            ]
+        }
     }
 }

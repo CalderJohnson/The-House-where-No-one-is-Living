@@ -46,7 +46,7 @@ public class SpiderController : BaseEnemy
 
     protected override void HandleDeath()
     {
-        floor.GetComponent<ColorChange>().ChangeMaterialGreen();
+        floor.GetComponent<ColorChange>().ChangeMaterialRed();
         base.HandleDeath();
     }
 }

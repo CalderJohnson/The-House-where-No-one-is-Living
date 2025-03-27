@@ -58,9 +58,12 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        health = healthbar.GetHealth();
-        fsm.OnLogic();
-        RegenerateHealth();
+        if (targetRef != null)
+        {
+            health = healthbar.GetHealth();
+            fsm.OnLogic();
+            RegenerateHealth();
+        }
     }
 
     // Interface for ML agent to update FSM

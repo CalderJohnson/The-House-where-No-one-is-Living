@@ -7,11 +7,15 @@ public class FakePlayer : BaseEnemy
 {
     private Slingshot slingshot;
 
+    // Public params to alter training configs
+    public float setHealth;
+    public float setSpeed;
+
     protected override void Start()
     {
-        speed = 5f;
+        speed = setSpeed != 0 ? setSpeed : 5f;
         acceleration = 8f;
-        maxHealth = 10f;
+        maxHealth = setHealth != 0 ? setHealth : 80f;
         vision = 25f;
         attackRangeRanged = 15f;
         retreatThreshold = 30f;
