@@ -13146,7 +13146,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 0
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -14922,7 +14922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &913699836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15122,7 +15122,6 @@ GameObject:
   - component: {fileID: 923633011}
   - component: {fileID: 923633010}
   - component: {fileID: 923633013}
-  - component: {fileID: 923633014}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -15168,7 +15167,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 0
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 1
@@ -15268,23 +15267,6 @@ MonoBehaviour:
   offsetX: 0
   offsetY: 0
   offsetz: 0
---- !u!114 &923633014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 923633008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 52161556f799e4f15a18fec2527a5bf7, type: 2}
 --- !u!4 &923704678 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: a326321d134433f498b1db891bc46870,
@@ -23607,7 +23589,7 @@ MonoBehaviour:
     m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -23778,7 +23760,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 0.85660374, g: 0.70960534, b: 0.3087006, a: 1}
+  m_Color: {r: 1, g: 0.85490197, b: 0.5294118, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
@@ -23788,7 +23770,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -23818,7 +23800,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -42199,8 +42181,8 @@ SceneRoots:
   - {fileID: 1947718032}
   - {fileID: 923633009}
   - {fileID: 1326126355}
-  - {fileID: 1072075829}
   - {fileID: 830290927}
+  - {fileID: 1072075829}
   - {fileID: 1173647324}
   - {fileID: 1328052520}
   - {fileID: 241663185}
