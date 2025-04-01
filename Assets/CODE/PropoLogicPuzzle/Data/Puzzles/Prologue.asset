@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a134b14e67ce049f0ac3efa13ef88eb4, type: 3}
+  m_Name: Prologue
+  m_EditorClassIdentifier: 
+  facts:
+  - {fileID: 11400000, guid: 1031b0c47386a4e5b99db7714355b25b, type: 2}
+  - {fileID: 11400000, guid: 11ffa148cd26b4f3f94ceb4ff70c927a, type: 2}
+  - {fileID: 11400000, guid: 08b68c4366ff94ca6ac8fb4d939f8100, type: 2}
+  - {fileID: 11400000, guid: ae31878612f6045449c5b580f62610c4, type: 2}
+  - {fileID: 11400000, guid: 417a91268739d4069bcbd1d348539b87, type: 2}
+  givenRules:
+  - logicalForm: H ^ I => ~A
+    englishForm: If I've been here alone the whole morning and he came from inside
+      the forest, then he can't have just arrived.
+  - logicalForm: (T v F) ^ I => C
+    englishForm: If the tent was wet from this morning or the fire was still warm,
+      and he came from inside the forest, then he was camping.
+  - logicalForm: ~A ^ (T v F) => C
+    englishForm: If he didn't just arrive and the fire was still warm or the tent
+      was wet from this morning, then he was camping.
+  availableEquivalenceRules:
+  - {fileID: 11400000, guid: db59fc9a2a3494587bcdd2a1549b236a, type: 2}
+  availableInferenceRules:
+  - {fileID: 11400000, guid: a5afc4c8da3f24cda8feecf653b69317, type: 2}
+  - {fileID: 11400000, guid: e95f42309170946c9957b0808e43e9dd, type: 2}
+  - {fileID: 11400000, guid: 300ef366e8cd04534865e830a03d81d3, type: 2}
+  conclusion: {fileID: 11400000, guid: 929fe7c8ffe764b36a1b991673bf327f, type: 2}
+  maxProofLines: 10
+  useProofByContradiction: 0

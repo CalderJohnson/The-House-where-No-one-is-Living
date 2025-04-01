@@ -14,6 +14,16 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     public AudioSource audioSource;
     public AudioClip openSound;
 
+    [Header("Decision System Settings")]
+    [Tooltip("Check this if the wardrobe affects the decision tree.")]
+    public bool affectsDecisionTree = false;
+
+    [Tooltip("The decision node that will be updated when interacting.")]
+    public string decisionNodeID = ""; // Node to set when interacted with
+
+    [Tooltip("Check this to update the decision node when the item is collected instead of when the wardrobe is opened.")]
+    public bool updateOnItemCollection = false; // If true, update decision tree when item is collected
+
     private bool isOpen = false;
     private bool itemCollected = false; // Tracks if the item was taken
 
@@ -30,7 +40,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (!isOpen)
         {
-            //  Re-enable Animator before playing animations
+            // Re-enable Animator before playing animations
             leftDoorAnimator.enabled = true;
             rightDoorAnimator.enabled = true;
 
@@ -46,6 +56,12 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
             isOpen = true;
             Debug.Log($"Wardrobe {wardrobeID} opened.");
+
+            // Update decision tree **if we are NOT waiting for item collection**
+            if (affectsDecisionTree && !updateOnItemCollection)
+            {
+                UpdateDecisionNode();
+            }
         }
         else if (!itemCollected) // If the wardrobe is already open, allow collecting the item
         {
@@ -59,9 +75,22 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         {
             Inventory.Instance.AddItem(storedItem.name); // Add item to inventory
             itemCollected = true;
-            storedItem.SetActive(false); //  Hide item instead of destroying it
+            storedItem.SetActive(false); // Hide item instead of destroying it
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
+
+            // Update decision tree **if waiting for item collection**
+            if (affectsDecisionTree && updateOnItemCollection)
+            {
+                UpdateDecisionNode();
+            }
         }
+    }
+
+    private void UpdateDecisionNode()
+    {
+        DataPersistenceManager.Instance.gameData.currentDecisionNode = decisionNodeID;
+        DataPersistenceManager.Instance.SaveGame();
+        Debug.Log($"Decision node updated to: {decisionNodeID}");
     }
 
     public void LoadData(GameData data)
@@ -92,11 +121,11 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         }
         else
         {
-            //  Ensure Animator is enabled so doors stay open if saved that way
+            // Ensure Animator is enabled so doors stay open if saved that way
             leftDoorAnimator.enabled = true;
             rightDoorAnimator.enabled = true;
 
-            //  Play open animation instantly if it was open in save
+            // Play open animation instantly if it was open in save
             leftDoorAnimator.Play("DoorOpen_Left", 0, 1f);
             rightDoorAnimator.Play("DoorOpen_Right", 0, 1f);
         }
@@ -112,10 +141,10 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             itemCollected = false; // Default to not collected
         }
 
-        //  Restore the item if it was not collected in save
+        // Restore the item if it was not collected in save
         if (!itemCollected && storedItem != null)
         {
-            storedItem.SetActive(true); //  Ensure item is visible again
+            storedItem.SetActive(true); // Ensure item is visible again
         }
         else if (itemCollected && storedItem != null)
         {

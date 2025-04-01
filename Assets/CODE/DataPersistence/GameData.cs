@@ -8,6 +8,7 @@ public class GameData
     public List<WardrobeState> wardrobeStates;
     public List<CollectedItem> collectedItems;
     public List<ObjectInteractionState> objectInteractions; // Stores interaction counts
+    public string currentDecisionNode; // Track where the player is in the decision tree
 
     public GameData()
     {
@@ -15,6 +16,7 @@ public class GameData
         wardrobeStates = new List<WardrobeState>();
         collectedItems = new List<CollectedItem>();
         objectInteractions = new List<ObjectInteractionState>(); // Initialize list
+        currentDecisionNode = "start"; // Default starting node
     }
 }
 

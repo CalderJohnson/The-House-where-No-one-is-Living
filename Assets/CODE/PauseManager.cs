@@ -28,20 +28,19 @@ public class PauseManager : MonoBehaviour
             }
         }
 
-        if(pauseMenu.activeSelf){
-            if(Input.GetKey(KeyCode.RightArrow) && isPaused){
+        if(pauseMenu.activeSelf && isPaused){
+            if(Input.GetKey(KeyCode.RightArrow)){
                 Book.SetBool("Right", true);
             } else {
                 Book.SetBool("Right", false);
             }
 
-            if(Input.GetKey(KeyCode.LeftArrow) && isPaused){
+            if(Input.GetKey(KeyCode.LeftArrow)){
                 Book.SetBool("Left", true);
             } else {
                 Book.SetBool("Left", false);
             }
         }
-
     }
 
     public void PauseGame()

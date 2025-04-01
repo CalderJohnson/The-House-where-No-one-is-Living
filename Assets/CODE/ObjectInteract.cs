@@ -21,7 +21,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
     public bool enableBlinkEffect = true;
 
     [Header("Interaction Direction")]
-    public bool useDirectionalInteraction = true;
+    public bool useDirectionalInteraction = false;
     public Vector3 interactionDirection = Vector3.forward;
 
     [Header("Save System")]
@@ -46,6 +46,8 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
 
     public IEnumerator Interact(Transform playerTransform)
     {
+        Debug.Log($"[ObjectInteract] Interact() called on {gameObject.name}");
+
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
             yield break;
@@ -53,7 +55,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
 
         if (useDirectionalInteraction && !IsPlayerFacingCorrectDirection(playerTransform))
         {
-            yield break;
+            yield break; // Prevent interaction if facing the wrong way
         }
 
         interactionCount++;
@@ -114,9 +116,12 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         interactionIcon.SetActive(false);
     }
 
-    private bool IsPlayerFacingCorrectDirection(Transform playerTransform)
+    public bool IsPlayerFacingCorrectDirection(Transform playerTransform)
     {
-        if (!useDirectionalInteraction) return true;
+        if (!useDirectionalInteraction) return true; // Skip direction check
+
+        if (interactionDirection == Vector3.zero) return true; // Prevents invalid vector math
+
 
         Vector3 toObject = (transform.position - playerTransform.position).normalized;
         Vector3 requiredDirection = transform.TransformDirection(interactionDirection).normalized;
