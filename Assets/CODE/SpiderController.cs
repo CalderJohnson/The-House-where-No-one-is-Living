@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +5,8 @@ using UnityEngine;
 public class SpiderController : BaseEnemy
 {
     private Slingshot slingshot;
+    private int deathCount;
+    public bool training = false;
 
     protected override void Start()
     {
@@ -13,10 +14,14 @@ public class SpiderController : BaseEnemy
         acceleration = 8f;
         maxHealth = 80f;
         vision = 25f;
+        attackRangeClose = 2f;
+
         attackRangeRanged = 15f;
         retreatThreshold = 30f;
         aggressiveness = 0.5f;
         blockRate = 0.001f; // Chance to block each frame
+
+        deathCount = 0;
 
         slingshot = GetComponentInChildren<Slingshot>();
         base.Start();
@@ -44,9 +49,43 @@ public class SpiderController : BaseEnemy
         }
     }
 
+    private void Reset()
+    {
+        // Reset health
+        health = maxHealth;
+        healthbar.SetHealth(maxHealth);
+
+        // Reset position (TODO: randomize position (currently annoying to do due to rotation))
+        transform.position = new Vector3(-12.2f, -4f, -0.5f);
+
+        // Reset to default stats every 10 deaths
+        deathCount++;
+        if (deathCount % 10 == 0)
+        {
+            attackRangeRanged = 15f;
+            retreatThreshold = 30f;
+            aggressiveness = 0.5f;
+            blockRate = 0.001f; // Chance to block each frame
+        }
+
+        // Reset FSM to initial state
+        fsm.SetStartState("Wander");
+        fsm.Init();
+
+        // Reset other attributes
+        lastShotTime = -1;
+    }
+
     protected override void HandleDeath()
     {
-        floor.GetComponent<ColorChange>().ChangeMaterialRed();
-        base.HandleDeath();
+        if (training)
+        {
+            floor.GetComponent<ColorChange>().ChangeMaterialRed();
+            Reset();
+        }
+        else
+        {
+            base.HandleDeath();
+        }
     }
 }
