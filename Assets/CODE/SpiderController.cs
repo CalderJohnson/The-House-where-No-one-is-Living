@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpiderController : BaseEnemy
 {
+    public bool setTraining;
+    public float setHealth;
+    public float setSpeed;
+    private bool training;
     private Slingshot slingshot;
     private int deathCount;
-    public bool training = false;
 
     protected override void Start()
     {
@@ -15,6 +19,7 @@ public class SpiderController : BaseEnemy
         maxHealth = 80f;
         vision = 25f;
         attackRangeClose = 2f;
+        training = setTraining ? true : false;
 
         attackRangeRanged = 15f;
         retreatThreshold = 30f;
@@ -52,7 +57,11 @@ public class SpiderController : BaseEnemy
     private void Reset()
     {
         // Reset health
-        health = maxHealth;
+        System.Random rng = new System.Random();
+        int rand1 = rng.Next(1, 50);
+
+        health = rand1;
+        Debug.Log($"Health set to {health}");
         healthbar.SetHealth(maxHealth);
 
         // Reset position (TODO: randomize position (currently annoying to do due to rotation))
