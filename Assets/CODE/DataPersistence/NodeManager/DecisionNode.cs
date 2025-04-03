@@ -6,7 +6,6 @@ public class DecisionNode
     public string nodeID; // Unique identifier for this node
     public string description; // What happens at this node
     public Dictionary<string, string> choices; // Key = choice text, Value = next node ID
-    public List<string> requiredBranches; // Nodes that must be visited before entering this one
     public List<string> children; // Nodes that this node can lead to
     public string parent; // The node that led to this one
 
@@ -15,7 +14,6 @@ public class DecisionNode
         nodeID = id;
         description = desc;
         choices = new Dictionary<string, string>();
-        requiredBranches = new List<string>();
         children = new List<string>();
         parent = null; // Default to no parent
     }

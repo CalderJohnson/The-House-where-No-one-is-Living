@@ -32,51 +32,19 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
         startNode.AddChoice("Open the wardrobe", "WardrobeOpened");
         startNode.AddChoice("Talk to the NPC", "TalkedToNPCFirst");
 
-        // Temp
-        talkedToNPCFirst.AddRequiredBranch("WardrobeOpened");
-
         // Store nodes
         decisionTree[startNode.nodeID] = startNode;
         decisionTree[wardrobeOpened.nodeID] = wardrobeOpened;
         decisionTree[talkedToNPCFirst.nodeID] = talkedToNPCFirst;
     }
 
-    public bool CanMoveToNode(string nodeID)
-    {
-        if (!decisionTree.ContainsKey(nodeID)) return false;
-
-        DecisionNode node = decisionTree[nodeID];
-
-        // If node has no restrictions, it can be accessed freely
-        if (node.requiredBranches.Count == 0) return true;
-
-        // Otherwise, only allow access if all required nodes were visited
-        foreach (string requiredNode in node.requiredBranches)
-        {
-            if (!pathTaken.Contains(requiredNode))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     public void SetCurrentNode(string nodeID)
     {
-        if (CanMoveToNode(nodeID))
-        {
-            if (!pathTaken.Contains(currentNode)) // Avoid duplicate history entries
-            {
-                pathTaken.Add(currentNode);
-            }
+            pathTaken.Add(currentNode);
+          
             currentNode = nodeID;
             Debug.Log("Current node set to: " + currentNode);
-        }
-        else
-        {
-            Debug.LogWarning("Cannot move to node: " + nodeID + " due to past choices.");
-        }
     }
 
     public DecisionNode GetCurrentNode()
