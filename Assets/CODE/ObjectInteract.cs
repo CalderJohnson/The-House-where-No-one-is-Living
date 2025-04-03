@@ -44,8 +44,14 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         }
     }
 
+
+    private bool isInteracting = false;
+
     public IEnumerator Interact(Transform playerTransform)
     {
+        if (isInteracting) yield break; // Ignore input if already interacting
+
+        isInteracting = true; // Mark as interacting
         Debug.Log($"[ObjectInteract] Interact() called on {gameObject.name}");
 
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
@@ -76,6 +82,10 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         }
 
         Object_Action.Invoke();
+
+        yield return new WaitForSeconds(0.2f); 
+
+        isInteracting = false; 
 
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {

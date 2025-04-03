@@ -11,7 +11,8 @@ public class NPCInteraction : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        string currentNode = DataPersistenceManager.Instance.gameData.currentDecisionNode;
+        // Get the current decision node from the DecisionManager
+        string currentNode = DecisionManager.Instance.GetCurrentNode().nodeID;
         string dialogueToShow = defaultDialogue;
 
         // If the wardrobe has been opened, change the dialogue
@@ -20,14 +21,14 @@ public class NPCInteraction : MonoBehaviour, IInteractable
             dialogueToShow = afterWardrobeDialogue;
         }
 
-        // Display the dialogue (You can replace this with your actual dialogue system)
+        // Display the dialogue (Replace this with your actual dialogue system)
         Debug.Log(dialogueToShow);
 
         // Update the decision tree if needed
-        if (affectsDecisionTree && currentNode == "start")
+        if (affectsDecisionTree && DecisionManager.Instance.CanMoveToNode(decisionNodeID))
         {
-            DataPersistenceManager.Instance.gameData.currentDecisionNode = decisionNodeID;
-            DataPersistenceManager.Instance.SaveGame();
+            DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+            DataPersistenceManager.Instance.SaveGame(); // Save game after updating node
             Debug.Log($"Decision node updated to: {decisionNodeID}");
         }
     }
