@@ -151,22 +151,22 @@ public class TopDownCharacterMover : MonoBehaviour
     if (isMovingForward)
     {
         backwardsMagnitude = 1.0f; 
-        Debug.Log("Moving Forward");
+        // Debug.Log("Moving Forward");
     }
     else if (isMovingBackward)
     {
         backwardsMagnitude = 0.0f; 
-        Debug.Log("Moving Backward");
+        // Debug.Log("Moving Backward");
     }
     else if (isMovingLeft)
     {
         sidesMagnitude = 1.0f; 
-        Debug.Log("Moving Left");
+        // Debug.Log("Moving Left");
     }
     else if (isMovingRight)
     {
         sidesMagnitude = 0.0f; 
-        Debug.Log("Moving Right");
+        // Debug.Log("Moving Right");
     }
 
     // Smoothly accelerate/decelerate sprint speed
