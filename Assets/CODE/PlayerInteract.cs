@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     public float interactionRange; // Maximum distance to interact
-    public LayerMask interactableLayer;
-    private ObjectInteract closestObject;
+    private ObjectInteract closestObject; // The closest interactable object
 
     void Update()
     {
@@ -21,26 +20,28 @@ public class PlayerInteract : MonoBehaviour
     void FindClosestInteractable()
     {
         ObjectInteract[] interactables = FindObjectsOfType<ObjectInteract>();
+        closestObject = null; 
         float minDistance = interactionRange;
-        closestObject = null;
+
+        foreach (var obj in interactables)
+        {
+            obj.UpdateIconVisibility(0f, interactionRange, transform, false);  
+        }
 
         foreach (var obj in interactables)
         {
             float distance = Vector3.Distance(transform.position, obj.transform.position);
-            obj.UpdateIconVisibility(distance, interactionRange, transform);
 
-            bool isFacingCorrectly = true; // Default to true
-
-            if (obj.useDirectionalInteraction)
-            {
-                isFacingCorrectly = obj.IsPlayerFacingCorrectDirection(transform);
-            }
-
-            if (distance < minDistance && isFacingCorrectly)
+            if (distance <= minDistance && (!obj.useDirectionalInteraction || obj.IsPlayerFacingCorrectDirection(transform)))
             {
                 minDistance = distance;
-                closestObject = obj;
+                closestObject = obj; 
             }
+        }
+
+        if (closestObject != null)
+        {
+            closestObject.UpdateIconVisibility(0f, interactionRange, transform, true); 
         }
     }
 }
