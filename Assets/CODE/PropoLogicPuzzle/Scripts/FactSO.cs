@@ -5,6 +5,10 @@ public class Fact : ScriptableObject
 {
     [Tooltip("Unique identifier for this fact (e.g., T, F, A, etc.)")]
     public string factID;
+
+    [TextArea]
+    [Tooltip("The raw text of the english sentence, which generates the fact text and any negations needed.")]
+    public string rawFactText;
     
     [TextArea]
     [Tooltip("The English sentence (without negation)")]
