@@ -38,10 +38,10 @@ public class FactDisplay : MonoBehaviour
 
     private void OnClicked()
     {
-
+        string justification = "From given fact: " + factIDText.text + ".";
         if (proofController != null)
         {
-            proofController.AddProofLine(englishText.text, factIDText.text);
+            proofController.AddProofLine(englishText.text, factIDText.text, justification);
             Debug.Log($"[CLICK] Proof line added: {factIDText.text}");
         }
         else
