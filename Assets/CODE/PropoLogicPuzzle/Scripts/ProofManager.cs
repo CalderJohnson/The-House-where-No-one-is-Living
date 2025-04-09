@@ -38,7 +38,26 @@ public class ProofController : MonoBehaviour
     }
 
     void Start()
-    {   
+    {       
+        EnglishTranslator.GetRawFactText = (varName) =>
+        {
+            // First check the facts
+            foreach (var fact in currentPuzzle.facts)
+            {
+                if (fact.factID == varName)
+                    return fact.rawFactText;
+            }
+
+            // Then check the conclusion (if it's not already in the facts list)
+            if (currentPuzzle.conclusion != null && currentPuzzle.conclusion.factID == varName)
+            {
+                return currentPuzzle.conclusion.rawFactText;
+            }
+
+            // Fallback
+            return varName;
+        };
+
         isPaused = true;
         propoBook.SetActive(true); // Show the pause menu
         Time.timeScale = 0f;
@@ -284,9 +303,9 @@ public class ProofController : MonoBehaviour
                 RuleOption option = new RuleOption
                 {
                     ruleName = rule.ruleName + " (Fwd)",
-                    englishPreview = rule.englishDescription + " (forward)",
-                    resultingEnglish = selectedLine.englishText.text + " (via " + rule.ruleName + " forward)",
-                    resultingLogic = transformedExpr.ToLogicString()
+                    resultingLogic = transformedExpr.ToLogicString(),
+                    resultingEnglish = EnglishTranslator.TranslateProperFactTextWithCache(transformedExpr),
+                    justification = $"From Line {selectedLine.lineNumber}: {rule.englishDescription} [Forward]"
                 };
                 options.Add(option);
                 Debug.Log($"Added forward rule option: {option.ruleName}, Logic: {option.resultingLogic}");
@@ -306,9 +325,9 @@ public class ProofController : MonoBehaviour
                     RuleOption reverseOption = new RuleOption
                     {
                         ruleName = rule.ruleName + " (Rev)",
-                        englishPreview = rule.englishDescription + " (reverse)",
-                        resultingEnglish = selectedLine.englishText.text + " (via " + rule.ruleName + " reverse)",
-                        resultingLogic = reverseExpr.ToLogicString()
+                        resultingLogic = reverseExpr.ToLogicString(),
+                        resultingEnglish = EnglishTranslator.TranslateProperFactTextWithCache(reverseExpr),
+                        justification = $"From Line {selectedLine.lineNumber}: {rule.englishDescription} [Reverse]"
                     };
                     options.Add(reverseOption);
                     Debug.Log($"Added reverse rule option: {reverseOption.ruleName}, Logic: {reverseOption.resultingLogic}");
@@ -333,9 +352,9 @@ public class ProofController : MonoBehaviour
                 RuleOption option = new RuleOption
                 {
                     ruleName = i2Rule.ruleName,
-                    englishPreview = i2Rule.englishDescription,
-                    resultingEnglish = selectedLine.englishText.text + " (via " + i2Rule.ruleName + ")",
-                    resultingLogic = transformedExpr.ToLogicString()
+                    resultingLogic = transformedExpr.ToLogicString(),
+                    resultingEnglish = EnglishTranslator.TranslateProperFactTextWithCache(transformedExpr),
+                    justification = $"From Line {selectedLine.lineNumber}: {i2Rule.englishDescription}"
                 };
                 options.Add(option);
                 Debug.Log($"Added inference rule option: {option.ruleName}, Logic: {option.resultingLogic}");
@@ -575,13 +594,12 @@ public class ProofController : MonoBehaviour
                     continue;
                 }
 
-                string justification = $"From Lines {line1.lineNumber} and {line2.lineNumber}: {rule.ruleName} {rule.englishDescription}";
                 RuleOption option = new RuleOption
                 {
                     ruleName = rule.ruleName,
-                    englishPreview = rule.englishDescription,
-                    resultingEnglish = justification,
-                    resultingLogic = resultExpr.ToLogicString()
+                    resultingLogic = resultExpr.ToLogicString(),
+                    resultingEnglish = EnglishTranslator.TranslateProperFactTextWithCache(resultExpr),
+                    justification = $"From Lines {line1.lineNumber} and {line2.lineNumber}: {rule.englishDescription}"
                 };
 
                 Debug.Log($"Added new rule option: {option.ruleName} -> {option.resultingLogic}");
@@ -598,13 +616,12 @@ public class ProofController : MonoBehaviour
                 // For I1, we use the full lines as candidates.
                 ExpressionNode disjunction = new OperatorNode(OperatorType.Or, expr1, expr2);
 
-                string justification = $"From Lines {line1.lineNumber} and {line2.lineNumber}: {rule.ruleName} {rule.englishDescription}";
                 RuleOption option = new RuleOption
                 {
                     ruleName = rule.ruleName,
-                    englishPreview = rule.englishDescription,
-                    resultingEnglish = justification,
-                    resultingLogic = disjunction.ToLogicString()
+                    resultingLogic = disjunction.ToLogicString(),
+                    resultingEnglish = EnglishTranslator.TranslateProperFactTextWithCache(disjunction),
+                    justification = $"From Lines {line1.lineNumber} and {line2.lineNumber}: {rule.englishDescription}"
                 };
                 options.Add(option);
                 Debug.Log($"Added addition rule option: {option.ruleName}, resulting logic: {option.resultingLogic}");
@@ -636,7 +653,7 @@ public class ProofController : MonoBehaviour
     {
         Debug.Log("Applying Combination Rule...");
         // In combination, the justification includes both involved line numbers.
-        AddProofLine(option.resultingEnglish, option.resultingLogic, option.resultingEnglish);
+        AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
         ruleOptionsPanel.SetActive(false);
 
         CleanupCombineMode();
@@ -650,7 +667,7 @@ public class ProofController : MonoBehaviour
         Debug.Log($"Applying rule: {option.ruleName} to line {proofLine.lineNumber}");
 
         // Create the new proof line based on the rule application
-        AddProofLine(option.resultingEnglish, option.resultingLogic, option.resultingEnglish);
+        AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
 
         // Hide rule options panel after a rule is selected
         ruleOptionsPanel.SetActive(false);
@@ -665,6 +682,8 @@ public class ProofController : MonoBehaviour
     {
         // Enable the closing animation to be played
         Book.SetBool("Tab2Close", true);
+
+        EnglishTranslator.ClearCache();
 
         // Resume time before waiting for animation
         Time.timeScale = 1f; 

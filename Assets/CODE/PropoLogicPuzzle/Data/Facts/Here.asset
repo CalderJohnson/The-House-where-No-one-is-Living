@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Here
   m_EditorClassIdentifier: 
   factID: H
+  rawFactText: I've (not) been here alone all morning
   englishSentence: I've been here in the forest alone all morning.
   negatedEnglishSentence: I have not been in the forest alone all morning.
