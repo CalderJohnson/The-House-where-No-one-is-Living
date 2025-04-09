@@ -44,8 +44,14 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         }
     }
 
+
+    private bool isInteracting = false;
+
     public IEnumerator Interact(Transform playerTransform)
     {
+        if (isInteracting) yield break; // Ignore input if already interacting
+
+        isInteracting = true; // Mark as interacting
         Debug.Log($"[ObjectInteract] Interact() called on {gameObject.name}");
 
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
@@ -76,6 +82,10 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         }
 
         Object_Action.Invoke();
+
+        yield return new WaitForSeconds(0.2f); 
+
+        isInteracting = false; 
 
         if (interactionLimit > 0 && interactionCount >= interactionLimit)
         {
@@ -128,14 +138,20 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         return Vector3.Dot(requiredDirection, toObject) > 0.5f;
     }
 
-    public void UpdateIconVisibility(float distance, float interactionRange, Transform playerTransform)
+    public void UpdateIconVisibility(float distance, float interactionRange, Transform playerTransform, bool isClosest)
     {
         if (interactionIcon == null || (interactionLimit > 0 && interactionCount >= interactionLimit))
             return;
 
         bool facingCorrectDirection = useDirectionalInteraction ? IsPlayerFacingCorrectDirection(playerTransform) : true;
+
+        if (!isClosest || !facingCorrectDirection)
+        {
+            interactionIcon.SetActive(false);
+            return;
+        }
+
         float alpha = Mathf.Clamp01(1 - (distance / interactionRange));
-        bool isVisible = alpha > 0 && facingCorrectDirection;
 
         Color newColor = (distance <= 1.0f) ? Color.yellow : Color.white;
         newColor.a = alpha;
@@ -149,7 +165,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
             cg.alpha = alpha;
         }
 
-        interactionIcon.SetActive(isVisible);
+        interactionIcon.SetActive(true);
     }
 
     public void LoadData(GameData data)

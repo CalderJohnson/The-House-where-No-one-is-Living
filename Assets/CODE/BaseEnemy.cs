@@ -115,7 +115,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             StartCoroutine(DelayThenWander(1f));
         }
-        //Debug.Log("Wandering...");
+        Debug.Log("Wandering...");
     }
 
     protected virtual void ChaseBehavior()
@@ -124,27 +124,27 @@ public abstract class BaseEnemy : MonoBehaviour
         if (target != null)
         {
             pathfindingAgent.SetDestination(target.position);
-            //Debug.Log($"Chasing Position: x={target.position.x}, y={target.position.y}, z={target.position.z}");
+            Debug.Log($"Chasing Position: x={target.position.x}, y={target.position.y}, z={target.position.z}");
         }
     }
 
     protected virtual void AttackCloseBehavior()
     {
-        //Debug.Log("Attacking close!");
+        Debug.Log("Attacking close!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }
 
     protected virtual void BlockBehavior()
     {
-        //Debug.Log("Blocking!");
+        Debug.Log("Blocking!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }
 
     protected virtual void AttackRangedBehavior()
     {
-        //Debug.Log("Attacking Ranged!");
+        Debug.Log("Attacking Ranged!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }

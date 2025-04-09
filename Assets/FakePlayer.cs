@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,7 +53,11 @@ public class FakePlayer : BaseEnemy
     private void Reset()
     {
         // Reset health
-        health = maxHealth;
+        System.Random rng = new System.Random();
+        int rand1 = rng.Next(1, 50);
+
+        health = rand1;
+        Debug.Log($"Health set to {health}");
         healthbar.SetHealth(maxHealth);
 
         // Reset position (TODO: randomize position (currently annoying to do due to rotation))
