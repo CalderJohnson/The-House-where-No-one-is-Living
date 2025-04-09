@@ -35,10 +35,11 @@ public class GivenRuleDisplay : MonoBehaviour
             ruleEnglishText.text = rule.englishForm;
     }
     private void OnClicked()
-    {
+    {   
+        string justification = "From given rule: " + ruleLogicalText.text + ".";
         if (proofController != null)
         {
-            proofController.AddProofLine(ruleEnglishText.text, ruleLogicalText.text);
+            proofController.AddProofLine(ruleEnglishText.text, ruleLogicalText.text, justification);
             Debug.Log($"[CLICK] Proof line added: {ruleLogicalText.text}");
         }
         else

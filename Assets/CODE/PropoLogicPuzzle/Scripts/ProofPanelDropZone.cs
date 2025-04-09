@@ -16,7 +16,7 @@ public class ProofPanelDropZone : MonoBehaviour, IDropHandler
             if (proofLine != null)
             {
                 Debug.Log("Dropped proof line: " + proofLine.logicText.text);
-                proofController.AddProofLine(proofLine.logicText.text, "Added via drag and drop");
+                // proofController.AddProofLine(proofLine.logicText.text, "Added via drag and drop");
             }
         }
     }

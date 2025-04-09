@@ -14,8 +14,13 @@ public class LogicParser
         pos = 0;
         NextToken();
         ExpressionNode expr = ParseImplication();
+
+        // Log what remains in the input.
+        string remaining = pos < input.Length ? input.Substring(pos) : "";
+        UnityEngine.Debug.Log("Input: '" + input + "', pos: " + pos + ", remaining: '" + remaining + "'");
+        
         if (currentToken.type != TokenType.End)
-            throw new Exception("Unexpected token at end of expression.");
+            throw new Exception("Unexpected token at end of expression: " + currentToken);
         return expr;
     }
 
@@ -129,13 +134,28 @@ public class LogicParser
         if (pos >= input.Length)
         {
             currentToken = new Token(TokenType.End, "");
+            UnityEngine.Debug.Log("Token: End");
             return;
         }
 
         char ch = input[pos];
-        if (char.IsLetter(ch))
+        if (ch == 'v') // Or letter "v" first, or else it'll incorrectly be classed as a variable.
         {
-            // Read an identifier or constant (like true/false)
+            pos++;
+            currentToken = new Token(TokenType.Or, "v");
+        }
+        else if (ch == '~')
+        {
+            pos++;
+            currentToken = new Token(TokenType.Not, "~");
+        }
+        else if (ch == '^')
+        {
+            pos++;
+            currentToken = new Token(TokenType.And, "^");
+        }
+        else if (char.IsLetter(ch))
+        {
             StringBuilder sb = new StringBuilder();
             while (pos < input.Length && char.IsLetter(input[pos]))
             {
@@ -148,24 +168,8 @@ public class LogicParser
             else
                 currentToken = new Token(TokenType.Variable, ident);
         }
-        else if (ch == '~')
-        {
-            pos++;
-            currentToken = new Token(TokenType.Not, "~");
-        }
-        else if (ch == '^')
-        {
-            pos++;
-            currentToken = new Token(TokenType.And, "^");
-        }
-        else if (ch == 'v')
-        {
-            pos++;
-            currentToken = new Token(TokenType.Or, "v");
-        }
         else if (ch == '=')
         {
-            // Could be "=>" for implies.
             pos++;
             if (pos < input.Length && input[pos] == '>')
             {
@@ -179,7 +183,6 @@ public class LogicParser
         }
         else if (ch == '<')
         {
-            // Expecting "<=>"
             pos++;
             if (pos < input.Length && input[pos] == '=')
             {
@@ -211,6 +214,8 @@ public class LogicParser
         {
             throw new Exception("Unrecognized character: " + ch);
         }
+        
+        // UnityEngine.Debug.Log("Token: " + currentToken.text + " (Type: " + currentToken.type + ")");
     }
 
     private void SkipWhiteSpace()

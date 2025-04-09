@@ -24,6 +24,5 @@ public class NPCInteraction : MonoBehaviour, IInteractable
         // Display the dialogue (Replace this with your actual dialogue system)
         Debug.Log(dialogueToShow);
 
-
     }
 }

@@ -22,7 +22,7 @@ MonoBehaviour:
   - logicalForm: H ^ I => ~A
     englishForm: If I've been here alone the whole morning and he came from inside
       the forest, then he can't have just arrived.
-  - logicalForm: (T v F) ^ I => C
+  - logicalForm: ((T v F) ^ I) => C
     englishForm: If the tent was wet from this morning or the fire was still warm,
       and he came from inside the forest, then he was camping.
   - logicalForm: ~A ^ (T v F) => C
@@ -35,5 +35,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e95f42309170946c9957b0808e43e9dd, type: 2}
   - {fileID: 11400000, guid: 300ef366e8cd04534865e830a03d81d3, type: 2}
   conclusion: {fileID: 11400000, guid: 929fe7c8ffe764b36a1b991673bf327f, type: 2}
-  maxProofLines: 10
+  maxProofLines: 11
   useProofByContradiction: 0
