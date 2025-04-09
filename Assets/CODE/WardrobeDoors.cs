@@ -88,9 +88,17 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
     private void UpdateDecisionNode()
     {
-        DataPersistenceManager.Instance.gameData.currentDecisionNode = decisionNodeID;
-        DataPersistenceManager.Instance.SaveGame();
-        Debug.Log($"Decision node updated to: {decisionNodeID}");
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
+        }
     }
 
     public void LoadData(GameData data)

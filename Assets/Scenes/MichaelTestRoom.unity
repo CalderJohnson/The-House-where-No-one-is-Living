@@ -329,6 +329,8 @@ MonoBehaviour:
   requiredItem: Key
   loadNewScene: 0
   sceneName: 
+  changeDecisionNode: 0
+  newNodeName: 
 --- !u!65 &53873336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6353,8 +6355,18 @@ PrefabInstance:
       objectReference: {fileID: 53873333}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
+      propertyPath: newNodeName
+      value: openDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
       propertyPath: loadNewScene
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: changeDecisionNode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8520984159587631129, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -6832,11 +6844,16 @@ PrefabInstance:
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: decisionNodeID
-      value: WardrobeOpened
+      value: KeyCollected
       objectReference: {fileID: 0}
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: affectsDecisionTree
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: updateOnItemCollection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8092233094556268855, guid: 0515f9549f8cc8d459805d68b8879248,

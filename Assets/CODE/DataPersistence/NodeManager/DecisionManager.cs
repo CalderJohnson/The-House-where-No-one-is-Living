@@ -26,14 +26,14 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     private void CreateDecisionTree()
     {
         // Declare the nodes
-        DecisionNode startNode = new DecisionNode("Start", new string[] { "WardrobeOpened", "TalkedToNPCFirst" });
-        DecisionNode wardrobeOpened = new DecisionNode("WardrobeOpened", new string[] {  });
-        DecisionNode talkedToNPCFirst = new DecisionNode("TalkedToNPCFirst", new string[] {  });
+        DecisionNode startNode = new DecisionNode("Start", new string[] { "KeyCollected" });
+        DecisionNode keyCollected = new DecisionNode("KeyCollected", new string[] { "OpenDoor"  });
+        DecisionNode openDoor = new DecisionNode("OpenDoor", new string[] { });
 
         // Store the nodes in the decision tree
         decisionTree[startNode.nodeID] = startNode;
-        decisionTree[wardrobeOpened.nodeID] = wardrobeOpened;
-        decisionTree[talkedToNPCFirst.nodeID] = talkedToNPCFirst;
+        decisionTree[keyCollected.nodeID] = keyCollected;
+        decisionTree[openDoor.nodeID] = openDoor;
 
         // Set the current node to the starting point
         currentNode = startNode;
