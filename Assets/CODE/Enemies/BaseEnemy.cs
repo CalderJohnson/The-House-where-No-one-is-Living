@@ -13,7 +13,6 @@ public abstract class BaseEnemy : MonoBehaviour
     protected float health;
     protected float vision;
     protected float attackRangeClose;
-    protected float blockStartTime;
 
     // Params for agent to modify
     protected float retreatThreshold;
@@ -23,7 +22,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
     // References held
     public GameObject targetRef;
-    public GameObject floor = null; // For training
     protected Transform target;
     protected Vector3 wanderTarget;
     protected NavMeshAgent pathfindingAgent;
@@ -32,6 +30,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected float lastShotTime = -1;
     protected float lastWanderTime = -1; // Prevent enemy from trying to wander somewhere it can't go
+    protected float blockStartTime;
 
     protected StateMachine fsm = new StateMachine();
 
