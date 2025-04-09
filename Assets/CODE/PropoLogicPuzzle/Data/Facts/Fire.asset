@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   factID: F
+  rawFactText: the fire's (not) warm
   englishSentence: The fire's still warm.
   negatedEnglishSentence: The fire is not warm.

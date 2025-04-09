@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Camping
   m_EditorClassIdentifier: 
   factID: C
+  rawFactText: he was (not) camping in front of the house
   englishSentence: He was camping in front of the house.
   negatedEnglishSentence: He wasn't camping in front of the house.
