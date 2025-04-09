@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Healthbar : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Healthbar : MonoBehaviour
     private float lastDamageTime; // Timestamp of when damage was last taken (for regeneration control)
     private bool died; // Did this entity die? Used in adaptive enemy training
     public event Action OnDeath; // Event triggered when health reaches zero
+    public UnityEvent Ragdoll;
 
     public void Initialize(float initialHealth)
     {
@@ -54,5 +56,6 @@ public class Healthbar : MonoBehaviour
         Debug.Log($"{gameObject.name} has died.");
         died = true;
         OnDeath?.Invoke(); // Invoke the death event
+        Ragdoll.Invoke();
     }
 }
