@@ -29,15 +29,10 @@ public class GivenRuleDisplay : MonoBehaviour
     
     public void Setup(GivenRule rule)
     {
-        if(ruleLogicalText != null){
+        if(ruleLogicalText != null)
             ruleLogicalText.text = rule.logicalForm;
-        }
-        if(ruleEnglishText != null) {
-            LogicParser parser = new LogicParser();
-            ExpressionNode expr = parser.Parse(rule.logicalForm);
-            // Debug.Log("Hi! Does this get executed? " + expr.ToLogicString());
-            ruleEnglishText.text = EnglishTranslator.TranslateProperFactTextWithCache(expr);
-        }
+        if(ruleEnglishText != null)
+            ruleEnglishText.text = rule.englishForm;
     }
     private void OnClicked()
     {   

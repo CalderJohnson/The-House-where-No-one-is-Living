@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Arrive
   m_EditorClassIdentifier: 
   factID: A
-  rawFactText: he did (not) just arrive in the forest
   englishSentence: He said he just arrived in the forest.
   negatedEnglishSentence: He was already in the forest.

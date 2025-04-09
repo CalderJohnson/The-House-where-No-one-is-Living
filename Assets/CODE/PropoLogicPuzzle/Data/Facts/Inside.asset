@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Inside
   m_EditorClassIdentifier: 
   factID: I
-  rawFactText: he did (not) come from inside the forest
   englishSentence: He came from inside the forest.
   negatedEnglishSentence: He came from outside the forest.

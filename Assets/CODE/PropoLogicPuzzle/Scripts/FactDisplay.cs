@@ -30,14 +30,10 @@ public class FactDisplay : MonoBehaviour
 
     public void Setup(Fact fact)
     {
-        if (factIDText != null) {
+        if (factIDText != null)
             factIDText.text = fact.factID;
-        }
-        if (englishText != null) {
-            LogicParser parser = new LogicParser();
-            ExpressionNode expr = parser.Parse(fact.factID);
-            englishText.text = EnglishTranslator.TranslateProperFactTextWithCache(expr);
-        }
+        if (englishText != null)
+            englishText.text = fact.englishSentence;
     }
 
     private void OnClicked()

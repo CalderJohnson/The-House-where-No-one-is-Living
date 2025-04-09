@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Tent
   m_EditorClassIdentifier: 
   factID: T
-  rawFactText: the tent's (not) wet from the morning rain
   englishSentence: The tent's wet from the morning rain.
   negatedEnglishSentence: The tent's not wet from the morning rain.
