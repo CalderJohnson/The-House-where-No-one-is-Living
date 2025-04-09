@@ -11,6 +11,7 @@ public class DoorScript : MonoBehaviour
     public AudioSource doorAudioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
+    public AudioClip rattlingSound; // New sound for rattling
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
@@ -33,7 +34,6 @@ public class DoorScript : MonoBehaviour
 
     private void Start()
     {
-        // Get reference to the player's inventory
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
@@ -48,6 +48,7 @@ public class DoorScript : MonoBehaviour
         if (isOneWay)
         {
             Debug.Log("This door is one-way and cannot be re-entered.");
+            PlayRattlingSound(); // Play rattling sound when trying to open a one-way door
             return; // Prevent entering the door again
         }
 
@@ -78,6 +79,7 @@ public class DoorScript : MonoBehaviour
         else
         {
             Debug.Log("You need " + requiredItem + " to open this door!");
+            PlayRattlingSound(); // Play rattling sound when trying to open a locked door
         }
     }
 
@@ -112,18 +114,15 @@ public class DoorScript : MonoBehaviour
         player.transform.position = new Vector3(x, y, z);
         player.SetActive(true);
 
-        // If the door is the first door (Door 1), and we're going through it, set Door 2 as one-way
         if (linkedDoor != null && linkedDoor.isOneWay)
         {
-            linkedDoor.isOneWay = true; // Lock the second door permanently
+            linkedDoor.isOneWay = true; 
         }
 
-        // Call the method to update the decision node if applicable
         UpdateDecisionNodeOnDoorEntry();
 
         yield return new WaitForSeconds(0.1f);
 
-        // Close both doors
         if (doorAnimator != null)
         {
             doorAnimator.Play("DoorClose");
@@ -153,6 +152,16 @@ public class DoorScript : MonoBehaviour
             {
                 Debug.LogWarning($"Failed to update decision node to: {newNodeName}");
             }
+        }
+    }
+
+    // Play rattling sound
+    private void PlayRattlingSound()
+    {
+        if (rattlingSound != null)
+        {
+            doorAudioSource.clip = rattlingSound;
+            doorAudioSource.Play();
         }
     }
 }
