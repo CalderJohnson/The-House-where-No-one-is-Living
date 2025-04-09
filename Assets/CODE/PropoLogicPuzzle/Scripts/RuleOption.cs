@@ -2,7 +2,7 @@
 public class RuleOption
 {
     public string ruleName;
-    public string englishPreview;
     public string resultingEnglish;
     public string resultingLogic;
+    public string justification;
 }

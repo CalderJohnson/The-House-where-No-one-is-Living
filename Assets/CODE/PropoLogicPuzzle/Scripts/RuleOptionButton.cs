@@ -58,9 +58,7 @@ public class RuleOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (ruleOptionPreviewDisplay != null)
         {
-            ruleOptionPreviewDisplay.text = !string.IsNullOrEmpty(option.englishPreview)
-                ? option.englishPreview
-                : $"{ruleNameText.text}'s English equivalent will go here";
+            ruleOptionPreviewDisplay.text = option.resultingEnglish;
 
             Debug.Log($"[RuleOptionButton] Preview updated on hover: {ruleOptionPreviewDisplay.text}");
         }
@@ -96,6 +94,7 @@ public class RuleOptionButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
 
         controller.ApplyRuleOption(associatedProofLine, option);
+        ruleOptionPreviewDisplay.text = ""; // Clear preview text
         Debug.Log($"[RuleOptionButton] Rule applied successfully: {option.ruleName}");
     }
 }
