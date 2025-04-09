@@ -3,53 +3,62 @@ using System.Collections.Generic;
 
 public class DecisionManager : MonoBehaviour, IDataPersistence
 {
-    public static DecisionManager Instance;
+    public static DecisionManager Instance { get; private set; } 
 
     private Dictionary<string, DecisionNode> decisionTree = new Dictionary<string, DecisionNode>();
-    private List<string> pathTaken = new List<string>(); // Stores nodes visited in order
-    private string currentNode = "Start"; // Track where the player is
+    private List<string> pathTaken = new List<string>();
+    private DecisionNode currentNode;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-            CreateDecisionTree();
+            DontDestroyOnLoad(gameObject); 
+            CreateDecisionTree(); 
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); 
         }
     }
 
     private void CreateDecisionTree()
     {
-        DecisionNode startNode = new DecisionNode("Start", "You see a wardrobe and an NPC.");
-        DecisionNode wardrobeOpened = new DecisionNode("WardrobeOpened", "You opened the wardrobe before talking to the NPC.");
-        DecisionNode talkedToNPCFirst = new DecisionNode("TalkedToNPCFirst", "You talked to the NPC before opening the wardrobe.");
+        // Declare the nodes
+        DecisionNode startNode = new DecisionNode("Start", new string[] { "KeyCollected" });
+        DecisionNode keyCollected = new DecisionNode("KeyCollected", new string[] { "OpenDoor"  });
+        DecisionNode openDoor = new DecisionNode("OpenDoor", new string[] { });
 
-        startNode.AddChoice("Open the wardrobe", "WardrobeOpened");
-        startNode.AddChoice("Talk to the NPC", "TalkedToNPCFirst");
-
-        // Store nodes
+        // Store the nodes in the decision tree
         decisionTree[startNode.nodeID] = startNode;
-        decisionTree[wardrobeOpened.nodeID] = wardrobeOpened;
-        decisionTree[talkedToNPCFirst.nodeID] = talkedToNPCFirst;
+        decisionTree[keyCollected.nodeID] = keyCollected;
+        decisionTree[openDoor.nodeID] = openDoor;
+
+        // Set the current node to the starting point
+        currentNode = startNode;
     }
 
-
-    public void SetCurrentNode(string nodeID)
+    public bool SetCurrentNode(string nodeID)
     {
-            pathTaken.Add(currentNode);
-          
-            currentNode = nodeID;
-            Debug.Log("Current node set to: " + currentNode);
+        if (currentNode.connectedNodes.Contains(nodeID))  
+        {
+            pathTaken.Add(currentNode.nodeID);  // Store previous node
+            currentNode = decisionTree[nodeID]; // change node
+            Debug.Log("Current node set to: " + currentNode.nodeID);
+
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning("Node ID " + nodeID + " is not a valid option from " + currentNode.nodeID);
+            return false; 
+        }
     }
 
     public DecisionNode GetCurrentNode()
     {
-        return decisionTree.ContainsKey(currentNode) ? decisionTree[currentNode] : null;
+        return currentNode;
     }
 
     public List<string> GetPathTaken()
@@ -62,13 +71,13 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
         if (data.decisionPath.Count > 0)
         {
             pathTaken = new List<string>(data.decisionPath);
-            currentNode = data.currentDecisionNode;
+            currentNode = decisionTree[data.currentDecisionNode];
         }
     }
 
     public void SaveData(ref GameData data)
     {
-        data.currentDecisionNode = currentNode;
+        data.currentDecisionNode = currentNode.nodeID;
         data.decisionPath = new List<string>(pathTaken);
     }
 }

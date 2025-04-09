@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required for scene management
+using UnityEngine.SceneManagement;
 
 public class DoorScript : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class DoorScript : MonoBehaviour
     public DoorScript linkedDoor; // Reference to the other door's DoorScript
     private bool isDoorActive = true; // To prevent re-triggering while the door is in use
     public AudioSource doorAudioSource;
-    public AudioClip openSound;   // Door sounds
+    public AudioClip openSound;
     public AudioClip closeSound;
     public float x = 0f;
     public float y = 0f;
@@ -21,6 +21,13 @@ public class DoorScript : MonoBehaviour
     [Header("Scene Loading")]
     public bool loadNewScene = false; // Set this to true if this door loads a new scene
     public string sceneName; // Name of the scene to load
+
+    [Header("Decision System")]
+    public bool changeDecisionNode = false; // Set true if you want the door to change decision tree node
+    public string newNodeName; // The name of the node to switch to
+
+    [Header("One-Way Door")]
+    public bool isOneWay = false; // Set true if this door should not be re-entered
 
     private PlayerInventory playerInventory;
 
@@ -37,6 +44,12 @@ public class DoorScript : MonoBehaviour
     public void TriggerDoor()
     {
         if (!isDoorActive) return; // Prevent interaction if the door is already active
+
+        if (isOneWay)
+        {
+            Debug.Log("This door is one-way and cannot be re-entered.");
+            return; // Prevent entering the door again
+        }
 
         if (Inventory.Instance == null)
         {
@@ -80,11 +93,12 @@ public class DoorScript : MonoBehaviour
             doorAudioSource.Play();
         }
 
-        // Open the linked door
+        // Open the linked door (if it's Door 1 -> Door 2)
         if (linkedDoor != null && linkedDoor.doorAnimator != null)
         {
             linkedDoor.doorAnimator.Play("DoorOpen");
         }
+
         yield return new WaitForSeconds(0.1f); // Wait for the linked door to open
 
         doorAudioSource.clip = closeSound;
@@ -97,6 +111,15 @@ public class DoorScript : MonoBehaviour
         player.SetActive(false);
         player.transform.position = new Vector3(x, y, z);
         player.SetActive(true);
+
+        // If the door is the first door (Door 1), and we're going through it, set Door 2 as one-way
+        if (linkedDoor != null && linkedDoor.isOneWay)
+        {
+            linkedDoor.isOneWay = true; // Lock the second door permanently
+        }
+
+        // Call the method to update the decision node if applicable
+        UpdateDecisionNodeOnDoorEntry();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -113,5 +136,23 @@ public class DoorScript : MonoBehaviour
         yield return new WaitForSeconds(1f); // Wait for the doors to close
 
         isDoorActive = true; // Reactivate the door for future use
+    }
+
+    private void UpdateDecisionNodeOnDoorEntry()
+    {
+        if (changeDecisionNode && !string.IsNullOrEmpty(newNodeName))
+        {
+            bool success = DecisionManager.Instance.SetCurrentNode(newNodeName);
+
+            if (success)
+            {
+                DataPersistenceManager.Instance.SaveGame();  // Save the game data after changing the node
+                Debug.Log($"Decision node updated successfully to: {newNodeName}");
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to update decision node to: {newNodeName}");
+            }
+        }
     }
 }
