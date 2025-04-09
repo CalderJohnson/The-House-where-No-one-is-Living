@@ -22,6 +22,11 @@ public class TooltipManager : MonoBehaviour
         tooltipText.text = text;
         tooltipPanel.SetActive(true);
     }
+
+    public void ChangeTooltipText(string text)
+    {
+        tooltipText.text = text;
+    }
     
     public void HideTooltip()
     {

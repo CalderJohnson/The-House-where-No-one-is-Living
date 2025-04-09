@@ -21,7 +21,7 @@ public class ClickableItem : MonoBehaviour
     {
         if (proofController != null)
         {
-            proofController.AddProofLine(factOrRuleText, "Added via click");
+            // proofController.AddProofLine(factOrRuleText, "Added via click");
             Debug.Log($"[CLICK] Added proof line: {factOrRuleText}");
         }
         else

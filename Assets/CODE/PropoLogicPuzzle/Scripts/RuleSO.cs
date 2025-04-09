@@ -25,7 +25,4 @@ public class RuleSO : ScriptableObject
     [Header("English Description")]
     [Tooltip("A brief description (e.g., 'Negation Law (OR)')")]
     public string englishDescription;
-    
-    [Tooltip("Enable/disable this rule for the current puzzle")]
-    public bool enabledInPuzzle = true;
 }
