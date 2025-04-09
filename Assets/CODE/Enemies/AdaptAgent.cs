@@ -21,7 +21,7 @@ public class AdaptAgent : Agent
     private float baselineEnemyHealth;
 
     // Variables to control the fight phase
-    private bool isFighting = false;
+    private bool isFighting = true;
     private float fightTimer = 0f;
     private readonly float fightDuration = 3.0f; // Fight phase lasts 3 seconds
 
@@ -124,7 +124,7 @@ public class AdaptAgent : Agent
     void Update()
     {
         // If in fight phase, accumulate time until 3 seconds have elapsed
-        Debug.Log($"Update Ocurred, is fighting: {isFighting}");
+        //Debug.Log($"Update Ocurred, is fighting: {isFighting}");
         if (isFighting)
         {
             fightTimer += Time.deltaTime;
