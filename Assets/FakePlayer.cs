@@ -54,11 +54,11 @@ public class FakePlayer : BaseEnemy
     {
         // Reset health
         System.Random rng = new System.Random();
-        int rand1 = rng.Next(1, 50);
+        int rand1 = rng.Next(10, 80);
 
         health = rand1;
         Debug.Log($"Health set to {health}");
-        healthbar.SetHealth(maxHealth);
+        healthbar.SetHealth(health);
 
         // Reset position (TODO: randomize position (currently annoying to do due to rotation))
         transform.position = new Vector3(-12.2f, -4f, -0.5f);

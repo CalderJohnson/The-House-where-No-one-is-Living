@@ -24,12 +24,12 @@ public class NPCInteraction : MonoBehaviour, IInteractable
         // Display the dialogue (Replace this with your actual dialogue system)
         Debug.Log(dialogueToShow);
 
-        // Update the decision tree if needed
-        if (affectsDecisionTree && DecisionManager.Instance.CanMoveToNode(decisionNodeID))
-        {
-            DecisionManager.Instance.SetCurrentNode(decisionNodeID);
-            DataPersistenceManager.Instance.SaveGame(); // Save game after updating node
-            Debug.Log($"Decision node updated to: {decisionNodeID}");
-        }
+        //// Update the decision tree if needed
+        //if (affectsDecisionTree && DecisionManager.Instance.CanMoveToNode(decisionNodeID))
+        //{
+        //    DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+        //    DataPersistenceManager.Instance.SaveGame(); // Save game after updating node
+        //    Debug.Log($"Decision node updated to: {decisionNodeID}");
+        //}
     }
 }

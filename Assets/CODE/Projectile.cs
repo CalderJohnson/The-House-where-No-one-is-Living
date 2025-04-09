@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Healthbar>().TakeDamage(damage);
-            Debug.Log("Ranged hit enemy");
+            // Debug.Log("Ranged hit enemy");
             Destroy(gameObject); // Destroy the projectile on impact
         }
     }

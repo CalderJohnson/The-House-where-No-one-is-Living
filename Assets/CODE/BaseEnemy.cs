@@ -31,6 +31,7 @@ public abstract class BaseEnemy : MonoBehaviour
     public event System.Action OnDeath; // Event for death notification
 
     protected float lastShotTime = -1;
+    protected float lastWanderTime = -1; // Prevent enemy from trying to wander somewhere it can't go
 
     protected StateMachine fsm = new StateMachine();
 
@@ -111,11 +112,11 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void WanderBehavior()
     {
         pathfindingAgent.Resume();
-        if (Vector3.Distance(transform.position, wanderTarget) < 2f)
+        if (Vector3.Distance(transform.position, wanderTarget) < 2f || (Time.time - lastWanderTime) > 3f)
         {
             StartCoroutine(DelayThenWander(1f));
         }
-        Debug.Log("Wandering...");
+        //Debug.Log("Wandering...");
     }
 
     protected virtual void ChaseBehavior()
@@ -124,27 +125,27 @@ public abstract class BaseEnemy : MonoBehaviour
         if (target != null)
         {
             pathfindingAgent.SetDestination(target.position);
-            Debug.Log($"Chasing Position: x={target.position.x}, y={target.position.y}, z={target.position.z}");
+            //Debug.Log($"Chasing Position: x={target.position.x}, y={target.position.y}, z={target.position.z}");
         }
     }
 
     protected virtual void AttackCloseBehavior()
     {
-        Debug.Log("Attacking close!");
+        //Debug.Log("Attacking close!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }
 
     protected virtual void BlockBehavior()
     {
-        Debug.Log("Blocking!");
+        //Debug.Log("Blocking!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }
 
     protected virtual void AttackRangedBehavior()
     {
-        Debug.Log("Attacking Ranged!");
+        //Debug.Log("Attacking Ranged!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
     }
@@ -184,6 +185,7 @@ public abstract class BaseEnemy : MonoBehaviour
     IEnumerator DelayThenWander(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        lastWanderTime = Time.time;
         SetWanderTarget();
     }
 }

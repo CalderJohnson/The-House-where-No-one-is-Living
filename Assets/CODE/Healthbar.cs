@@ -7,6 +7,7 @@ public class Healthbar : MonoBehaviour
 {
     private float health;
     private float lastDamageTime; // Timestamp of when damage was last taken (for regeneration control)
+    private bool died; // Did this entity die? Used in adaptive enemy training
     public event Action OnDeath; // Event triggered when health reaches zero
 
     public void Initialize(float initialHealth)
@@ -19,7 +20,7 @@ public class Healthbar : MonoBehaviour
     {
         health -= damage;
         lastDamageTime = Time.time;
-        Debug.Log($"Health remaining: {health}");
+        // Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
             Die();
@@ -41,9 +42,17 @@ public class Healthbar : MonoBehaviour
         return lastDamageTime;
     }
 
+    public bool DiedRecently()
+    {
+        bool temp = died;
+        died = false;
+        return temp;
+    }
+
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
+        died = true;
         OnDeath?.Invoke(); // Invoke the death event
     }
 }

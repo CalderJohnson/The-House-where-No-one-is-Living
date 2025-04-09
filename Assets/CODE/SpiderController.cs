@@ -14,9 +14,9 @@ public class SpiderController : BaseEnemy
 
     protected override void Start()
     {
-        speed = 5f;
+        speed = setSpeed != 0 ? setSpeed : 5f;
         acceleration = 8f;
-        maxHealth = 80f;
+        maxHealth = setHealth != 0 ? setHealth : 80f;
         vision = 25f;
         attackRangeClose = 2f;
         training = setTraining ? true : false;
@@ -58,11 +58,11 @@ public class SpiderController : BaseEnemy
     {
         // Reset health
         System.Random rng = new System.Random();
-        int rand1 = rng.Next(1, 50);
+        int rand1 = rng.Next(10, 80);
 
         health = rand1;
         Debug.Log($"Health set to {health}");
-        healthbar.SetHealth(maxHealth);
+        healthbar.SetHealth(health);
 
         // Reset position (TODO: randomize position (currently annoying to do due to rotation))
         transform.position = new Vector3(-12.2f, -4f, -0.5f);
