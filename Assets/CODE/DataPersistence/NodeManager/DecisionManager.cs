@@ -26,14 +26,24 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     private void CreateDecisionTree()
     {
         // Declare the nodes
-        DecisionNode startNode = new DecisionNode("Start", new string[] { "KeyCollected" });
-        DecisionNode keyCollected = new DecisionNode("KeyCollected", new string[] { "OpenDoor"  });
-        DecisionNode openDoor = new DecisionNode("OpenDoor", new string[] { });
+        DecisionNode startNode = new DecisionNode("StartLevel1", new string[] { "Level1KeyCollected" });
+        DecisionNode key1Collected = new DecisionNode("Level1KeyCollected", new string[] { "Level1Room1Door" });
+        DecisionNode level1Room1Door = new DecisionNode("Level1Room1Door", new string[] { "Level1SavePrisoner" , "Level1KillPrisoner" , "Level1Boss" });
+        DecisionNode level1SavePrisoner = new DecisionNode("Level1SavePrisoner", new string[] { "Leve1Exit1" });
+        DecisionNode level1KillPrisoner = new DecisionNode("Level1KillPrisoner", new string[] { "Level1Boss" });
+        DecisionNode level1Boss = new DecisionNode("Level1Boss", new string[] { "Leve1Exit2" });
+        DecisionNode leve1Exit1 = new DecisionNode("Leve1Exit1", new string[] { "" });
+        DecisionNode leve1Exit2 = new DecisionNode("Leve1Exit2", new string[] { "" });
 
         // Store the nodes in the decision tree
         decisionTree[startNode.nodeID] = startNode;
-        decisionTree[keyCollected.nodeID] = keyCollected;
-        decisionTree[openDoor.nodeID] = openDoor;
+        decisionTree[key1Collected.nodeID] = key1Collected;
+        decisionTree[level1Room1Door.nodeID] = level1Room1Door;
+        decisionTree[level1SavePrisoner.nodeID] = level1SavePrisoner;
+        decisionTree[level1KillPrisoner.nodeID] = level1KillPrisoner;
+        decisionTree[level1Boss.nodeID] = level1Boss;
+        decisionTree[leve1Exit1.nodeID] = leve1Exit1;
+        decisionTree[leve1Exit2.nodeID] = leve1Exit2;
 
         // Set the current node to the starting point
         currentNode = startNode;
