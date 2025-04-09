@@ -3,29 +3,18 @@ using System.Collections.Generic;
 [System.Serializable]
 public class DecisionNode
 {
-    public string nodeID; // Unique identifier for this node
-    public string description; // What happens at this node
-    public Dictionary<string, string> choices; // Key = choice text, Value = next node ID
-    public List<string> children; // Nodes that this node can lead to
-    public string parent; // The node that led to this one
+    public string nodeID; // Unique identifier
+    public List<string> connectedNodes; // List of connected nodes
 
-    public DecisionNode(string id, string desc)
+    // Constructor 
+    public DecisionNode(string id, string[] connectedNodeIDs)
     {
         nodeID = id;
-        description = desc;
-        choices = new Dictionary<string, string>();
-        children = new List<string>();
-        parent = null; // Default to no parent
+        connectedNodes = new List<string>(connectedNodeIDs);
     }
 
-    public void AddChoice(string choiceText, string nextNodeID)
+    public List<string> GetConnectedNodes()
     {
-        choices[choiceText] = nextNodeID;
-        children.Add(nextNodeID);
-    }
-
-    public void SetParent(string parentNodeID)
-    {
-        parent = parentNodeID;
+        return connectedNodes;
     }
 }

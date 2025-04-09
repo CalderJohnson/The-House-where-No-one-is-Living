@@ -2133,6 +2133,7 @@ MonoBehaviour:
     collectedItems: []
     objectInteractions: []
     currentDecisionNode: start
+    decisionPath: []
 --- !u!4 &812977507
 Transform:
   m_ObjectHideFlags: 0
@@ -7227,22 +7228,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7768370129797716839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7922739444167595041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76af43f35f001a24c877a078ba820161, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRange: 10
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &7922739444167595041
 GameObject:
   m_ObjectHideFlags: 0
@@ -7257,7 +7242,6 @@ GameObject:
   - component: {fileID: 7643281461796178250}
   - component: {fileID: 8472712841000215404}
   - component: {fileID: 8472712841000215403}
-  - component: {fileID: 7768370129797716839}
   - component: {fileID: 2858971733398409441}
   - component: {fileID: 7346724676319337709}
   m_Layer: 0
@@ -7392,9 +7376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRange: 10
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &8472712841000215404
 MonoBehaviour:
   m_ObjectHideFlags: 0
