@@ -12,6 +12,10 @@ public class Healthbar : MonoBehaviour
     public event Action OnDeath; // Event triggered when health reaches zero
     public UnityEvent Ragdoll;
 
+    [Header("Decision System")]
+    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
+    public string decisionNodeID; // The name of the node to switch to
+
     public void Initialize(float initialHealth)
     {
         health = initialHealth;
@@ -56,6 +60,25 @@ public class Healthbar : MonoBehaviour
         Debug.Log($"{gameObject.name} has died.");
         died = true;
         OnDeath?.Invoke(); // Invoke the death event
+        UpdateDecisionNode();
         Ragdoll.Invoke();
     }
+
+    private void UpdateDecisionNode()
+    {
+        if (!affectsDecisionTree) return;
+
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
+        }
+    }
 }
+

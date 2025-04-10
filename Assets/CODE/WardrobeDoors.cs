@@ -58,7 +58,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             Debug.Log($"Wardrobe {wardrobeID} opened.");
 
             // Update decision tree **if we are NOT waiting for item collection**
-            if (affectsDecisionTree && !updateOnItemCollection)
+            if (!updateOnItemCollection)
             {
                 UpdateDecisionNode();
             }
@@ -79,7 +79,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
 
             // Update decision tree **if waiting for item collection**
-            if (affectsDecisionTree && updateOnItemCollection)
+            if (updateOnItemCollection)
             {
                 UpdateDecisionNode();
             }
@@ -88,6 +88,8 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
     private void UpdateDecisionNode()
     {
+        if (!affectsDecisionTree) return;
+
         bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
 
         if (success)

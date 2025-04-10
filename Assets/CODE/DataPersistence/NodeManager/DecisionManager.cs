@@ -24,26 +24,41 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     }
 
     private void CreateDecisionTree()
-    {
-        // Declare the nodes
+    {   
+        // Declare Nodes
+        // Room 1
         DecisionNode startNode = new DecisionNode("StartLevel1", new string[] { "Level1KeyCollected" });
         DecisionNode key1Collected = new DecisionNode("Level1KeyCollected", new string[] { "Level1Room1Door" });
-        DecisionNode level1Room1Door = new DecisionNode("Level1Room1Door", new string[] { "Level1SavePrisoner" , "Level1KillPrisoner" , "Level1Boss" });
-        DecisionNode level1SavePrisoner = new DecisionNode("Level1SavePrisoner", new string[] { "Leve1Exit1" });
+        DecisionNode level1Room1Door = new DecisionNode("Level1Room1Door", new string[] { "Level1KillSpider", "Level1Room2Door" });
+
+        // Room 2
+        DecisionNode level1KillSpider = new DecisionNode("Level1KillSpider", new string[] { "Level1Room2Door" });
+        DecisionNode level1Room2Door = new DecisionNode("Level1Room2Door", new string[] { "Level1SavePrisoner", "Level1KillPrisoner", "Level1Boss" });
+
+        // Prisoner Room
+        DecisionNode level1SavePrisoner = new DecisionNode("Level1SavePrisoner", new string[] { "Level1Exit1" });
         DecisionNode level1KillPrisoner = new DecisionNode("Level1KillPrisoner", new string[] { "Level1Boss" });
-        DecisionNode level1Boss = new DecisionNode("Level1Boss", new string[] { "Leve1Exit2" });
-        DecisionNode leve1Exit1 = new DecisionNode("Leve1Exit1", new string[] { "" });
-        DecisionNode leve1Exit2 = new DecisionNode("Leve1Exit2", new string[] { "" });
+
+        // Boss and ending
+        DecisionNode level1Boss = new DecisionNode("Level1Boss", new string[] { "Level1Exit2" });
+        DecisionNode level1Exit1 = new DecisionNode("Level1Exit1", new string[] { "" });
+        DecisionNode level1Exit2 = new DecisionNode("Level1Exit2", new string[] { "" });
+
 
         // Store the nodes in the decision tree
         decisionTree[startNode.nodeID] = startNode;
         decisionTree[key1Collected.nodeID] = key1Collected;
         decisionTree[level1Room1Door.nodeID] = level1Room1Door;
+
+        decisionTree[level1KillSpider.nodeID] = level1KillSpider;
+        decisionTree[level1Room2Door.nodeID] = level1Room2Door;
+
         decisionTree[level1SavePrisoner.nodeID] = level1SavePrisoner;
         decisionTree[level1KillPrisoner.nodeID] = level1KillPrisoner;
+
         decisionTree[level1Boss.nodeID] = level1Boss;
-        decisionTree[leve1Exit1.nodeID] = leve1Exit1;
-        decisionTree[leve1Exit2.nodeID] = leve1Exit2;
+        decisionTree[level1Exit1.nodeID] = level1Exit1;
+        decisionTree[level1Exit2.nodeID] = level1Exit2;
 
         // Set the current node to the starting point
         currentNode = startNode;
@@ -74,6 +89,11 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     public List<string> GetPathTaken()
     {
         return new List<string>(pathTaken);
+    }
+
+    public bool HasPassedNode(string nodeID)
+    {
+        return pathTaken.Contains(nodeID);
     }
 
     public void LoadData(GameData data)

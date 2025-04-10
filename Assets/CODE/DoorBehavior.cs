@@ -24,8 +24,8 @@ public class DoorScript : MonoBehaviour
     public string sceneName; // Name of the scene to load
 
     [Header("Decision System")]
-    public bool changeDecisionNode = false; // Set true if you want the door to change decision tree node
-    public string newNodeName; // The name of the node to switch to
+    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
+    public string decisionNodeID; // The name of the node to switch to
 
     [Header("One-Way Door")]
     public bool isOneWay = false; // Set true if this door should not be re-entered
@@ -118,7 +118,7 @@ public class DoorScript : MonoBehaviour
             linkedDoor.isOneWay = true; 
         }
 
-        UpdateDecisionNodeOnDoorEntry();
+        UpdateDecisionNode();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -136,21 +136,20 @@ public class DoorScript : MonoBehaviour
         isDoorActive = true; 
     }
 
-    private void UpdateDecisionNodeOnDoorEntry()
+    private void UpdateDecisionNode()
     {
-        if (changeDecisionNode && !string.IsNullOrEmpty(newNodeName))
-        {
-            bool success = DecisionManager.Instance.SetCurrentNode(newNodeName);
+        if (!affectsDecisionTree) return;
 
-            if (success)
-            {
-                DataPersistenceManager.Instance.SaveGame();
-                Debug.Log($"Decision node updated successfully to: {newNodeName}");
-            }
-            else
-            {
-                Debug.LogWarning($"Failed to update decision node to: {newNodeName}");
-            }
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
         }
     }
 
