@@ -66,10 +66,20 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
 
     public bool SetCurrentNode(string nodeID)
     {
-        if (currentNode.connectedNodes.Contains(nodeID))  
+        if (currentNode.connectedNodes.Contains(nodeID))
         {
-            pathTaken.Add(currentNode.nodeID);  // Store previous node
-            currentNode = decisionTree[nodeID]; // change node
+            if (!pathTaken.Contains(currentNode.nodeID))
+            {
+                pathTaken.Add(currentNode.nodeID);  // Store the previous node
+            }
+
+            currentNode = decisionTree[nodeID]; // Change to the new node
+
+            if (!pathTaken.Contains(currentNode.nodeID))
+            {
+                pathTaken.Add(currentNode.nodeID);  // Add the new node to the path immediately
+            }
+
             Debug.Log("Current node set to: " + currentNode.nodeID);
 
             return true;
@@ -77,7 +87,7 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
         else
         {
             Debug.LogWarning("Node ID " + nodeID + " is not a valid option from " + currentNode.nodeID);
-            return false; 
+            return false;
         }
     }
 

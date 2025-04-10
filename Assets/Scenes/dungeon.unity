@@ -8859,6 +8859,111 @@ Transform:
   - {fileID: 1668993053}
   m_Father: {fileID: 1935043414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &756139188
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1659342318}
+    m_Modifications:
+    - target: {fileID: 1646698399973804063, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 886334577}
+    - target: {fileID: 1646698399973804063, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: targetRef
+      value: 
+      objectReference: {fileID: 987404915}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.360245
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.5099945
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929773228896938335, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929773228896938335, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527432149592248627, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_Name
+      value: SpiderEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4527432149592248627, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d2288d3f3f7ce6d488e2411aa17534ce, type: 3}
+--- !u!4 &756139189 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2942398995136979251, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 756139188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &756139190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4527432149592248627, guid: d2288d3f3f7ce6d488e2411aa17534ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 756139188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &762191013
 GameObject:
   m_ObjectHideFlags: 0
@@ -14906,6 +15011,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1662206757}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TriggerPunishment
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PunishmentTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: Object_Action.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: x
@@ -20404,6 +20544,7 @@ Transform:
   - {fileID: 123690381}
   - {fileID: 1645158}
   - {fileID: 140214754}
+  - {fileID: 756139189}
   - {fileID: 580659703}
   - {fileID: 481436841}
   - {fileID: 1324048812}
@@ -20437,7 +20578,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetNodeID: Level1KillSpider
   triggerIfNodeNotPassed: 1
-  enemiesToReveal: []
+  enemiesToReveal:
+  - {fileID: 756139190}
 --- !u!1 &1668993052
 GameObject:
   m_ObjectHideFlags: 0

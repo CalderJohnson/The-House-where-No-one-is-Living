@@ -6,9 +6,6 @@ public class PunishmentTrigger : MonoBehaviour
     [Tooltip("Name of the node to check.")]
     public string targetNodeID;
 
-    [Tooltip("Should the punishment trigger if the node is MISSING? (instead of present)")]
-    public bool triggerIfNodeNotPassed = false;
-
     [Tooltip("Enemies to reveal when punishment is triggered.")]
     public List<GameObject> enemiesToReveal;
 
@@ -18,29 +15,28 @@ public class PunishmentTrigger : MonoBehaviour
     {
         if (hasTriggered) return; // Prevent triggering multiple times
 
-        if (DecisionManager.Instance != null && ShouldTriggerBasedOnNode(targetNodeID))
+        if (ShouldTriggerBasedOnNode(targetNodeID))
         {
             RevealEnemies();
             hasTriggered = true;
         }
         else
         {
-            Debug.Log($"Punishment not triggered: Condition not met for node {targetNodeID}.");
+            Debug.Log($"Punishment not triggered: Node {targetNodeID} is present.");
         }
     }
 
     private bool ShouldTriggerBasedOnNode(string nodeID)
     {
-        bool passed = DecisionManager.Instance.HasPassedNode(nodeID);
+        // Check if the node is NOT in the path (i.e., the node is missing)
+        bool nodeMissing = !DecisionManager.Instance.HasPassedNode(nodeID);
 
-        if (triggerIfNodeNotPassed)
-        {
-            return !passed; 
-        }
-        else
-        {
-            return passed;
-        }
+        // Debugging output
+        Debug.Log($"Checking if node {nodeID} has been passed...");
+        Debug.Log($"Path taken: {string.Join(", ", DecisionManager.Instance.GetPathTaken())}");
+        Debug.Log($"Node missing: {nodeMissing}");
+
+        return nodeMissing;
     }
 
     private void RevealEnemies()
