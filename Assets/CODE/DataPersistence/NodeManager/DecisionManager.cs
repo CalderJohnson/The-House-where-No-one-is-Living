@@ -80,6 +80,12 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
                 pathTaken.Add(currentNode.nodeID);  // Add the new node to the path immediately
             }
 
+            if (currentNode.nodeID == "Level1Room2Door")
+            {
+                Debug.Log("Reached Level1Room2Door. Special Major Save triggered!");
+                DataPersistenceManager.Instance.SaveMajorCheckpoint();
+            }
+
             Debug.Log("Current node set to: " + currentNode.nodeID);
 
             return true;
