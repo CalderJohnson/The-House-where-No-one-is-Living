@@ -70,14 +70,14 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
         {
             if (!pathTaken.Contains(currentNode.nodeID))
             {
-                pathTaken.Add(currentNode.nodeID);  // Store the previous node
+                pathTaken.Add(currentNode.nodeID);  
             }
 
-            currentNode = decisionTree[nodeID]; // Change to the new node
+            currentNode = decisionTree[nodeID]; 
 
             if (!pathTaken.Contains(currentNode.nodeID))
             {
-                pathTaken.Add(currentNode.nodeID);  // Add the new node to the path immediately
+                pathTaken.Add(currentNode.nodeID); 
             }
 
             if (currentNode.nodeID == "Level1Room2Door")

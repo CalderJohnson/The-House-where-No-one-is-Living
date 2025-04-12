@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -8,7 +8,8 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private string fileName;
     [SerializeField] private bool useEncryption;
 
-    private string majorFileName = "majorPointLevel1.game";
+    private const string MajorFileName = "majorPointLevel1.game";
+
     private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
@@ -19,44 +20,40 @@ public class DataPersistenceManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("Found more than one Data Persistence Manager in the scene.");
+            Debug.LogError("Multiple DataPersistenceManager instances detected!");
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
     }
 
     private void Start()
     {
-        // Load the normal save file (not the major checkpoint) at the start of the game
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        dataPersistenceObjects = FindAllDataPersistenceObjects();
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        // Find all MonoBehaviour objects that implement IDataPersistence
-        IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true)
-            .OfType<IDataPersistence>(); // Use OfType to filter only IDataPersistence types
-
-        return dataPersistenceObjects.ToList(); // Convert to a list
+        return FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>().ToList();
     }
 
     public void NewGame()
     {
-        this.gameData = new GameData();
+        gameData = new GameData();
     }
 
     public void LoadGame()
     {
-        // Load the normal save file
-        this.gameData = dataHandler.Load();
+        gameData = dataHandler.Load();
 
-        if (this.gameData == null)
+        if (gameData == null)
         {
             Debug.Log("No data found. Initializing new game.");
             NewGame();
         }
 
-        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.LoadData(gameData);
         }
@@ -70,7 +67,7 @@ public class DataPersistenceManager : MonoBehaviour
             NewGame();
         }
 
-        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(ref gameData);
         }
@@ -78,23 +75,19 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
-    // -------------------------------
-    // Special Checkpoint Handling
-    // -------------------------------
-
+  
+    // Special Checkpoint Saving
     public void SaveMajorCheckpoint()
     {
-        // Save major checkpoint data
         if (dataPersistenceObjects == null || dataPersistenceObjects.Count == 0)
         {
             dataPersistenceObjects = FindAllDataPersistenceObjects();
         }
 
-        FileDataHandler majorDataHandler = new FileDataHandler(Application.persistentDataPath, majorFileName, useEncryption);
+        var majorDataHandler = new FileDataHandler(Application.persistentDataPath, MajorFileName, useEncryption);
+        var checkpointData = new GameData();
 
-        GameData checkpointData = new GameData();
-
-        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(ref checkpointData);
         }
@@ -106,24 +99,18 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void LoadMajorCheckpoint()
     {
-        // Load major checkpoint data only when explicitly requested
-        FileDataHandler majorDataHandler = new FileDataHandler(Application.persistentDataPath, majorFileName, useEncryption);
-
-        GameData checkpointData = majorDataHandler.Load();
+        var majorDataHandler = new FileDataHandler(Application.persistentDataPath, MajorFileName, useEncryption);
+        var checkpointData = majorDataHandler.Load();
 
         if (checkpointData == null)
         {
-            Debug.LogWarning("No major checkpoint save found!");
+            Debug.LogWarning("No major checkpoint data found.");
             return;
         }
 
-        // Refresh list of save/load objects for checkpoint loading
-        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        gameData = checkpointData;
 
-        // Set the checkpoint data as the current gameData
-        this.gameData = checkpointData;
-
-        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (var dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.LoadData(gameData);
         }
