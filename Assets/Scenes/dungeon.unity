@@ -23172,7 +23172,7 @@ GameObject:
   - component: {fileID: 1525794927}
   - component: {fileID: 1525794931}
   m_Layer: 4
-  m_Name: floor
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24515,6 +24515,7 @@ GameObject:
   - component: {fileID: 1644589777}
   - component: {fileID: 1644589776}
   - component: {fileID: 1644589775}
+  - component: {fileID: 1644589779}
   m_Layer: 0
   m_Name: INVISIBLE FLOOR Cube
   m_TagString: Untagged
@@ -24537,7 +24538,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
@@ -24610,6 +24611,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1644589779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644589774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6cd8d742225cc24cb7d9f21381811c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  safePositions:
+  - {fileID: 1525794930}
+  - {fileID: 287409731}
+  - {fileID: 123690381}
+  - {fileID: 2089952751}
+  - {fileID: 300579311}
+  - {fileID: 831551590}
+  - {fileID: 1087370378}
 --- !u!4 &1645775938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6880430874725812138, guid: 81bb9eea30387e442899949a80011e55,
