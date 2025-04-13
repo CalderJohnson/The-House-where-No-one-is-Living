@@ -219,24 +219,8 @@ public class ProofController : MonoBehaviour
         
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, newY);
 
-        string proofResult = CheckProofValidity();
+        ToggleSubmitArea(CheckProofValidity());
         
-        if (proofResult != "No")
-        {
-            // Find the child named "successText" and get its TMP component
-            TextMeshProUGUI successText = SubmitArea.transform.Find("SuccessText")?.GetComponent<TextMeshProUGUI>();
-
-            if (successText != null)
-            {
-                successText.text = proofResult; // Set the text
-            }
-            else
-            {
-                Debug.LogWarning("successText not found in SubmitArea!");
-            }
-
-            SubmitArea.SetActive(true);
-        }
     }
 
     /// <summary>
@@ -254,6 +238,26 @@ public class ProofController : MonoBehaviour
                 return "That doesn't make sense...proven by contradiction!";
         }
         return "No";
+    }
+
+    private void ToggleSubmitArea(string proofResult)
+    {
+        if (proofResult != "No")
+        {
+            // Find the child named "successText" and get its TMP component
+            TextMeshProUGUI successText = SubmitArea.transform.Find("SuccessText")?.GetComponent<TextMeshProUGUI>();
+
+            if (successText != null)
+            {
+                successText.text = proofResult; // Set the text
+            }
+            else
+            {
+                Debug.LogWarning("successText not found in SubmitArea!");
+            }
+
+            SubmitArea.SetActive(true); 
+        }
     }
 
     /// <summary>
@@ -695,8 +699,15 @@ public class ProofController : MonoBehaviour
     {
         Debug.Log($"Applying rule: {option.ruleName} to line {proofLine.lineNumber}");
 
-        // Create the new proof line based on the rule application
-        AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
+        if (option.ruleName.StartsWith("E9") || option.ruleName.StartsWith("E10")){
+            // No need to waste a proof line on switching options around.
+            proofLine.UpdateLine(option.resultingEnglish, option.resultingLogic);
+            ToggleSubmitArea(CheckProofValidity());
+
+        } else {
+            // Create the new proof line based on the rule application
+            AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
+        }
 
         // Hide rule options panel after a rule is selected
         ruleOptionsPanel.SetActive(false);
