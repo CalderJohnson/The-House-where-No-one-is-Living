@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Healthbar : MonoBehaviour
 {
-    private float health;
+    public float health = 10;
     private float lastDamageTime; // Timestamp of when damage was last taken (for regeneration control)
     private bool died; // Did this entity die? Used in adaptive enemy training
     public event Action OnDeath; // Event triggered when health reaches zero
@@ -26,9 +26,15 @@ public class Healthbar : MonoBehaviour
     {
         health -= damage;
         lastDamageTime = Time.time;
-        // Debug.Log($"Health remaining: {health}");
+         Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
+            Die();
+        }
+    }
+
+    void FixedUpdate(){
+        if(health<0){
             Die();
         }
     }
