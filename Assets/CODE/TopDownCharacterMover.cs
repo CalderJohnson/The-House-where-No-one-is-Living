@@ -28,16 +28,29 @@ public class TopDownCharacterMover : MonoBehaviour
     private float currentSpeed = 0f; // Tracks current movement speed
     private float speedVelocity = 0f; // Used for Mathf.SmoothDamp
 
+    public GameObject Weapon1 = null;
+    public GameObject Weapon2 = null;
+    private GameObject CurrentWeapon = null;
+    private Slingshot attackref1;
+    private SwordCollision attackref2;
+
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
         _input = GetComponent<InputHandler>();
+        CurrentWeapon = Weapon1;
+        CurrentWeapon.SetActive(true);
+
+        attackref1 = Weapon1.GetComponent<Slingshot>();
+        attackref2 = Weapon2.GetComponent<SwordCollision>();
+
+        
     }
 
     public UnityEvent Right_Hand;
     public UnityEvent Left_Hand;
     // fixedUpdate is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         
         var targetVector = new Vector3(_input.InputVector.x, 0, _input.InputVector.y);
@@ -53,9 +66,11 @@ public class TopDownCharacterMover : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse0)){//left click
-            playerAnim.SetBool("Attack",true);
-            Right_Hand.Invoke(); //attack with right hand
-            Invoke("ResetAttack", 1f); 
+
+            // playerAnim.SetBool("Attack",true);
+            // Right_Hand.Invoke(); //attack with right hand
+            // Invoke("ResetAttack", 1f); 
+            StartAttack();
             
         }
         if(Input.GetKeyDown(KeyCode.Mouse1)){ //right click
@@ -68,13 +83,53 @@ public class TopDownCharacterMover : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.H)){
             playerAnim.SetBool("sitting",false);
         }
+        if(Input.GetKeyDown(KeyCode.Alpha1)){
+            CurrentWeapon.SetActive(false);
+            CurrentWeapon = Weapon1;
+            CurrentWeapon.SetActive(true);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2)){
+            CurrentWeapon.SetActive(false);
+            CurrentWeapon = Weapon2;
+            CurrentWeapon.SetActive(true);
+        }
+
+
         
 
     }
 
+    void StartAttack(){
+        if(CurrentWeapon==Weapon1){
+            playerAnim.SetBool("Attack",true);
+            attackref1.ShootProjectile();
+            Invoke("ResetAttack", 1f);
+            
+        }
+        if(CurrentWeapon==Weapon2){
+            playerAnim.SetBool("Attack2",true);
+            
+            attackref2.attackStart();
+            Invoke("ResetAttack", 1f);
+        }
+        
+        Right_Hand.Invoke(); //attack with right hand
+        
+    }
+
+
     void ResetAttack()
     {
-    playerAnim.SetBool("Attack", false);
+        //playerAnim.SetBool("Attack", false);
+        //playerAnim.SetBool("Attack2", false);
+        if(CurrentWeapon==Weapon1){
+            playerAnim.SetBool("Attack",false);
+            
+        }
+        if(CurrentWeapon==Weapon2){
+            playerAnim.SetBool("Attack2",false);
+            attackref2.attackEnd();
+        }
     }
 
     private void RotateFromMouseVector()

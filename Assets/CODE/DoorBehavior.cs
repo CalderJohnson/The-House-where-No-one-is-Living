@@ -11,7 +11,7 @@ public class DoorScript : MonoBehaviour
     public AudioSource doorAudioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
-    public AudioClip rattlingSound; // New sound for rattling
+    public AudioClip rattlingSound;
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
@@ -22,10 +22,6 @@ public class DoorScript : MonoBehaviour
     [Header("Scene Loading")]
     public bool loadNewScene = false; // Set this to true if this door loads a new scene
     public string sceneName; // Name of the scene to load
-
-    [Header("Decision System")]
-    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
-    public string decisionNodeID; // The name of the node to switch to
 
     [Header("One-Way Door")]
     public bool isOneWay = false; // Set true if this door should not be re-entered
@@ -118,7 +114,7 @@ public class DoorScript : MonoBehaviour
             linkedDoor.isOneWay = true; 
         }
 
-        UpdateDecisionNode();
+        GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -134,23 +130,6 @@ public class DoorScript : MonoBehaviour
         yield return new WaitForSeconds(1f); 
 
         isDoorActive = true; 
-    }
-
-    private void UpdateDecisionNode()
-    {
-        if (!affectsDecisionTree) return;
-
-        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
-
-        if (success)
-        {
-            DataPersistenceManager.Instance.SaveGame();
-            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
-        }
-        else
-        {
-            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
-        }
     }
 
     // Play rattling sound
