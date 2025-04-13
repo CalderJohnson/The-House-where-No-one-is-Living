@@ -29,7 +29,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
 
     private void Awake()
     {
-        // If the object already has an ID (set in Inspector), do NOT change it.
+        // If the object already has an ID do not change it
         if (string.IsNullOrEmpty(objectID))
         {
             objectID = GenerateStableID();
@@ -206,9 +206,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         }
     }
 
-    /// <summary>
-    /// Generates a stable unique ID based on the object's scene and name.
-    /// </summary>
+    /// Generates stable unique ID based on the object's scene and name
     private string GenerateStableID()
     {
         return gameObject.scene.name + "_" + gameObject.name + "_" + transform.position.ToString();

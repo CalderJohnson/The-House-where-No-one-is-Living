@@ -5,7 +5,13 @@ public class SaveClock : MonoBehaviour
 {
     public void Interact()
     {
-        // Open a UI menu to choose Save or Load
-        SaveLoadUI.Instance.ShowMenu();
+        if (SaveLoadUI.Instance != null)
+        {
+            SaveLoadUI.Instance.ShowMenu();
+        }
+        else
+        {
+            Debug.LogError("SaveLoadUI Instance is missing!");
+        }
     }
 }

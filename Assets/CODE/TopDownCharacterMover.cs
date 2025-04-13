@@ -36,7 +36,7 @@ public class TopDownCharacterMover : MonoBehaviour
 
     public UnityEvent Right_Hand;
     public UnityEvent Left_Hand;
-    // Update is called once per frame
+    // fixedUpdate is called once per frame
     void FixedUpdate()
     {
         
@@ -93,6 +93,8 @@ public class TopDownCharacterMover : MonoBehaviour
             float rotationSpeed = 5f; // Adjust this value for speed of rotation
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.green, 0.1f);
         }
     }
 
@@ -134,16 +136,16 @@ public class TopDownCharacterMover : MonoBehaviour
     // Convert targetVector to world space using camera rotation
     targetVector = Quaternion.Euler(0, Camera.gameObject.transform.rotation.eulerAngles.y, 0) * targetVector;
 
-    // Determine movement direction
-    Vector3 movementDirection = targetVector.normalized;
+    
+    Vector3 movementDirection = targetVector.normalized; //find direction
 
-    // Calculate the dot product to determine if moving forward or backward
-    float forwardDot = Vector3.Dot(transform.forward, movementDirection);
+    
+    float forwardDot = Vector3.Dot(transform.forward, movementDirection); // dot product to determine if moving forward or backward
     bool isMovingForward = forwardDot > 0.5f;
     bool isMovingBackward = forwardDot < -0.5f;
 
-    // Calculate the cross product to determine if moving left or right
-    Vector3 crossProduct = Vector3.Cross(transform.forward, movementDirection);
+    
+    Vector3 crossProduct = Vector3.Cross(transform.forward, movementDirection); // cross product to see if moving left or right
     bool isMovingRight = crossProduct.y > 0.5f;
     bool isMovingLeft = crossProduct.y < -0.5f;
 
@@ -169,8 +171,8 @@ public class TopDownCharacterMover : MonoBehaviour
         // Debug.Log("Moving Right");
     }
 
-    // Smoothly accelerate/decelerate sprint speed
-    float targetSpeed = MovementSpeed;
+   
+    float targetSpeed = MovementSpeed;  // artificial accelerate 
     if (Input.GetKey(KeyCode.LeftShift) && isMovingForward)
     {
         targetSpeed = SprintSpeed;
@@ -180,15 +182,15 @@ public class TopDownCharacterMover : MonoBehaviour
         RotateTowardMouse = true;
     }
 
-    // Use Mathf.SmoothDamp to gradually adjust speed
-    currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedVelocity, AccelerationTime);
+    
+    currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedVelocity, AccelerationTime); //  Mathf.SmoothDamp adjust speed
 
-    // Apply movement
-    float finalSpeed = currentSpeed * Time.deltaTime;
+    
+    float finalSpeed = currentSpeed * Time.deltaTime; // Apply movement
     transform.position += targetVector * finalSpeed;
 
-    // Calculate velocity magnitude for animation blending
-    float velocityMagnitude = targetVector.magnitude * (currentSpeed / SprintSpeed); // Normalize to 0-1 range
+    
+    float velocityMagnitude = targetVector.magnitude * (currentSpeed / SprintSpeed); // 0-1 normalization for animation
     playerAnim.SetFloat("BlendRun", velocityMagnitude);
     playerAnim.SetFloat("FWDBWD", backwardsMagnitude);
     playerAnim.SetFloat("LR", sidesMagnitude);

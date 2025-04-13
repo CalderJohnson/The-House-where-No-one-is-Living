@@ -24,8 +24,8 @@ public class DoorScript : MonoBehaviour
     public string sceneName; // Name of the scene to load
 
     [Header("Decision System")]
-    public bool changeDecisionNode = false; // Set true if you want the door to change decision tree node
-    public string newNodeName; // The name of the node to switch to
+    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
+    public string decisionNodeID; // The name of the node to switch to
 
     [Header("One-Way Door")]
     public bool isOneWay = false; // Set true if this door should not be re-entered
@@ -43,13 +43,13 @@ public class DoorScript : MonoBehaviour
 
     public void TriggerDoor()
     {
-        if (!isDoorActive) return; // Prevent interaction if the door is already active
+        if (!isDoorActive) return; 
 
         if (isOneWay)
         {
             Debug.Log("This door is one-way and cannot be re-entered.");
-            PlayRattlingSound(); // Play rattling sound when trying to open a one-way door
-            return; // Prevent entering the door again
+            PlayRattlingSound(); 
+            return; 
         }
 
         if (Inventory.Instance == null)
@@ -60,12 +60,12 @@ public class DoorScript : MonoBehaviour
 
         Debug.Log($"Required Item: {requiredItem}");
 
-        // Check if the required item is in inventory (or if no item is required)
+        // Check if the required item is in inventory
         if (string.IsNullOrEmpty(requiredItem) || Inventory.Instance.HasItem(requiredItem))
         {
             Debug.Log("Door unlocked! Opening...");
 
-            // If loadNewScene is enabled, load the scene instead of teleporting
+            // load the scene 
             if (loadNewScene && !string.IsNullOrEmpty(sceneName))
             {
                 Debug.Log($"Loading scene: {sceneName}");
@@ -73,13 +73,13 @@ public class DoorScript : MonoBehaviour
             }
             else
             {
-                StartCoroutine(DoorSequence()); // Run normal teleport sequence
+                StartCoroutine(DoorSequence()); // Run normal teleport
             }
         }
         else
         {
             Debug.Log("You need " + requiredItem + " to open this door!");
-            PlayRattlingSound(); // Play rattling sound when trying to open a locked door
+            PlayRattlingSound(); // Play rattling sound
         }
     }
 
@@ -95,7 +95,6 @@ public class DoorScript : MonoBehaviour
             doorAudioSource.Play();
         }
 
-        // Open the linked door (if it's Door 1 -> Door 2)
         if (linkedDoor != null && linkedDoor.doorAnimator != null)
         {
             linkedDoor.doorAnimator.Play("DoorOpen");
@@ -119,7 +118,7 @@ public class DoorScript : MonoBehaviour
             linkedDoor.isOneWay = true; 
         }
 
-        UpdateDecisionNodeOnDoorEntry();
+        UpdateDecisionNode();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -132,26 +131,25 @@ public class DoorScript : MonoBehaviour
             linkedDoor.doorAnimator.Play("DoorClose");
         }
 
-        yield return new WaitForSeconds(1f); // Wait for the doors to close
+        yield return new WaitForSeconds(1f); 
 
-        isDoorActive = true; // Reactivate the door for future use
+        isDoorActive = true; 
     }
 
-    private void UpdateDecisionNodeOnDoorEntry()
+    private void UpdateDecisionNode()
     {
-        if (changeDecisionNode && !string.IsNullOrEmpty(newNodeName))
-        {
-            bool success = DecisionManager.Instance.SetCurrentNode(newNodeName);
+        if (!affectsDecisionTree) return;
 
-            if (success)
-            {
-                DataPersistenceManager.Instance.SaveGame();  // Save the game data after changing the node
-                Debug.Log($"Decision node updated successfully to: {newNodeName}");
-            }
-            else
-            {
-                Debug.LogWarning($"Failed to update decision node to: {newNodeName}");
-            }
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
         }
     }
 

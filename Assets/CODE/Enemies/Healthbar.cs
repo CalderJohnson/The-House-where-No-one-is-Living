@@ -6,11 +6,15 @@ using UnityEngine.Events;
 
 public class Healthbar : MonoBehaviour
 {
-    private float health;
+    public float health = 10;
     private float lastDamageTime; // Timestamp of when damage was last taken (for regeneration control)
     private bool died; // Did this entity die? Used in adaptive enemy training
     public event Action OnDeath; // Event triggered when health reaches zero
     public UnityEvent Ragdoll;
+
+    [Header("Decision System")]
+    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
+    public string decisionNodeID; // The name of the node to switch to
 
     public void Initialize(float initialHealth)
     {
@@ -22,9 +26,15 @@ public class Healthbar : MonoBehaviour
     {
         health -= damage;
         lastDamageTime = Time.time;
-        // Debug.Log($"Health remaining: {health}");
+         Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
+            Die();
+        }
+    }
+
+    void FixedUpdate(){
+        if(health<0){
             Die();
         }
     }
@@ -56,6 +66,25 @@ public class Healthbar : MonoBehaviour
         Debug.Log($"{gameObject.name} has died.");
         died = true;
         OnDeath?.Invoke(); // Invoke the death event
+        UpdateDecisionNode();
         Ragdoll.Invoke();
     }
+
+    private void UpdateDecisionNode()
+    {
+        if (!affectsDecisionTree) return;
+
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
+        }
+    }
 }
+
