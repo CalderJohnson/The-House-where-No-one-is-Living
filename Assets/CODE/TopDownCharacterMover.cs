@@ -84,11 +84,13 @@ public class TopDownCharacterMover : MonoBehaviour
             playerAnim.SetBool("sitting",false);
         }
         if(Input.GetKeyDown(KeyCode.Alpha1)){
+            ResetAttack();
             CurrentWeapon.SetActive(false);
             CurrentWeapon = Weapon1;
             CurrentWeapon.SetActive(true);
         }
         if(Input.GetKeyDown(KeyCode.Alpha2)){
+            ResetAttack();
             CurrentWeapon.SetActive(false);
             CurrentWeapon = Weapon2;
             CurrentWeapon.SetActive(true);
@@ -228,7 +230,7 @@ public class TopDownCharacterMover : MonoBehaviour
 
    
     float targetSpeed = MovementSpeed;  // artificial accelerate 
-    if (Input.GetKey(KeyCode.LeftShift) && isMovingForward)
+    if (Input.GetKey(KeyCode.LeftShift) )//&& isMovingForward)
     {
         targetSpeed = SprintSpeed;
         RotateTowardMouse = false;
