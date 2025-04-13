@@ -20,6 +20,9 @@ public class Dialogue : MonoBehaviour
     public Image dialogueSprite; // Sprite UI element for displaying character sprites
     private RectTransform textComponentRect; // RectTransform for resizing the text box
     private RectTransform nameComponentRect; // RectTransform for resizing the name box
+    private bool isDialogueActive = false;
+
+
 
     // File path for external dialogue file
     public string dialogueFileName; // Set this in Unity Inspector
@@ -104,6 +107,8 @@ public class Dialogue : MonoBehaviour
 
     void StartDialogue()
     {   
+        if (isDialogueActive)
+            return;
         gameObject.SetActive(true);
         index = 0;
         DisplayCurrentLine();
@@ -256,6 +261,7 @@ public class Dialogue : MonoBehaviour
         {
             gameObject.SetActive(false);
             Time.timeScale = 1f; 
+            isDialogueActive = false; // Reset flag
         }
     }
 
@@ -299,6 +305,9 @@ public class Dialogue : MonoBehaviour
     // New method to dynamically set the dialogue file name
     public void SetDialogueFileName(string newFileName)
     {
+        if (isDialogueActive)
+            return;
+
         dialogueFileName = newFileName;
         Debug.Log($"Dialogue set to: {newFileName}.");
         LoadDialogueFile(); // Reload dialogue from the new file
