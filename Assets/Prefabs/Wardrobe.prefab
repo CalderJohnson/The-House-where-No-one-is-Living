@@ -133,6 +133,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -172,6 +174,7 @@ GameObject:
   - component: {fileID: 3996938163664493517}
   - component: {fileID: 6207669615799187189}
   - component: {fileID: 3791402122797486985}
+  - component: {fileID: 5190907304432703025}
   m_Layer: 2
   m_Name: Wardrobe
   m_TagString: Object
@@ -232,7 +235,9 @@ MonoBehaviour:
   DialogueCanvas: {fileID: 0}
   interactionIcon: {fileID: 1271051708371339198}
   enableBlinkEffect: 0
+  useDirectionalInteraction: 0
   interactionDirection: {x: 0, y: 0, z: -1}
+  objectID: 
 --- !u!65 &3996938163664493517
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -266,11 +271,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa2204615e558f498b0ed1ffa1e0032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wardrobeID: 
   leftDoorAnimator: {fileID: 6947176431735999324}
   rightDoorAnimator: {fileID: 4578602421375759145}
   storedItem: {fileID: 5970936953863941955}
   audioSource: {fileID: 3791402122797486985}
   openSound: {fileID: 8300000, guid: 6ee6c738012e1be48847ba7e4112f3d1, type: 3}
+  updateOnItemCollection: 0
 --- !u!82 &3791402122797486985
 AudioSource:
   m_ObjectHideFlags: 0
@@ -282,6 +289,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6ee6c738012e1be48847ba7e4112f3d1, type: 3}
+  m_Resource: {fileID: 8300000, guid: 6ee6c738012e1be48847ba7e4112f3d1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -367,6 +375,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5190907304432703025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777816668314759841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c16e33a4983564eaad686205b141c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectsDecisionTree: 0
+  decisionNodeID: 
 --- !u!1 &4832768239612307259
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,6 +447,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -510,6 +534,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -537,7 +563,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &4578602421375759145
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -551,6 +577,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -615,6 +642,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -719,6 +748,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -907,6 +938,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -934,7 +967,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &6947176431735999324
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -948,6 +981,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

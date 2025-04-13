@@ -15,13 +15,6 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     public AudioClip openSound;
 
     [Header("Decision System Settings")]
-    [Tooltip("Check this if the wardrobe affects the decision tree.")]
-    public bool affectsDecisionTree = false;
-
-    [Tooltip("The decision node that will be updated when interacting.")]
-    public string decisionNodeID = ""; // Node to set when interacted with
-
-    [Tooltip("Check this to update the decision node when the item is collected instead of when the wardrobe is opened.")]
     public bool updateOnItemCollection = false; // If true, update decision tree when item is collected
 
     private bool isOpen = false;
@@ -57,10 +50,10 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             isOpen = true;
             Debug.Log($"Wardrobe {wardrobeID} opened.");
 
-            // Update decision tree **if we are NOT waiting for item collection**
+            // Update decision tree if NOT waiting for item collection
             if (!updateOnItemCollection)
             {
-                UpdateDecisionNode();
+                GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
             }
         }
         else if (!itemCollected) // If the wardrobe is already open, allow collecting the item
@@ -78,28 +71,11 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             storedItem.SetActive(false); // Hide item instead of destroying it
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
 
-            // Update decision tree **if waiting for item collection**
+            // Update decision tree if waiting for item collection
             if (updateOnItemCollection)
             {
-                UpdateDecisionNode();
+                GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
             }
-        }
-    }
-
-    private void UpdateDecisionNode()
-    {
-        if (!affectsDecisionTree) return;
-
-        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
-
-        if (success)
-        {
-            DataPersistenceManager.Instance.SaveGame();
-            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
-        }
-        else
-        {
-            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
         }
     }
 

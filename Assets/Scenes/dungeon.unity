@@ -1622,7 +1622,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -4338,7 +4338,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -4768,7 +4768,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -5799,6 +5799,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door To  Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: Level1Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: interactionDirection.z
@@ -6268,8 +6278,6 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 1
-  decisionNodeID: Level1KillSpider
 --- !u!114 &437365863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6373,6 +6381,20 @@ MonoBehaviour:
   setSpeed: 0
   training: 0
   floor: {fileID: 886334577}
+--- !u!114 &437365868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437365852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c16e33a4983564eaad686205b141c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectsDecisionTree: 1
+  decisionNodeID: Level1KillSpider
 --- !u!1001 &437709854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9078,8 +9100,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  affectsDecisionTree: 0
-  decisionNodeID: 
 --- !u!195 &680166773
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9549,6 +9569,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5190907304432703025, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: Level1KeyCollected
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190907304432703025, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: storedItem
@@ -9567,11 +9597,6 @@ PrefabInstance:
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: affectsDecisionTree
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
-        type: 3}
-      propertyPath: updateOnItemCollection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
@@ -10239,6 +10264,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 437365867}
+    - targetCorrespondingSourceObject: {fileID: 8040791419769401482, guid: 942e55daae0a2364d8246e7545f3d098,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 437365868}
     - targetCorrespondingSourceObject: {fileID: 9142404373144462041, guid: 942e55daae0a2364d8246e7545f3d098,
         type: 3}
       insertIndex: -1
@@ -11333,6 +11362,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: Level1Room1Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: DialogueCanvas
@@ -11759,7 +11798,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -13993,8 +14032,6 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 0
-  decisionNodeID: 
 --- !u!4 &988597991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8020344569984888612, guid: 81bb9eea30387e442899949a80011e55,
@@ -15890,7 +15927,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -17201,6 +17238,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: Level1Room2Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: useDirectionalInteraction
@@ -17589,6 +17636,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Door to Ending 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: decisionNodeID
+      value: Level1Exit1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -22599,7 +22656,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 938ff2238648fde4c913b2ee041f1e07, type: 2}
   m_BuildHeightMesh: 0
@@ -24281,7 +24338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4009cba106d20f748ab650a274328adc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4009cba106d20f748ab650a274328adc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -29502,7 +29559,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 1.1766666
+  m_VoxelSize: 1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 1945cd75f952ec94a9fd9be268923c5d, type: 2}
   m_BuildHeightMesh: 0
