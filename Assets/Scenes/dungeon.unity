@@ -3184,7 +3184,7 @@ PrefabInstance:
     - target: {fileID: 5123196099355944339, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.435
+      value: 2.86
       objectReference: {fileID: 0}
     - target: {fileID: 6635217747473842426, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
@@ -3199,7 +3199,7 @@ PrefabInstance:
     - target: {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
       propertyPath: m_Size.y
-      value: 6.85
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
@@ -3209,7 +3209,12 @@ PrefabInstance:
     - target: {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
       propertyPath: m_Center.y
-      value: 3.84
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
@@ -3291,8 +3296,7 @@ PrefabInstance:
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 1769632222}
-    m_RemovedComponents:
-    - {fileID: 7346724677669316821, guid: 33d83c85320ae9a40991b8dc9774d618, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -6365,7 +6369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRef: {fileID: 987404915}
   healthbar: {fileID: 437365862}
-  setHealth: 10
+  setHealth: 100
   setSpeed: 0
   training: 0
   floor: {fileID: 886334577}
@@ -13717,8 +13721,8 @@ GameObject:
   - component: {fileID: 958606817}
   - component: {fileID: 958606816}
   - component: {fileID: 958606815}
-  m_Layer: 0
-  m_Name: Plane (9)
+  m_Layer: 2
+  m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13948,7 +13952,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
