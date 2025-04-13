@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Healthbar : MonoBehaviour
     private bool died; // Did this entity die? Used in adaptive enemy training
     public event Action OnDeath; // Event triggered when health reaches zero
     public UnityEvent Ragdoll;
+    public Slider healthBarUI;
 
     public void Initialize(float initialHealth)
     {
@@ -26,6 +28,9 @@ public class Healthbar : MonoBehaviour
         if (health <= 0)
         {
             Die();
+        }
+        if(healthBarUI.value != health){
+            healthBarUI.value = health;
         }
     }
 
