@@ -1,0 +1,19 @@
+Just a sign...
+Rowan: Just kidding!
+Test: Actually, while I may look like Rowan, I'm just a test object. {1}
+Test: Here's me shifting sprites to expose my true nature. I'm here to see if sprites are working correctly within the Dialogue Box. {2}
+Test: Guess you've figured out my secret now. And 3's all the sprites that I have. {3}
+[Decision: TestChoice]
+Test: What (non-existent) sprite would you like to see from me now?
+- [Choice1] I want to see Sprite 2!
+- [Choice2] I want to see Sprite 3!
+[Choice1]
+Test: Here ya go!
+Test: Enjoy sprite 2! {2}
+[ChoiceEnd: Choice1]
+[Choice2]
+Test: Okay, 3's up.
+Test: Enjoy sprite 3! {3}
+[ChoiceEnd: Choice2]
+[EndDecision: TestChoice]
+So, goodbye...for now!
