@@ -1,34 +1,50 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
+public abstract class DialogueSegment { }
+
+public class DialogueTextSegment : DialogueSegment
+{
+    public List<string> lines;
+    public DialogueTextSegment(List<string> lines) { this.lines = lines; }
+}
+
+public class DecisionSegment : DialogueSegment
+{
+    public string key;
+    public string prompt;
+    public List<Option> options;
+    public Dictionary<string,List<string>> blocks;
+    public DecisionSegment(string key, string prompt, List<Option> options, Dictionary<string,List<string>> blocks)
+    {
+        this.key     = key;
+        this.prompt  = prompt;
+        this.options = options;
+        this.blocks  = blocks;
+    }
+}
+
+public class Option
+{
+    public string name;
+    public string text;
+    public Option(string name, string text) { this.name = name; this.text = text; }
+}
 
 [System.Serializable]
 public class Dialogue : MonoBehaviour
 {
-    public string charaName;
-
-    [TextArea(3, 10)]
-    public string[] lines;
-    public TextMeshProUGUI textComponent;
-    public TextMeshProUGUI nameComponent;
-    public float textSpeed;
-    private int index;
-    public GameObject dialogueBox;
-    public Image dialogueSprite; // Sprite UI element for displaying character sprites
-    private RectTransform textComponentRect; // RectTransform for resizing the text box
-    private RectTransform nameComponentRect; // RectTransform for resizing the name box
-    private bool isDialogueActive = false;
-
-
-
-    // File path for external dialogue file
-    public string dialogueFileName; // Set this in Unity Inspector
-
+    // ─────────────────────────────────────────────────────────────
+    // 1) SINGLETON BOILERPLATE
+    // ─────────────────────────────────────────────────────────────
     private static Dialogue _instance;
-
     public static Dialogue Instance
     {
         get
@@ -37,9 +53,7 @@ public class Dialogue : MonoBehaviour
             {
                 _instance = FindObjectOfType<Dialogue>();
                 if (_instance == null)
-                {
-                    Debug.LogWarning("DialogueManager instance not found in the scene!");
-                }
+                    Debug.LogWarning("Dialogue instance not found!");
             }
             return _instance;
         }
@@ -47,270 +61,348 @@ public class Dialogue : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton logic
         if (_instance == null)
         {
             _instance = this;
         }
         else if (_instance != this)
         {
-            // Transfer the dialogue file before replacing the instance
-            string previousDialogueFile = _instance.dialogueFileName;
-            
-            // Destroy the old instance to free memory
+            string prevFile = _instance.dialogueFileName;
             Destroy(_instance.gameObject);
-
-            // Assign the new instance
             _instance = this;
-
-            // Restore the dialogue file from the old instance
-            _instance.dialogueFileName = previousDialogueFile;
+            _instance.dialogueFileName = prevFile;
         }
+
+        textComponentRect = textComponent.rectTransform;
+        nameComponentRect = nameComponent.rectTransform;
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // 2) EXISTING FIELDS & INSPECTOR REFERENCES
+    // ─────────────────────────────────────────────────────────────
+    [Header("Basic Dialogue UI")]
+    public string charaName;
+    public TextMeshProUGUI textComponent;
+    public TextMeshProUGUI nameComponent;
+    public Image dialogueSprite;
+    public GameObject dialogueBox;
+    public float textSpeed = 0.03f;
 
+    private RectTransform textComponentRect;
+    private RectTransform nameComponentRect;
+
+    [Header("External File")]
+    public string dialogueFileName; // e.g. "TestDecision"
+
+    [Header("Decision Panel")]
+    public DecisionController decisionController;
+
+    // ─────────────────────────────────────────────────────────────
+    // 3) INTERNAL STATE
+    // ─────────────────────────────────────────────────────────────
+    private List<DialogueSegment> segments;
+    private int segmentIndex = 0;
+    private int lineIndex    = 0;
+    private bool isDialogueActive = false;
+    private string currentContent;
+
+
+    // ─────────────────────────────────────────────────────────────
+    // 4) STARTUP
+    // ─────────────────────────────────────────────────────────────
     void Start()
-    {   
-        if (!string.IsNullOrEmpty(dialogueFileName))
-        {
-            LoadDialogueFile();
-            Debug.LogWarning($"Dialogue Instance starting, with {dialogueFileName}!");
-        }
-        Time.timeScale = 0f; 
-
-        textComponentRect = textComponent.GetComponent<RectTransform>();
-        nameComponentRect = nameComponent.GetComponent<RectTransform>();
-
-        textComponent.text = string.Empty;
-        nameComponent.text = charaName;
-
-        // Hide sprite by default
-        dialogueSprite.gameObject.SetActive(false);
-
+    {
+        ParseDialogueFile();
         StartDialogue();
     }
 
-    void Update()
+    // ─────────────────────────────────────────────────────────────
+    // 5) PARSING INTO SEGMENTS
+    // ─────────────────────────────────────────────────────────────
+    void ParseDialogueFile()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        segments = new List<DialogueSegment>();
+        string path = Path.Combine(Application.dataPath, "Resources/Dialogue", dialogueFileName + ".txt");
+        if (!File.Exists(path))
         {
-            if (textComponent.text == lines[index])
+            Debug.LogError($"Dialogue file not found: {path}");
+            return;
+        }
+
+        var raw = File.ReadAllLines(path);
+        int i = 0;
+        while (i < raw.Length)
+        {
+            if (raw[i].StartsWith("[Decision:"))
             {
-                NextLine();
+                // Read key
+                string key = raw[i++].Replace("[Decision:", "").Replace("]", "").Trim();
+                // Read prompt
+                string prompt = raw[i++];
+                // Read options lines
+                var opts = new List<Option>();
+                while (i < raw.Length && raw[i].StartsWith("- ["))
+                {
+                    var m = Regex.Match(raw[i], @"- \[(.+?)\] (.+)");
+                    if (m.Success) opts.Add(new Option(m.Groups[1].Value, m.Groups[2].Value));
+                    i++;
+                }
+                // Read per-choice blocks
+                var blocks = new Dictionary<string,List<string>>();
+                foreach (var opt in opts)
+                {
+                    if (raw[i].Trim() == $"[{opt.name}]") i++;
+                    var blockLines = new List<string>();
+                    while (i < raw.Length && !raw[i].StartsWith($"[ChoiceEnd: {opt.name}]"))
+                    {
+                        blockLines.Add(raw[i++]);
+                    }
+                    // Skip the [ChoiceEnd: …]
+                    i++;
+                    blocks[opt.name] = blockLines;
+                }
+                // Skip [EndDecision: key]
+                i++;
+                segments.Add(new DecisionSegment(key, prompt, opts, blocks));
             }
             else
             {
-                StopAllCoroutines();
-                textComponent.text = lines[index];
+                var normal = new List<string>();
+                while (i < raw.Length && !raw[i].StartsWith("[Decision:"))
+                    normal.Add(raw[i++]);
+                segments.Add(new DialogueTextSegment(normal));
             }
         }
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // 6) START / END DIALOGUE
+    // ─────────────────────────────────────────────────────────────
     void StartDialogue()
-    {   
-        if (isDialogueActive)
-            return;
+    {
+        if (isDialogueActive) return;
+        isDialogueActive = true;
+        Time.timeScale = 0f;
+        segmentIndex = 0;
+        lineIndex    = 0;
         gameObject.SetActive(true);
-        index = 0;
         DisplayCurrentLine();
     }
 
-    IEnumerator TypeLine()
+    void EndDialogue()
     {
-        if(!dialogueBox.gameObject.activeSelf){
-            dialogueBox.gameObject.SetActive(true);
+        isDialogueActive = false;
+        gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // 7) DISPLAYING LINES
+    // ─────────────────────────────────────────────────────────────
+    void DisplayCurrentLine()
+    {
+        var seg = segments[segmentIndex];
+        if (seg is DialogueTextSegment textSeg)
+            DisplayLine(textSeg.lines[lineIndex]);
+        else if (seg is DecisionSegment decisionSeg)
+            DisplayLine(decisionSeg.prompt);
+    }
+
+    void DisplayLine(string rawLine)
+    {
+        // Reset sprite and layout
+        dialogueSprite.gameObject.SetActive(false);
+        if (dialogueBox != null && dialogueBox.name == "DialogueBox") {
+            textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
+            nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
+            textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, 0);
         }
-        // Type each character 1 by 1
-        foreach (char c in lines[index].ToCharArray())
+
+        // Split "Name: Dialogue" if present
+        var parts = rawLine.Split(new[] { ": " }, 2, StringSplitOptions.None);
+        string content = rawLine;
+
+        if (parts.Length == 2)
+        {
+            charaName = parts[0];
+            nameComponent.text = charaName;
+            nameComponent.gameObject.SetActive(true);
+            content = parts[1];
+            textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, -60);
+
+            // Check for sprite tag {n}
+            var m = Regex.Match(content, @"\{(\d+)\}$");
+            if (m.Success)
+            {
+                int idx = int.Parse(m.Groups[1].Value);
+                string spritePath = $"Sprites/DialogueSprites/{charaName}/{charaName}_{idx}";
+                var sp = Resources.Load<Sprite>(spritePath);
+                if (sp != null)
+                {
+                    dialogueSprite.sprite = sp;
+                    dialogueSprite.gameObject.SetActive(true);
+                    textComponentRect.offsetMin = new Vector2(500, textComponentRect.offsetMin.y);
+                    nameComponentRect.offsetMin = new Vector2(500, nameComponentRect.offsetMin.y);
+                }
+                content = Regex.Replace(content, @"\{(\d+)\}$", "");
+            }
+        }
+        else
+        {
+            nameComponent.text = "";
+            nameComponent.gameObject.SetActive(false);
+        }
+
+        // ... after stripping name and sprite-tag ...
+        currentContent = content;
+
+        StopAllCoroutines();
+        textComponent.text = "";
+        if (!dialogueBox.activeSelf) dialogueBox.SetActive(true);
+        StartCoroutine(TypeLine(currentContent));
+
+    }
+
+    IEnumerator TypeLine(string line)
+    {
+        foreach (char c in line)
         {
             textComponent.text += c;
             yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
 
-    void DisplayCurrentLine()
+    // ─────────────────────────────────────────────────────────────
+    // 8) INPUT & ADVANCING
+    // ─────────────────────────────────────────────────────────────
+    void Update()
     {
-        if(dialogueSprite.gameObject.activeSelf){
-            textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
-            nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
-            dialogueSprite.gameObject.SetActive(false);
-        }
+        if (!isDialogueActive) return;
 
-        string[] splitLine = lines[index].Split(new[] { ": " }, 2, System.StringSplitOptions.None);
-
-        if (splitLine.Length == 2)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Line contains "Chara Name: Dialogue"
-            charaName = splitLine[0];
-            nameComponent.text = charaName;
-            nameComponent.gameObject.SetActive(true);
-
-            // Set textComponent to only display the dialogue part
-            lines[index] = splitLine[1];
-            textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, -60);
-            
-            System.Text.RegularExpressions.Regex spriteRegex = new System.Text.RegularExpressions.Regex(@"\{(\d+)\}$");
-            var match = spriteRegex.Match(lines[index]);
-            if (match.Success)
+            // If still typing, jump to full processed content:
+            if (textComponent.text != currentContent)
             {
-                // Extract sprite index
-                int spriteIndex = int.Parse(match.Groups[1].Value);
-
-                // Load the sprite dynamically
-                string spritePath = $"Sprites/DialogueSprites/{charaName}/{charaName}_{spriteIndex}";
-                Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
-
-                if (loadedSprite != null)
-                {
-                    // Adjust the text box to account for the sprite
-                    textComponentRect.offsetMin = new Vector2(500, textComponentRect.offsetMin.y);
-                    nameComponentRect.offsetMin = new Vector2(500, nameComponentRect.offsetMin.y);
-
-                    // Display the sprite
-                    dialogueSprite.sprite = loadedSprite;
-                    dialogueSprite.gameObject.SetActive(true);
-                }
-                else
-                {
-                    Debug.LogWarning($"Sprite not found at path: {spritePath}");
-                    ResetSpriteAndTextBox();
-                }
-
-                // Remove the sprite tag from the dialogue text
-                lines[index] = spriteRegex.Replace(lines[index], string.Empty);
+                StopAllCoroutines();
+                textComponent.text = currentContent;
             }
             else
             {
-                ResetSpriteAndTextBox();
+                NextLine();
             }
         }
-        else
-        {
-            // Line does not contain a name
-            nameComponent.text = string.Empty;
-            nameComponent.gameObject.SetActive(false);
-
-            if (textComponentRect.offsetMax.y == -60) {
-                textComponentRect.offsetMax = new Vector2(textComponentRect.offsetMax.x, 0);
-            }
-        }
-        
-        textComponent.text = string.Empty;
-        StartCoroutine(TypeLine());
-    
-    }
-
-    void AdjustForSpriteIfPresent(string currentLine)
-    { 
-        // Check for a sprite tag at the end of the line
-        System.Text.RegularExpressions.Regex spriteRegex = new System.Text.RegularExpressions.Regex(@"\{(\d+)\}$");
-        var match = spriteRegex.Match(currentLine);
-
-        if (match.Success)
-        {
-            // Extract sprite index
-            int spriteIndex = int.Parse(match.Groups[1].Value);
-
-            // Load the sprite dynamically
-            string spritePath = $"Sprites/DialogueSprites/{charaName}/{charaName}_{spriteIndex}";
-            Sprite loadedSprite = Resources.Load<Sprite>(spritePath);
-
-            if (loadedSprite != null)
-            {
-                // Adjust the text box to account for the sprite
-                textComponentRect.offsetMax = new Vector2(600, textComponentRect.offsetMax.y);
-                nameComponentRect.offsetMax = new Vector2(600, nameComponentRect.offsetMax.y);
-
-                // Display the sprite
-                dialogueSprite.sprite = loadedSprite;
-                dialogueSprite.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogWarning($"Sprite not found at path: {spritePath}");
-                ResetSpriteAndTextBox();
-            }
-
-            // Remove the sprite tag from the dialogue text
-            lines[index] = spriteRegex.Replace(currentLine, string.Empty);
-        }
-        else
-        {
-            ResetSpriteAndTextBox();
-        }
-
-        textComponent.text = string.Empty;
-        StartCoroutine(TypeLine());
-    }
-
-    void ResetSpriteAndTextBox()
-    {
-        // Hide the sprite and reset text box to original size
-        dialogueSprite.gameObject.SetActive(false);
-        textComponentRect.offsetMin = new Vector2(110, textComponentRect.offsetMin.y);
-        nameComponentRect.offsetMin = new Vector2(110, nameComponentRect.offsetMin.y);
     }
 
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        var seg = segments[segmentIndex];
+        if (seg is DialogueTextSegment textSeg)
         {
-            index++;
-            DisplayCurrentLine();
-        }
-        else
-        {
-            gameObject.SetActive(false);
-            Time.timeScale = 1f; 
-            isDialogueActive = false; // Reset flag
-        }
-    }
-
-    void LoadLinesFromFile(string filePath)
-    {
-        try
-        {
-            // Read all lines from the file
-            string[] fileLines = File.ReadAllLines(filePath);
-
-            // Initialize lines array
-            lines = new string[fileLines.Length];
-
-            for (int i = 0; i < fileLines.Length; i++)
+            if (lineIndex < textSeg.lines.Count - 1)
             {
-                // Ensure each line follows the "Chara Name: Dialogue" format
-                lines[i] = fileLines[i];
+                lineIndex++;
+                DisplayCurrentLine();
+                return;
             }
+            // Advance out of text block
+            segmentIndex++;
+            lineIndex = 0;
+            if (segmentIndex < segments.Count)
+                DisplayCurrentLine();
+            else
+                EndDialogue();
         }
-        catch (IOException e)
+        else if (seg is DecisionSegment decisionSeg)
         {
-            Debug.LogError($"Error reading dialogue file: {e.Message}");
+            // Finished typing the prompt; trigger decision panel.
+            TriggerDecision(decisionSeg);
         }
     }
 
-    void LoadDialogueFile()
+    // ─────────────────────────────────────────────────────────────
+    // 9) DECISION LOGIC
+    // ─────────────────────────────────────────────────────────────
+    void TriggerDecision(DecisionSegment ds)
     {
-        string fullFilePath = $"Assets/Resources/Dialogue/{dialogueFileName}.txt";
+        Time.timeScale = 0f;
+        var optionTexts = ds.options.Select(o => o.text).ToArray();
+        decisionController.Show(optionTexts, choiceIdx =>
+        {
+            // Save decision using key and chosen option name.
+            SaveDecision(ds.key, ds.options[choiceIdx].name);
 
-        if (!string.IsNullOrEmpty(dialogueFileName) && File.Exists(fullFilePath))
-        {
-            LoadLinesFromFile(fullFilePath);
-            Debug.Log($"Dialogue loaded from: {dialogueFileName}.");
-        }
-        else
-        {
-            Debug.LogError("Dialogue file not found or filename is empty.");
-        }
+            // Inject the chosen branch's dialogue.
+            var chosenName = ds.options[choiceIdx].name;
+            var chosenLines = ds.blocks[chosenName];
+
+            // Parse the lines of the selected branch using the same logic as ParseDialogueFile
+            var newSegs = new List<DialogueSegment>();
+            int i = 0;
+            while (i < chosenLines.Count)
+            {
+                if (chosenLines[i].StartsWith("[Decision:"))
+                {
+                    string key = chosenLines[i++].Replace("[Decision:", "").Replace("]", "").Trim();
+                    string prompt = chosenLines[i++];
+                    var opts = new List<Option>();
+                    while (i < chosenLines.Count && chosenLines[i].StartsWith("- ["))
+                    {
+                        var m = Regex.Match(chosenLines[i], @"- \[(.+?)\] (.+)");
+                        if (m.Success) opts.Add(new Option(m.Groups[1].Value, m.Groups[2].Value));
+                        i++;
+                    }
+                    var blocks = new Dictionary<string, List<string>>();
+                    foreach (var opt in opts)
+                    {
+                        if (chosenLines[i].Trim() == $"[{opt.name}]") i++;
+                        var blockLines = new List<string>();
+                        while (i < chosenLines.Count && !chosenLines[i].StartsWith($"[ChoiceEnd: {opt.name}]"))
+                            blockLines.Add(chosenLines[i++]);
+                        i++; // Skip [ChoiceEnd: …]
+                        blocks[opt.name] = blockLines;
+                    }
+                    i++; // Skip [EndDecision: key]
+                    newSegs.Add(new DecisionSegment(key, prompt, opts, blocks));
+                }
+                else
+                {
+                    var lines = new List<string>();
+                    while (i < chosenLines.Count && !chosenLines[i].StartsWith("[Decision:"))
+                        lines.Add(chosenLines[i++]);
+                    newSegs.Add(new DialogueTextSegment(lines));
+                }
+            }
+
+            // Add back the remaining original segments after the decision
+            for (int j = segmentIndex + 1; j < segments.Count; j++)
+                newSegs.Add(segments[j]);
+
+            segments = newSegs;
+            segmentIndex = 0;
+            lineIndex = 0;
+            DisplayCurrentLine();
+        });
+    }
+    void SaveDecision(string key, string choiceName)
+    {
+        Debug.Log($"[Decision Saved] Key: {key} | Choice: {choiceName}");
+        PlayerPrefs.SetString(key, choiceName);
+        PlayerPrefs.Save();
     }
 
-    // New method to dynamically set the dialogue file name
+    // ─────────────────────────────────────────────────────────────
+    // 10) EXPOSED METHOD FOR SETTING DIALOGUE FILE
+    // ─────────────────────────────────────────────────────────────
     public void SetDialogueFileName(string newFileName)
     {
+        // Only allow resetting if dialogue isn't active.
         if (isDialogueActive)
             return;
-
         dialogueFileName = newFileName;
-        Debug.Log($"Dialogue set to: {newFileName}.");
-        LoadDialogueFile(); // Reload dialogue from the new file
+        Debug.Log($"Dialogue set to: {newFileName}");
+        ParseDialogueFile();
         StartDialogue();
     }
 }
