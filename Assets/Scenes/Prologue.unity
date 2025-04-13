@@ -4123,6 +4123,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1900372295}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &290048872 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2305366372709965842, guid: 33d83c85320ae9a40991b8dc9774d618,
+    type: 3}
+  m_PrefabInstance: {fileID: 1125209347}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &299525725 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: bcf903531d6a3b340a45c0ac997472c9,
@@ -14189,8 +14195,6 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 0
-  decisionNodeID: 
 --- !u!4 &872695777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3490026887102541896, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4,
@@ -16141,6 +16145,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1878738702}
   m_SourcePrefab: {fileID: 100100000, guid: d642bdb2862b6664191fa636b60b4678, type: 3}
+--- !u!1 &973762271 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4608700972142055631, guid: 33d83c85320ae9a40991b8dc9774d618,
+    type: 3}
+  m_PrefabInstance: {fileID: 1125209347}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &979424551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 8f86cad54e8fcbc4696dea3c7aa3c578,
@@ -18314,6 +18324,16 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1326126352}
+    - target: {fileID: 7643281461000256882, guid: 33d83c85320ae9a40991b8dc9774d618,
+        type: 3}
+      propertyPath: Weapon1
+      value: 
+      objectReference: {fileID: 973762271}
+    - target: {fileID: 7643281461000256882, guid: 33d83c85320ae9a40991b8dc9774d618,
+        type: 3}
+      propertyPath: Weapon2
+      value: 
+      objectReference: {fileID: 290048872}
     - target: {fileID: 7922739443337453593, guid: 33d83c85320ae9a40991b8dc9774d618,
         type: 3}
       propertyPath: m_Name
@@ -18886,6 +18906,8 @@ MonoBehaviour:
   RotationSpeed: 10
   Camera: {fileID: 1326126352}
   AccelerationTime: 0.5
+  Weapon1: {fileID: 0}
+  Weapon2: {fileID: 0}
   Right_Hand:
     m_PersistentCalls:
       m_Calls:
@@ -19442,8 +19464,6 @@ MonoBehaviour:
   storedItem: {fileID: 0}
   audioSource: {fileID: 0}
   openSound: {fileID: 0}
-  affectsDecisionTree: 0
-  decisionNodeID: 
   updateOnItemCollection: 0
 --- !u!95 &1174729323
 Animator:
@@ -21206,7 +21226,7 @@ MonoBehaviour:
   interactionIcon: {fileID: 276769502}
   enableBlinkEffect: 1
   useDirectionalInteraction: 0
-  interactionDirection: {x: 1, y: 0, z: 0}
+  interactionDirection: {x: 0, y: 0, z: 0}
   objectID: 
 --- !u!4 &1246036868 stripped
 Transform:
@@ -21536,7 +21556,7 @@ MonoBehaviour:
   interactionIcon: {fileID: 694120328}
   enableBlinkEffect: 1
   useDirectionalInteraction: 0
-  interactionDirection: {x: 0, y: 1, z: 0}
+  interactionDirection: {x: 0, y: 0, z: 0}
   objectID: 
 --- !u!4 &1257508766 stripped
 Transform:
@@ -23281,8 +23301,8 @@ MonoBehaviour:
   positiveZ: 1000
   negativeZ: -1000
   offsetX: 0
-  offsetY: 0
-  offsetz: 0
+  offsetY: 15
+  offsetz: -17
 --- !u!1 &1328052518
 GameObject:
   m_ObjectHideFlags: 0
@@ -24355,7 +24375,7 @@ MonoBehaviour:
   interactionIcon: {fileID: 434147021}
   enableBlinkEffect: 1
   useDirectionalInteraction: 0
-  interactionDirection: {x: -1, y: 0, z: 0}
+  interactionDirection: {x: 0, y: 0, z: 0}
   objectID: 
 --- !u!1001 &1379239786
 PrefabInstance:
@@ -27611,7 +27631,7 @@ MonoBehaviour:
   interactionIcon: {fileID: 1445884168}
   enableBlinkEffect: 1
   useDirectionalInteraction: 0
-  interactionDirection: {x: -1, y: 0, z: 0}
+  interactionDirection: {x: 0, y: 0, z: 0}
   objectID: 
 --- !u!4 &1617330629 stripped
 Transform:
