@@ -6391,7 +6391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectsDecisionTree: 1
-  decisionNodeID: Level1KillSpider
+  possibleDecisionNodeIDs:
+  - Level1KillSpider
 --- !u!1001 &437709854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9663,6 +9664,16 @@ PrefabInstance:
       propertyPath: affectsDecisionTree
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5190907304432703025, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5190907304432703025, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: Level1KeyCollected
+      objectReference: {fileID: 0}
     - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: storedItem
@@ -11544,6 +11555,16 @@ PrefabInstance:
         type: 3}
       propertyPath: affectsDecisionTree
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: Level1Room1Door
       objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -17452,6 +17473,16 @@ PrefabInstance:
       propertyPath: affectsDecisionTree
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: Level1Room2Door
+      objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: useDirectionalInteraction
@@ -17850,6 +17881,16 @@ PrefabInstance:
         type: 3}
       propertyPath: affectsDecisionTree
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: Level1Exit1
       objectReference: {fileID: 0}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
