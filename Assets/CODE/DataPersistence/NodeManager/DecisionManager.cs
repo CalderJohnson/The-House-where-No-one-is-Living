@@ -66,6 +66,12 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
 
     public bool SetCurrentNode(string nodeID)
     {
+        if (string.IsNullOrEmpty(nodeID))
+        {
+            Debug.LogError("[SetCurrentNode] Invalid nodeID.");
+            return false;
+        }
+
         if (currentNode.connectedNodes.Contains(nodeID))
         {
             if (!pathTaken.Contains(currentNode.nodeID))
@@ -87,6 +93,11 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
             }
 
             Debug.Log("Current node set to: " + currentNode.nodeID);
+
+            if (DataPersistenceManager.Instance != null)
+            {
+                DataPersistenceManager.Instance.SaveGame();
+            }
 
             return true;
         }
