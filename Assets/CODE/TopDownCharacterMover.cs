@@ -93,6 +93,8 @@ public class TopDownCharacterMover : MonoBehaviour
             float rotationSpeed = 5f; // Adjust this value for speed of rotation
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.green, 0.1f);
         }
     }
 

@@ -2169,7 +2169,7 @@ GameObject:
   - component: {fileID: 140214757}
   - component: {fileID: 140214756}
   - component: {fileID: 140214755}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3308,6 +3308,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 987404927}
+    - targetCorrespondingSourceObject: {fileID: 7922739443337453593, guid: 33d83c85320ae9a40991b8dc9774d618,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 987404928}
   m_SourcePrefab: {fileID: 100100000, guid: 33d83c85320ae9a40991b8dc9774d618, type: 3}
 --- !u!1 &215847520
 GameObject:
@@ -5582,7 +5586,7 @@ GameObject:
   - component: {fileID: 382732910}
   - component: {fileID: 382732909}
   - component: {fileID: 382732908}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6256,6 +6260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -9053,6 +9058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   Ragdoll:
     m_PersistentCalls:
       m_Calls:
@@ -12096,7 +12102,7 @@ GameObject:
   - component: {fileID: 869400992}
   - component: {fileID: 869400991}
   - component: {fileID: 869400990}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13962,6 +13968,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7aa48ea15917d645a6d76fe76e2c8f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &987404928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987404915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  Ragdoll:
+    m_PersistentCalls:
+      m_Calls: []
+  affectsDecisionTree: 0
+  decisionNodeID: 
 --- !u!4 &988597991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8020344569984888612, guid: 81bb9eea30387e442899949a80011e55,
@@ -15579,7 +15603,7 @@ GameObject:
   - component: {fileID: 1073407987}
   - component: {fileID: 1073407986}
   - component: {fileID: 1073407985}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27809,7 +27833,7 @@ GameObject:
   - component: {fileID: 1987013351}
   - component: {fileID: 1987013350}
   - component: {fileID: 1987013349}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30061,7 +30085,7 @@ GameObject:
   - component: {fileID: 2114881821}
   - component: {fileID: 2114881820}
   - component: {fileID: 2114881819}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
