@@ -11321,7 +11321,7 @@ GameObject:
   - component: {fileID: 812282766}
   - component: {fileID: 812282765}
   m_Layer: 0
-  m_Name: Plane (3)
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15219,8 +15219,8 @@ MonoBehaviour:
   positiveZ: 1000
   negativeZ: -1000
   offsetX: 0
-  offsetY: 0
-  offsetz: 0
+  offsetY: 15
+  offsetz: -17
 --- !u!114 &1032734114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21028,7 +21028,7 @@ GameObject:
   - component: {fileID: 1404488409}
   - component: {fileID: 1404488408}
   m_Layer: 0
-  m_Name: Plane (1)
+  m_Name: back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22663,7 +22663,7 @@ GameObject:
   - component: {fileID: 1520924913}
   - component: {fileID: 1520924912}
   m_Layer: 0
-  m_Name: Plane (4)
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22752,7 +22752,7 @@ Transform:
   m_GameObject: {fileID: 1520924911}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -4.875}
+  m_LocalPosition: {x: 0, y: -15.95, z: -4.875}
   m_LocalScale: {x: 1, y: 0.25, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23133,7 +23133,7 @@ GameObject:
   - component: {fileID: 1558042444}
   - component: {fileID: 1558042443}
   m_Layer: 0
-  m_Name: Plane (2)
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28310,6 +28310,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 65fac7cc44cc1cc4092bad889ea7cb6d, type: 3}
       propertyPath: m_Name
       value: Dungeon_Big
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 65fac7cc44cc1cc4092bad889ea7cb6d, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 65fac7cc44cc1cc4092bad889ea7cb6d, type: 3}
       propertyPath: m_LocalScale.x
