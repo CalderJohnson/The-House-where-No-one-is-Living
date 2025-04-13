@@ -385,12 +385,28 @@ public class Dialogue : MonoBehaviour
             DisplayCurrentLine();
         });
     }
+
     void SaveDecision(string key, string choiceName)
     {
         Debug.Log($"[Decision Saved] Key: {key} | Choice: {choiceName}");
-        PlayerPrefs.SetString(key, choiceName);
-        PlayerPrefs.Save();
+        
+        UpdateNode updateNode = GetComponent<UpdateNode>();
+        if (updateNode != null && updateNode.affectsDecisionTree)
+        {
+            // Find the choice index based on choiceName
+            int choiceIndex = updateNode.possibleDecisionNodeIDs.IndexOf(choiceName);
+
+            if (choiceIndex != -1)
+            {
+                updateNode.TryUpdateDecisionNode(choiceIndex);
+            }
+            else
+            {
+                Debug.LogWarning($"[SaveDecision] Choice name '{choiceName}' not found in possibleDecisionNodeIDs.");
+            }
+        }
     }
+
 
     // ─────────────────────────────────────────────────────────────
     // 10) EXPOSED METHOD FOR SETTING DIALOGUE FILE
