@@ -18,7 +18,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     public bool updateOnItemCollection = false; // If true, update decision tree when item is collected
 
     private bool isOpen = false;
-    private bool itemCollected = false; // Tracks if the item was taken
+    private bool itemCollected = false; 
 
     private void Awake()
     {
@@ -33,15 +33,12 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (!isOpen)
         {
-            // Re-enable Animator before playing animations
             leftDoorAnimator.enabled = true;
             rightDoorAnimator.enabled = true;
 
-            // Play animations for opening the doors
             leftDoorAnimator.Play("DoorOpen_Left");
             rightDoorAnimator.Play("DoorOpen_Right");
 
-            // Play sound effect if available
             if (audioSource != null && openSound != null)
             {
                 audioSource.PlayOneShot(openSound);
@@ -66,9 +63,9 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (storedItem != null)
         {
-            Inventory.Instance.AddItem(storedItem.name); // Add item to inventory
+            Inventory.Instance.AddItem(storedItem.name);
             itemCollected = true;
-            storedItem.SetActive(false); // Hide item instead of destroying it
+            storedItem.SetActive(false);
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
 
             // Update decision tree if waiting for item collection

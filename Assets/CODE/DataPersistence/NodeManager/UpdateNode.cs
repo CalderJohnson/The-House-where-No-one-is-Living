@@ -6,12 +6,12 @@ public class UpdateNode : MonoBehaviour
 {
     [Header("Decision System")]
     public bool affectsDecisionTree = false;
-    public string decisionNodeID;
+    public List<string> possibleDecisionNodeIDs; 
 
-    // Public method you can call from any other script
-    public void TryUpdateDecisionNode()
+
+    public void TryUpdateDecisionNode(int choiceIndex)
     {
-        if (!affectsDecisionTree || string.IsNullOrEmpty(decisionNodeID))
+        if (!affectsDecisionTree || possibleDecisionNodeIDs == null || possibleDecisionNodeIDs.Count == 0)
             return;
 
         if (DecisionManager.Instance == null)
@@ -20,7 +20,15 @@ public class UpdateNode : MonoBehaviour
             return;
         }
 
-        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+        if (choiceIndex < 0 || choiceIndex >= possibleDecisionNodeIDs.Count)
+        {
+            Debug.LogError($"Invalid choice index: {choiceIndex}");
+            return;
+        }
+
+        string selectedNodeID = possibleDecisionNodeIDs[choiceIndex];
+
+        bool success = DecisionManager.Instance.SetCurrentNode(selectedNodeID);
 
         if (success)
         {
@@ -28,12 +36,16 @@ public class UpdateNode : MonoBehaviour
             {
                 DataPersistenceManager.Instance.SaveGame();
             }
-            Debug.Log($"[UpdateNode] Decision node updated to: {decisionNodeID}");
+            Debug.Log($"[UpdateNode] Decision node updated to: {selectedNodeID}");
         }
         else
         {
-            Debug.LogWarning($"[UpdateNode] Failed to update decision node to: {decisionNodeID}");
+            Debug.LogWarning($"[UpdateNode] Failed to update decision node to: {selectedNodeID}");
         }
     }
-}
 
+    public void TryUpdateDecisionNode()
+    {
+        TryUpdateDecisionNode(0); // Call the new version with choiceIndex = 0
+    }
+}

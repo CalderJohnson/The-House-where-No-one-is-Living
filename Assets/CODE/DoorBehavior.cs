@@ -11,7 +11,7 @@ public class DoorScript : MonoBehaviour
     public AudioSource doorAudioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
-    public AudioClip rattlingSound; // New sound for rattling
+    public AudioClip rattlingSound;
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
