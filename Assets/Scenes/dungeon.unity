@@ -9574,6 +9574,11 @@ PrefabInstance:
       propertyPath: updateOnItemCollection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6207669615799187189, guid: 0515f9549f8cc8d459805d68b8879248,
+        type: 3}
+      propertyPath: updateOnItemCollection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8092233094556268855, guid: 0515f9549f8cc8d459805d68b8879248,
         type: 3}
       propertyPath: m_LocalScale.x

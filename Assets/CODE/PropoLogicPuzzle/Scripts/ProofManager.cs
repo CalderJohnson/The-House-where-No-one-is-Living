@@ -13,6 +13,8 @@ public class ProofController : MonoBehaviour
     public PuzzleSO currentPuzzle; // Assign your PuzzleSO asset in the Inspector
 
     [Header("UI References")]
+    public GameObject bookCover;  // Reference to the PropoLogicBook
+    public GameObject puzzleContent;  // Reference to the PropoLogicPuzzle (the content part)
     public Transform givensPanel;       // Left panel: container for facts and given rules.
     public Transform proofPanel;        // Right panel: container for proof lines.
     public GameObject proofLinePrefab;  // Prefab for proof lines.
@@ -30,6 +32,11 @@ public class ProofController : MonoBehaviour
     private bool combineMode = false;
     private ProofLine combineLine1 = null;
     private ProofLine combineLine2 = null;
+    // Keep track of clones to delete
+    private List<GameObject> factObjects = new List<GameObject>();
+    private List<GameObject> ruleObjects = new List<GameObject>();
+    private List<GameObject> ruleOptionObjects = new List<GameObject>();
+
 
     Animator Book;
 
@@ -37,51 +44,66 @@ public class ProofController : MonoBehaviour
         Book = propoBook.GetComponent<Animator>();
     }
 
-    void Start()
-    {       
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!isPaused)
+            {
+                OpenPuzzle(currentPuzzle);
+            }
+            else
+            {
+                EndPuzzle();
+            }
+        }
+    }
+
+
+    public void OpenPuzzle(PuzzleSO puzzleToLoad)
+    {
+        // Set the current puzzle to be played.
+        currentPuzzle = puzzleToLoad;
+        
+        // (Re)initialize any necessary translators or caches.
         EnglishTranslator.GetRawFactText = (varName) =>
         {
-            // First check the facts
+            // Check facts from the puzzle
             foreach (var fact in currentPuzzle.facts)
             {
                 if (fact.factID == varName)
                     return fact.rawFactText;
             }
 
-            // Then check the conclusion (if it's not already in the facts list)
+            // Check the conclusion if needed.
             if (currentPuzzle.conclusion != null && currentPuzzle.conclusion.factID == varName)
             {
                 return currentPuzzle.conclusion.rawFactText;
             }
-
-            // Fallback
             return varName;
         };
 
-        isPaused = true;
-        propoBook.SetActive(true); // Show the pause menu
-        Time.timeScale = 0f;
-        Book.SetBool("Tab2Close", false);
-        // Display the conclusion at the top.
+        // Set up conclusion text, etc.
         if (thingToProveText != null && currentPuzzle.conclusion != null)
             thingToProveText.text = currentPuzzle.conclusion.englishSentence;
         
+        // Load facts/given rules onto your UI panels.
         LoadGivens();
-    }
 
-    void Update()
-    {
-        // Check if Tab is pressed
-        if (Input.GetKeyDown(KeyCode.P) && isPaused)
-        {
-            EndPuzzle();
-        }
-    }
+        // Activate the proof book UI and pause game time.
+        propoBook.SetActive(true);
+        puzzleContent.SetActive(false); // Don't want the options to display before the book
 
-    private IEnumerator HideAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        TooltipManager.Instance.HideTooltip();
+        Time.timeScale = 0f;
+        isPaused = true;
+
+        // Reset animation parameters
+        Book.SetBool("Tab2Close", false);
+
+        // Wait for the opening animation to finish before showing the puzzle content
+        StartCoroutine(WaitForOpenAnimation());
+
+        Debug.Log("Proof puzzle opened and paused.");
     }
 
     /// <summary>
@@ -89,6 +111,8 @@ public class ProofController : MonoBehaviour
     /// </summary>
     private void LoadGivens()
     {
+        factObjects.Clear();
+        ruleObjects.Clear();
         // We'll use these as our base positions.
         Vector3 baseFactPos = Vector3.zero;
         Vector3 baseRulePos = Vector3.zero;
@@ -104,6 +128,8 @@ public class ProofController : MonoBehaviour
             FactDisplay fd = factGO.GetComponent<FactDisplay>();
             if (fd != null)
                 fd.Setup(fact);
+            
+            factObjects.Add(factGO);
             
             // If this is the first fact, store its default anchored position.
             RectTransform rt = factGO.GetComponent<RectTransform>();
@@ -128,6 +154,8 @@ public class ProofController : MonoBehaviour
             GivenRuleDisplay grd = ruleGO.GetComponent<GivenRuleDisplay>();
             if (grd != null)
                 grd.Setup(rule);
+            
+            ruleObjects.Add(ruleGO);
             
             // If this is the first rule, store its default anchored position.
             RectTransform rt = ruleGO.GetComponent<RectTransform>();
@@ -265,6 +293,7 @@ public class ProofController : MonoBehaviour
                     // Pass the option and the first combined line (or both if needed) and controller reference.
                     optionButton.Setup(option, selectedLine, this);
                 }
+                ruleOptionObjects.Add(optionButtonGO);
             }
             // Optionally force a layout update to arrange the buttons.
             LayoutRebuilder.ForceRebuildLayoutImmediate(ruleOptionsPanel.GetComponent<RectTransform>());
@@ -677,9 +706,43 @@ public class ProofController : MonoBehaviour
         }
     }
 
+    private void DestroyAllClones()
+    {
+        // Destroy all fact objects
+        foreach (GameObject factGO in factObjects)
+        {
+            Destroy(factGO);
+        }
+        factObjects.Clear();
+
+        // Destroy all rule objects
+        foreach (GameObject ruleGO in ruleObjects)
+        {
+            Destroy(ruleGO);
+        }
+        ruleObjects.Clear();
+
+        // Destroy all proof line objects (if any)
+        foreach (ProofLine Line in proofLines)
+        {
+            Destroy(Line);
+        }
+        proofLines.Clear();
+
+        // Destroy all rule option objects (if any)
+        foreach (GameObject ruleOptionGO in ruleOptionObjects)
+        {
+            Destroy(ruleOptionGO);
+        }
+        ruleOptionObjects.Clear();
+
+        Debug.Log("All dynamically created objects have been destroyed.");
+    }
 
     public void EndPuzzle()
-    {
+    {   
+        DestroyAllClones();
+        puzzleContent.SetActive(false);
         // Enable the closing animation to be played
         Book.SetBool("Tab2Close", true);
 
@@ -691,8 +754,23 @@ public class ProofController : MonoBehaviour
         StartCoroutine(CloseBookAndExit());
     }
 
-    private IEnumerator CloseBookAndExit()
+    private IEnumerator WaitForOpenAnimation()
     {
+        // Wait until the "Open" animation has finished
+        AnimatorStateInfo stateInfo = Book.GetCurrentAnimatorStateInfo(0);
+
+        while (stateInfo.IsName("Book Open") || stateInfo.normalizedTime >= 1f)
+        {
+            yield return null;
+            stateInfo = Book.GetCurrentAnimatorStateInfo(0);
+        }
+
+        // Once the book is open, show the puzzle content
+        puzzleContent.SetActive(true);
+    }
+
+    private IEnumerator CloseBookAndExit()
+    {  
         while (true)
         {
             AnimatorStateInfo currentState = Book.GetCurrentAnimatorStateInfo(0);
