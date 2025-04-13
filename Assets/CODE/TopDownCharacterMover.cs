@@ -53,7 +53,10 @@ public class TopDownCharacterMover : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.Mouse0)){//left click
-            playerAnim.SetBool("Attack",true);
+            // playerAnim.SetBool("Attack",true);
+            // Right_Hand.Invoke(); //attack with right hand
+            // Invoke("ResetAttack", 1f); 
+            playerAnim.SetBool("Attack2",true);
             Right_Hand.Invoke(); //attack with right hand
             Invoke("ResetAttack", 1f); 
             
@@ -74,7 +77,8 @@ public class TopDownCharacterMover : MonoBehaviour
 
     void ResetAttack()
     {
-    playerAnim.SetBool("Attack", false);
+        //playerAnim.SetBool("Attack", false);
+    playerAnim.SetBool("Attack2", false);
     }
 
     private void RotateFromMouseVector()
