@@ -58,7 +58,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             Debug.Log($"Wardrobe {wardrobeID} opened.");
 
             // Update decision tree **if we are NOT waiting for item collection**
-            if (affectsDecisionTree && !updateOnItemCollection)
+            if (!updateOnItemCollection)
             {
                 UpdateDecisionNode();
             }
@@ -79,7 +79,7 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
 
             // Update decision tree **if waiting for item collection**
-            if (affectsDecisionTree && updateOnItemCollection)
+            if (updateOnItemCollection)
             {
                 UpdateDecisionNode();
             }
@@ -88,6 +88,8 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
     private void UpdateDecisionNode()
     {
+        if (!affectsDecisionTree) return;
+
         bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
 
         if (success)
@@ -103,7 +105,6 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        // Load wardrobe open state
         WardrobeState savedState = data.wardrobeStates.Find(w => w.wardrobeID == wardrobeID);
         if (savedState != null)
         {
@@ -111,17 +112,14 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         }
         else
         {
-            isOpen = false; // Default to closed if no save data is found
+            isOpen = false; 
         }
 
-        // If wardrobe should be closed, reset doors
         if (!isOpen)
         {
-            // Disable Animator to reset doors manually
             leftDoorAnimator.enabled = false;
             rightDoorAnimator.enabled = false;
 
-            // Reset door rotation (adjust values based on closed rotation)
             leftDoorAnimator.transform.localRotation = Quaternion.Euler(0, 0, 0);
             rightDoorAnimator.transform.localRotation = Quaternion.Euler(0, 0, 0);
 
@@ -129,11 +127,9 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         }
         else
         {
-            // Ensure Animator is enabled so doors stay open if saved that way
             leftDoorAnimator.enabled = true;
             rightDoorAnimator.enabled = true;
 
-            // Play open animation instantly if it was open in save
             leftDoorAnimator.Play("DoorOpen_Left", 0, 1f);
             rightDoorAnimator.Play("DoorOpen_Right", 0, 1f);
         }
@@ -146,17 +142,16 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
         }
         else
         {
-            itemCollected = false; // Default to not collected
+            itemCollected = false;
         }
 
-        // Restore the item if it was not collected in save
         if (!itemCollected && storedItem != null)
         {
-            storedItem.SetActive(true); // Ensure item is visible again
+            storedItem.SetActive(true); 
         }
         else if (itemCollected && storedItem != null)
         {
-            storedItem.SetActive(false); // Hide item if collected
+            storedItem.SetActive(false); 
         }
     }
 

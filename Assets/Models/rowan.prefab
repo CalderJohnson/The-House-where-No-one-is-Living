@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
   m_AgentTypeID: 0
   m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
@@ -271,12 +272,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4320098735860348617, guid: f0342b27875442f4fbac64a91057cccb,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ac0be0b6f5c2d364fa8413cd4f3c6c44, type: 2}
     - target: {fileID: 5433269313094510252, guid: f0342b27875442f4fbac64a91057cccb,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2440fd530038b88489961b80cd68a9ad, type: 2}
     - target: {fileID: 5866666021909216657, guid: f0342b27875442f4fbac64a91057cccb,
@@ -305,10 +306,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7643281461000256882}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0342b27875442f4fbac64a91057cccb,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8472712840170067795}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0342b27875442f4fbac64a91057cccb,
         type: 3}
       insertIndex: -1
@@ -367,6 +364,7 @@ MonoBehaviour:
   SprintSpeed: 10
   RotationSpeed: 10
   Camera: {fileID: 0}
+  AccelerationTime: 0.5
   Right_Hand:
     m_PersistentCalls:
       m_Calls:
@@ -385,22 +383,6 @@ MonoBehaviour:
   Left_Hand:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8472712840170067795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7922739443337453593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76af43f35f001a24c877a078ba820161, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRange: 10
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &7768370128480513887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,9 +396,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRange: 10
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &8855724256787798666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
   m_AgentTypeID: 0
   m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}

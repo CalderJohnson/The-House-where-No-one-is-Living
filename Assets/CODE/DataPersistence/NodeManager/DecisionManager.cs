@@ -24,16 +24,41 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     }
 
     private void CreateDecisionTree()
-    {
-        // Declare the nodes
-        DecisionNode startNode = new DecisionNode("Start", new string[] { "KeyCollected" });
-        DecisionNode keyCollected = new DecisionNode("KeyCollected", new string[] { "OpenDoor"  });
-        DecisionNode openDoor = new DecisionNode("OpenDoor", new string[] { });
+    {   
+        // Declare Nodes
+        // Room 1
+        DecisionNode startNode = new DecisionNode("StartLevel1", new string[] { "Level1KeyCollected" });
+        DecisionNode key1Collected = new DecisionNode("Level1KeyCollected", new string[] { "Level1Room1Door" });
+        DecisionNode level1Room1Door = new DecisionNode("Level1Room1Door", new string[] { "Level1KillSpider", "Level1Room2Door" });
+
+        // Room 2
+        DecisionNode level1KillSpider = new DecisionNode("Level1KillSpider", new string[] { "Level1Room2Door" });
+        DecisionNode level1Room2Door = new DecisionNode("Level1Room2Door", new string[] { "Level1SavePrisoner", "Level1KillPrisoner", "Level1Boss" });
+
+        // Prisoner Room
+        DecisionNode level1SavePrisoner = new DecisionNode("Level1SavePrisoner", new string[] { "Level1Exit1" });
+        DecisionNode level1KillPrisoner = new DecisionNode("Level1KillPrisoner", new string[] { "Level1Boss" });
+
+        // Boss and ending
+        DecisionNode level1Boss = new DecisionNode("Level1Boss", new string[] { "Level1Exit2" });
+        DecisionNode level1Exit1 = new DecisionNode("Level1Exit1", new string[] { "" });
+        DecisionNode level1Exit2 = new DecisionNode("Level1Exit2", new string[] { "" });
+
 
         // Store the nodes in the decision tree
         decisionTree[startNode.nodeID] = startNode;
-        decisionTree[keyCollected.nodeID] = keyCollected;
-        decisionTree[openDoor.nodeID] = openDoor;
+        decisionTree[key1Collected.nodeID] = key1Collected;
+        decisionTree[level1Room1Door.nodeID] = level1Room1Door;
+
+        decisionTree[level1KillSpider.nodeID] = level1KillSpider;
+        decisionTree[level1Room2Door.nodeID] = level1Room2Door;
+
+        decisionTree[level1SavePrisoner.nodeID] = level1SavePrisoner;
+        decisionTree[level1KillPrisoner.nodeID] = level1KillPrisoner;
+
+        decisionTree[level1Boss.nodeID] = level1Boss;
+        decisionTree[level1Exit1.nodeID] = level1Exit1;
+        decisionTree[level1Exit2.nodeID] = level1Exit2;
 
         // Set the current node to the starting point
         currentNode = startNode;
@@ -41,10 +66,26 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
 
     public bool SetCurrentNode(string nodeID)
     {
-        if (currentNode.connectedNodes.Contains(nodeID))  
+        if (currentNode.connectedNodes.Contains(nodeID))
         {
-            pathTaken.Add(currentNode.nodeID);  // Store previous node
-            currentNode = decisionTree[nodeID]; // change node
+            if (!pathTaken.Contains(currentNode.nodeID))
+            {
+                pathTaken.Add(currentNode.nodeID);  
+            }
+
+            currentNode = decisionTree[nodeID]; 
+
+            if (!pathTaken.Contains(currentNode.nodeID))
+            {
+                pathTaken.Add(currentNode.nodeID); 
+            }
+
+            if (currentNode.nodeID == "Level1Room2Door")
+            {
+                Debug.Log("Reached Level1Room2Door. Special Major Save triggered!");
+                DataPersistenceManager.Instance.SaveMajorCheckpoint();
+            }
+
             Debug.Log("Current node set to: " + currentNode.nodeID);
 
             return true;
@@ -52,7 +93,7 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
         else
         {
             Debug.LogWarning("Node ID " + nodeID + " is not a valid option from " + currentNode.nodeID);
-            return false; 
+            return false;
         }
     }
 
@@ -64,6 +105,11 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
     public List<string> GetPathTaken()
     {
         return new List<string>(pathTaken);
+    }
+
+    public bool HasPassedNode(string nodeID)
+    {
+        return pathTaken.Contains(nodeID);
     }
 
     public void LoadData(GameData data)

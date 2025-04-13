@@ -33,6 +33,14 @@ public class SaveLoadUI : MonoBehaviour
         Debug.Log("Game Loaded!");
         menuUI.SetActive(false);
     }
+    
+    // This will be temp and if the game is worked on more this will be changed to a visual tree that can be clicked through
+    public void LoadMajorCheckpoint()
+    {
+        DataPersistenceManager.Instance.LoadMajorCheckpoint();
+        Debug.Log("Major checkpoint loaded!");
+        menuUI.SetActive(false);
+    }
 
     public void CloseMenu()
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class TrainableEnemy : BaseEnemy
 {
@@ -33,8 +34,16 @@ public abstract class TrainableEnemy : BaseEnemy
         //Debug.Log($"Health set to {health}");
         healthbar.SetHealth(health);
 
-        // Reset position (TODO: randomize position (currently annoying to do due to rotation))
-        transform.position = new Vector3(-12.2f, -4f, -0.5f);
+        // Reset position to a random NavMesh point within bounds
+        Vector3 spawnPoint;
+        if (GetRandomPointOnNavMesh(Vector3.zero, new Vector3(10, 0, 10), out spawnPoint))
+        {
+            GetComponent<NavMeshAgent>().Warp(spawnPoint);
+        }
+        else
+        {
+            Debug.LogWarning("Failed to find a valid spawn point on the NavMesh.");
+        }
 
         // Reset to default stats every 10 deaths
         deathCount++;
@@ -52,6 +61,27 @@ public abstract class TrainableEnemy : BaseEnemy
 
         // Reset other attributes
         lastShotTime = -1;
+    }
+
+    private bool GetRandomPointOnNavMesh(Vector3 center, Vector3 range, out Vector3 result, int maxAttempts = 50)
+    {
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector3 randomPoint = new Vector3(
+                Random.Range(center.x - range.x, center.x + range.x),
+                center.y,
+                Random.Range(center.z - range.z, center.z + range.z)
+            );
+
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+
+        result = Vector3.zero;
+        return false;
     }
 
     protected override void HandleDeath()

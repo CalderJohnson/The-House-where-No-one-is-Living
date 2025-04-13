@@ -11,6 +11,7 @@ public class DoorScript : MonoBehaviour
     public AudioSource doorAudioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
+    public AudioClip rattlingSound; // New sound for rattling
     public float x = 0f;
     public float y = 0f;
     public float z = 0f;
@@ -23,8 +24,8 @@ public class DoorScript : MonoBehaviour
     public string sceneName; // Name of the scene to load
 
     [Header("Decision System")]
-    public bool changeDecisionNode = false; // Set true if you want the door to change decision tree node
-    public string newNodeName; // The name of the node to switch to
+    public bool affectsDecisionTree = false; // Set true if you want the door to change decision tree node
+    public string decisionNodeID; // The name of the node to switch to
 
     [Header("One-Way Door")]
     public bool isOneWay = false; // Set true if this door should not be re-entered
@@ -33,7 +34,6 @@ public class DoorScript : MonoBehaviour
 
     private void Start()
     {
-        // Get reference to the player's inventory
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
@@ -43,12 +43,13 @@ public class DoorScript : MonoBehaviour
 
     public void TriggerDoor()
     {
-        if (!isDoorActive) return; // Prevent interaction if the door is already active
+        if (!isDoorActive) return; 
 
         if (isOneWay)
         {
             Debug.Log("This door is one-way and cannot be re-entered.");
-            return; // Prevent entering the door again
+            PlayRattlingSound(); 
+            return; 
         }
 
         if (Inventory.Instance == null)
@@ -59,12 +60,12 @@ public class DoorScript : MonoBehaviour
 
         Debug.Log($"Required Item: {requiredItem}");
 
-        // Check if the required item is in inventory (or if no item is required)
+        // Check if the required item is in inventory
         if (string.IsNullOrEmpty(requiredItem) || Inventory.Instance.HasItem(requiredItem))
         {
             Debug.Log("Door unlocked! Opening...");
 
-            // If loadNewScene is enabled, load the scene instead of teleporting
+            // load the scene 
             if (loadNewScene && !string.IsNullOrEmpty(sceneName))
             {
                 Debug.Log($"Loading scene: {sceneName}");
@@ -72,12 +73,13 @@ public class DoorScript : MonoBehaviour
             }
             else
             {
-                StartCoroutine(DoorSequence()); // Run normal teleport sequence
+                StartCoroutine(DoorSequence()); // Run normal teleport
             }
         }
         else
         {
             Debug.Log("You need " + requiredItem + " to open this door!");
+            PlayRattlingSound(); // Play rattling sound
         }
     }
 
@@ -93,7 +95,6 @@ public class DoorScript : MonoBehaviour
             doorAudioSource.Play();
         }
 
-        // Open the linked door (if it's Door 1 -> Door 2)
         if (linkedDoor != null && linkedDoor.doorAnimator != null)
         {
             linkedDoor.doorAnimator.Play("DoorOpen");
@@ -112,18 +113,15 @@ public class DoorScript : MonoBehaviour
         player.transform.position = new Vector3(x, y, z);
         player.SetActive(true);
 
-        // If the door is the first door (Door 1), and we're going through it, set Door 2 as one-way
         if (linkedDoor != null && linkedDoor.isOneWay)
         {
-            linkedDoor.isOneWay = true; // Lock the second door permanently
+            linkedDoor.isOneWay = true; 
         }
 
-        // Call the method to update the decision node if applicable
-        UpdateDecisionNodeOnDoorEntry();
+        UpdateDecisionNode();
 
         yield return new WaitForSeconds(0.1f);
 
-        // Close both doors
         if (doorAnimator != null)
         {
             doorAnimator.Play("DoorClose");
@@ -133,26 +131,35 @@ public class DoorScript : MonoBehaviour
             linkedDoor.doorAnimator.Play("DoorClose");
         }
 
-        yield return new WaitForSeconds(1f); // Wait for the doors to close
+        yield return new WaitForSeconds(1f); 
 
-        isDoorActive = true; // Reactivate the door for future use
+        isDoorActive = true; 
     }
 
-    private void UpdateDecisionNodeOnDoorEntry()
+    private void UpdateDecisionNode()
     {
-        if (changeDecisionNode && !string.IsNullOrEmpty(newNodeName))
-        {
-            bool success = DecisionManager.Instance.SetCurrentNode(newNodeName);
+        if (!affectsDecisionTree) return;
 
-            if (success)
-            {
-                DataPersistenceManager.Instance.SaveGame();  // Save the game data after changing the node
-                Debug.Log($"Decision node updated successfully to: {newNodeName}");
-            }
-            else
-            {
-                Debug.LogWarning($"Failed to update decision node to: {newNodeName}");
-            }
+        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
+
+        if (success)
+        {
+            DataPersistenceManager.Instance.SaveGame();
+            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
+        }
+        else
+        {
+            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
+        }
+    }
+
+    // Play rattling sound
+    private void PlayRattlingSound()
+    {
+        if (rattlingSound != null)
+        {
+            doorAudioSource.clip = rattlingSound;
+            doorAudioSource.Play();
         }
     }
 }
