@@ -17680,7 +17680,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -20
+  near clip plane: -40
   far clip plane: 5000
   field of view: 40
   orthographic: 1
@@ -27330,8 +27330,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873774862}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 81bb9eea30387e442899949a80011e55, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5989356594b0f474887c5cd24c71fcfc, type: 2}
+  m_Avatar: {fileID: 9000000, guid: a6d0caa6c53e3fb49b16bb95706f1207, type: 3}
+  m_Controller: {fileID: 9100000, guid: d496f475088bb6047ac720d856a8d535, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
