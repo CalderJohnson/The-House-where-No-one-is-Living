@@ -1,15 +1,49 @@
-Rowan: Test moment! This is so you can implement the decision node!
-Prisoner: Also test moment!
+Rowan: What the...?
+Rowan: There’s someone in there.
+Rowan: A prison cell. This deep in the house?
+Rowan: I thought this place was abandoned.
+Prisoner: Huh...? Hey... is someone there?
+Rowan: You’re... alive?
+Rowan: What the hell is going on?
+Prisoner: Yeah, I'm real. Been stuck here a while.
+Prisoner: She said she'd come back.
+Prisoner: She always does.
+Rowan: She?
+Prisoner: She cares. That’s what she said.
+Prisoner: Said she had to go prepare something... but she’d be back for me.
+Prisoner: I think… I think she meant it.
+Rowan: You're in a rusted-out cell in a half-collapsing basement.
+Rowan: And you <i>still</i> believe that?
+Prisoner: I—I know how it looks, but it’s not what you think.
+Prisoner: She’s... different. She doesn’t forget people.
+Rowan: Right.
+Rowan: And she just accidentally left you locked in a cage underground.
+Prisoner: I don’t know who you are, but you weren’t supposed to find this place.
+Rowan: That makes two of us.
+Rowan: I came looking for answers. Not... this.
+Prisoner: You could let me out.
+Prisoner: If you do... I’ll tell you what I know. What she told me.
+Rowan: You’re awfully calm for someone who’s been left to rot.
+Rowan: That makes me nervous.
+Rowan: This could be a trap. Another layer to whatever’s going on down here.
+Prisoner: Then take your time.
+Prisoner: Just… don’t forget I’m here.
 [Decision: Prisoner]
 Rowan: What should I do?
-- [Ignore] Sucks to be you, man.
-- [Free] I can't just leave him here!
+- [Ignore] I can’t trust him. There’s too much I don’t know.
+- [Free] No one deserves to be left like this.
 [Ignore]
-Prisoner: LMAO be like that
-Prisoner: Begoneee!
+Rowan: I’m sorry. I can’t.
+Rowan: I want to help, but I don’t know what this is. And I’m not risking it.
+Prisoner: …I get it.
+Prisoner: Just don’t take too long. Please.
 [ChoiceEnd: Ignore]
 [Free]
-Rowan: Imma get ya out of here!
-Rowan: But I gotta have my nice logical moment first ;)
+Rowan: No matter how I spin it, leaving you here feels wrong.
+Rowan: I’ll get you out. But after that, we’re talking. Everything.
+Rowan: Also, I'll do you one better...you can free yourself. With your own hands.
+Rowan: And I'll show you how.
+Prisoner: You have no idea what this means to me.
+Prisoner: Thank you.
 [ChoiceEnd: Free]
 [EndDecision: Prisoner]

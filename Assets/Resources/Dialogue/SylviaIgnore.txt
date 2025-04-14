@@ -1,0 +1,35 @@
+Sylvia: You made it this far, huh?
+Rowan: This house is a maze of nightmares, and I still can't tell what’s real.
+Rowan: But you... You’re really here.
+Sylvia: Of course I am.
+Rowan: You’re dead. I saw your body. I held your funeral.
+Rowan: This has to be some kind of illusion. Or dream. Or—
+Sylvia: Rowan.
+Sylvia: I'm not here to convince you with words.
+Sylvia: I left you a way to see the truth yourself.
+She gestures to the notebook clutched in Rowan’s hand — the one she gave him before she died. Its pages tremble with unread meaning.
+Sylvia: You've always been sharp. Observant. The best of us.
+Sylvia: You <i>deserve</i> to know the real me — not the version others whispered about.
+Rowan: The cult. The rumors. The things I saw in this house. None of it makes sense.
+Sylvia: Then make it make sense.
+Sylvia: Use the notebook.
+Sylvia: Use your mind, like you used to.
+Sylvia: And when you finish... you'll know why I had to die.
+Sylvia: Why I chose this.
+Rowan opens the notebook slowly. His hand trembles, eyes scanning the puzzle.
+Rowan: You want me to *prove* it?
+Sylvia: I want you to understand.
+He works through the puzzle. Slowly. Carefully.
+Finally, he reaches the conclusion.
+<b>C: You’re a member of the Chrysalis cult.</b>
+Rowan: No...
+Rowan: You... <I>you let them drown you?</i> You worked with them?
+Sylvia: I was the catalyst, Rowan.
+Sylvia: The chrysalis doesn’t break unless the body dies first.
+Rowan: Why?
+Sylvia: Because the world needs something new.
+Sylvia: Something unified. Something beautiful.
+Rowan: You lied to me.
+Sylvia: I never did.
+Sylvia: I just waited for you to <i>catch up</i>.
+Sylvia: And if you go into that door on my left, you'll see something like you've never seen before.

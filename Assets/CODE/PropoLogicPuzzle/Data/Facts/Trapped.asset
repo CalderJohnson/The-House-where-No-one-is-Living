@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bed08677abe174cbf886c0f543087913, type: 3}
-  m_Name: Arm
+  m_Name: Trapped
   m_EditorClassIdentifier: 
-  factID: A
-  rawFactText: my arm is (not) too big to reach into the cell
+  factID: T
+  rawFactText: you did (not) trap the next ritual victim in a cell
   hideUntilUnlocked: 0
   englishSentence: 
   negatedEnglishSentence: 
