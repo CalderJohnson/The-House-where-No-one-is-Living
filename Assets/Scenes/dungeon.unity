@@ -7032,6 +7032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  active: 0
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -7135,8 +7136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRef: {fileID: 7922739443279415431}
   healthbar: {fileID: 437365862}
-  setHealth: 100
-  setSpeed: 0
   training: 0
   floor: {fileID: 886334577}
 --- !u!114 &437365868
@@ -10038,6 +10037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  active: 0
   Ragdoll:
     m_PersistentCalls:
       m_Calls:
@@ -15241,6 +15241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  active: 0
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -25316,6 +25317,8 @@ MonoBehaviour:
   - {fileID: 300579311}
   - {fileID: 831551590}
   - {fileID: 1087370378}
+  - {fileID: 1087370378}
+  - {fileID: 1268798844}
 --- !u!4 &1645775938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6880430874725812138, guid: 81bb9eea30387e442899949a80011e55,
@@ -33616,8 +33619,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRef: {fileID: 7922739443279415431}
   healthbar: {fileID: 3929773229248097771}
-  setHealth: 10
-  setSpeed: 0
   training: 0
   floor: {fileID: 886334577}
 --- !u!4 &1648794385989894642
@@ -35267,6 +35268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  active: 0
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
