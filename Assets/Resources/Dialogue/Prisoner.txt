@@ -30,7 +30,7 @@ Prisoner: Then take your time.
 Prisoner: Just… don’t forget I’m here.
 [Decision: Prisoner]
 Rowan: What should I do?
-- [Ignore] I can’t trust him. There’s too much I don’t know.
+- [Ignore] I don't know if I can trust him.
 - [Free] No one deserves to be left like this.
 [Ignore]
 Rowan: I’m sorry. I can’t.
@@ -45,5 +45,6 @@ Rowan: Also, I'll do you one better...you can free yourself. With your own hands
 Rowan: And I'll show you how.
 Prisoner: You have no idea what this means to me.
 Prisoner: Thank you.
+[LoadPuzzle: FreePrisoner]
 [ChoiceEnd: Free]
 [EndDecision: Prisoner]

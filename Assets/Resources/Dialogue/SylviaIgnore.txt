@@ -19,17 +19,4 @@ Sylvia: Why I chose this.
 Rowan opens the notebook slowly. His hand trembles, eyes scanning the puzzle.
 Rowan: You want me to *prove* it?
 Sylvia: I want you to understand.
-He works through the puzzle. Slowly. Carefully.
-Finally, he reaches the conclusion.
-<b>C: You’re a member of the Chrysalis cult.</b>
-Rowan: No...
-Rowan: You... <I>you let them drown you?</i> You worked with them?
-Sylvia: I was the catalyst, Rowan.
-Sylvia: The chrysalis doesn’t break unless the body dies first.
-Rowan: Why?
-Sylvia: Because the world needs something new.
-Sylvia: Something unified. Something beautiful.
-Rowan: You lied to me.
-Sylvia: I never did.
-Sylvia: I just waited for you to <i>catch up</i>.
-Sylvia: And if you go into that door on my left, you'll see something like you've never seen before.
+[LoadPuzzle: Sylvia]

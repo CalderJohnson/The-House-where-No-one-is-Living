@@ -22976,6 +22976,32 @@ MonoBehaviour:
   Object_Action:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1873774862}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 77f980cfb62d741499a339232c89afe1,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1879579962}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 77f980cfb62d741499a339232c89afe1,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 2009685101}
         m_TargetAssemblyTypeName: ProofController, Assembly-CSharp
         m_MethodName: OpenPuzzle
@@ -22988,30 +23014,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1873774862}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1879579962}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
   dialogueFileName: 
   firstTimeDialogueFileName: 
@@ -29121,7 +29123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6538aa648fbf2d2429dda241127bc712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionLimit: -1
+  interactionLimit: 2
   isRepeatable: 0
   Object_Action:
     m_PersistentCalls:
@@ -29138,8 +29140,8 @@ MonoBehaviour:
           m_StringArgument: Key2
           m_BoolArgument: 0
         m_CallState: 2
-  dialogueFileName: SylviaIgnore
-  firstTimeDialogueFileName: 
+  dialogueFileName: SylviaReveal
+  firstTimeDialogueFileName: SylviaIgnore
   freeDialogueFileName: SylviaFree
   DialogueCanvas: {fileID: 1520825609}
   interactionIcon: {fileID: 1395863316}
@@ -29252,7 +29254,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: aa574de3686174c48a61ce1af575a075,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1306960192}
   m_SourcePrefab: {fileID: 100100000, guid: aa574de3686174c48a61ce1af575a075, type: 3}
 --- !u!4 &1306960190 stripped
 Transform:
@@ -29260,6 +29266,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1306960189}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1306960191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: aa574de3686174c48a61ce1af575a075,
+    type: 3}
+  m_PrefabInstance: {fileID: 1306960189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1306960192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306960191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6538aa648fbf2d2429dda241127bc712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLimit: -1
+  isRepeatable: 0
+  Object_Action:
+    m_PersistentCalls:
+      m_Calls: []
+  dialogueFileName: 
+  firstTimeDialogueFileName: 
+  freeDialogueFileName: 
+  DialogueCanvas: {fileID: 0}
+  interactionIcon: {fileID: 0}
+  enableBlinkEffect: 1
+  useDirectionalInteraction: 0
+  interactionDirection: {x: 0, y: 0, z: 1}
+  objectID: 
 --- !u!1 &1308735193 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4207725056094271318, guid: 81bb9eea30387e442899949a80011e55,
@@ -51105,17 +51143,17 @@ PrefabInstance:
     - target: {fileID: 4715931106311565318, guid: 1e677c5b0c8b2d74389ff7a940334849,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.2
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: 4715931106311565318, guid: 1e677c5b0c8b2d74389ff7a940334849,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 4715931106311565318, guid: 1e677c5b0c8b2d74389ff7a940334849,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -96.6
+      value: -104.5
       objectReference: {fileID: 0}
     - target: {fileID: 4715931106311565318, guid: 1e677c5b0c8b2d74389ff7a940334849,
         type: 3}

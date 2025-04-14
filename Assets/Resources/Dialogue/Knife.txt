@@ -4,3 +4,16 @@ Rowan: Well, clearly, whoever did doesn't seem to need it.
 Rowan: I'll be taking it, so at least I have something cool that came out of the waste that was today.
 ???: HEY!!! That's MINE!
 Rowan: Guess I was mistaken.
+???: What the hell are you doing here?
+Rowan: I should ask you the same thing.
+???: Well, if I don't get my knife back, you won't be able to ask anyone anything soon.
+Rowan: Wow, that's a massive overreaction.
+Rowan: I wonder if you have something to hide?
+???: Me? Hiding anything? How could that even be?
+Rowan: For someone so suspicious, you're really a bad liar.
+???: What's suspicious about me?
+Rowan: Well, I can definitely prove that you're suspicious.
+Rowan: In fact...I bet I can prove you were waiting for me the whole time!
+[LoadPuzzle: Prologue]
+Rowan: And this is the truth!
+???: RRRRAGH!

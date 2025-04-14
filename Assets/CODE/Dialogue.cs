@@ -204,9 +204,23 @@ public class Dialogue : MonoBehaviour
     {
         var seg = segments[segmentIndex];
         if (seg is DialogueTextSegment textSeg)
-            DisplayLine(textSeg.lines[lineIndex]);
+        {
+            string current = textSeg.lines[lineIndex];
+
+            // Check for [LoadPuzzle: PuzzleName] tag
+            if (current.StartsWith("[LoadPuzzle:"))
+            {
+                string puzzleName = current.Replace("[LoadPuzzle:", "").Replace("]", "").Trim();
+                StartCoroutine(HandlePuzzleTransition(puzzleName));
+                return;
+            }
+
+            DisplayLine(current);
+        }
         else if (seg is DecisionSegment decisionSeg)
+        {
             DisplayLine(decisionSeg.prompt);
+        }
     }
 
     void DisplayLine(string rawLine)
@@ -271,6 +285,32 @@ public class Dialogue : MonoBehaviour
             textComponent.text += c;
             yield return new WaitForSecondsRealtime(textSpeed);
         }
+    }
+
+    IEnumerator HandlePuzzleTransition(string puzzleName)
+    {
+        Debug.Log($"[Dialogue] Loading logic puzzle: {puzzleName}");
+
+        isDialogueActive = false;
+        dialogueBox.SetActive(false); // Hide dialogue temporarily
+
+        yield return new WaitForSecondsRealtime(0.2f); // brief pause
+
+        var puzzle = Resources.Load<PuzzleSO>($"Puzzles/{puzzleName}");
+        if (puzzle == null)
+        {
+            Debug.LogError($"[Dialogue] Could not find PuzzleSO named '{puzzleName}' in Resources/Puzzles/");
+            yield break;
+        }
+
+        var proofController = FindObjectOfType<ProofController>();
+        if (proofController == null)
+        {
+            Debug.LogError("[Dialogue] No active ProofController found in the scene!");
+            yield break;
+        }
+
+        proofController.OpenPuzzle(puzzle);
     }
 
     // ─────────────────────────────────────────────────────────────
