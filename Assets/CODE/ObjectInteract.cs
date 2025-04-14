@@ -82,7 +82,13 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         {
             // default to the normal file
             string toLoad = dialogueFileName;
-            bool node = DecisionManager.Instance.HasPassedNode("Free");
+            bool node = false;
+
+            // Only check if DecisionManager exists
+            if (DecisionManager.Instance != null)
+            {
+                node = DecisionManager.Instance.HasPassedNode("Free");
+            }
 
             // if this is the very first interaction AND a special file is assigned, use it
             if (interactionCount == 1 && !string.IsNullOrEmpty(firstTimeDialogueFileName))
