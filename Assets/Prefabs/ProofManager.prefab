@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1487628754867578404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9160858842150076005}
+  - component: {fileID: 2248249184946167740}
+  m_Layer: 0
+  m_Name: ProofManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9160858842150076005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487628754867578404}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2248249184946167740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487628754867578404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309825fecf81847d4bcf08c09ad5bab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propoBook: {fileID: 0}
+  currentPuzzle: {fileID: 11400000, guid: e89631ac62af14e62a8fd6f26d40d750, type: 2}
+  bookCover: {fileID: 0}
+  puzzleContent: {fileID: 0}
+  givensPanel: {fileID: 0}
+  proofPanel: {fileID: 0}
+  proofLinePrefab: {fileID: 0}
+  ruleOptionsPanel: {fileID: 0}
+  SubmitArea: {fileID: 0}
+  thingToProveText: {fileID: 0}
+  ruleOptionButtonPrefab: {fileID: 1925178855406281816, guid: 8ea1dc7338e5142c786e5de7efd98f8f,
+    type: 3}
+  proofScrollRect: {fileID: 0}
+  factYOffset: 20
+  ruleYOffset: 40
+  proofLineYOffset: 20

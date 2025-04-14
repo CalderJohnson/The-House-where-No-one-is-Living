@@ -14,6 +14,8 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
 
     [Header("Dialogue Settings")]
     public string dialogueFileName;
+    [Tooltip("If set, this file will be used only on the very first interaction.")]
+    public string firstTimeDialogueFileName;
     public GameObject DialogueCanvas;
 
     [Header("Icon Settings")]
@@ -75,10 +77,20 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
             interactionIcon?.SetActive(false);
         }
 
-        if (Dialogue.Instance != null && !string.IsNullOrEmpty(dialogueFileName))
+        if (Dialogue.Instance != null)
         {
-            Dialogue.Instance.SetDialogueFileName(dialogueFileName);
-            DialogueCanvas.SetActive(true);
+            // default to the normal file
+            string toLoad = dialogueFileName;
+
+            // if this is the very first interaction AND a special file is assigned, use it
+            if (interactionCount == 1 && !string.IsNullOrEmpty(firstTimeDialogueFileName))
+                toLoad = firstTimeDialogueFileName;
+
+            if (!string.IsNullOrEmpty(toLoad))
+            {
+                Dialogue.Instance.SetDialogueFileName(toLoad);
+                DialogueCanvas.SetActive(true);
+            }
         }
 
         Object_Action.Invoke();
