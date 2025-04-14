@@ -25502,6 +25502,8 @@ MonoBehaviour:
   - {fileID: 300579311}
   - {fileID: 831551590}
   - {fileID: 1087370378}
+  - {fileID: 1087370378}
+  - {fileID: 1268798844}
 --- !u!4 &1645775938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6880430874725812138, guid: 81bb9eea30387e442899949a80011e55,
