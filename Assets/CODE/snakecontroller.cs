@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SnakeController : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class SnakeController : MonoBehaviour {
     public float SteerSpeed = 180;
     public float BodySpeed = 5;
     public int Gap = 10;
+    public UnityEvent EndGame;
 
     // References
     public GameObject BodyPrefab;
@@ -30,17 +32,26 @@ public class SnakeController : MonoBehaviour {
         GrowSnake();
         GrowSnake();
         GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        
     }
 
-    // Update is called once per frame
+    // // Update is called once per frame
     void Update() {
 
         // Move forward
-        transform.position += transform.forward * MoveSpeed * Time.deltaTime;
+        //transform.position += transform.forward * MoveSpeed * Time.deltaTime;
 
         // Steer
-        float steerDirection = Input.GetAxis("Horizontal"); // Returns value -1, 0, or 1
-        transform.Rotate(Vector3.up * steerDirection * SteerSpeed * Time.deltaTime);
+        //float steerDirection = Input.GetAxis("Horizontal"); // Returns value -1, 0, or 1
+        //transform.Rotate(Vector3.up * steerDirection * SteerSpeed * Time.deltaTime);
 
         // Store position history
         PositionsHistory.Insert(0, transform.position);
@@ -63,7 +74,23 @@ public class SnakeController : MonoBehaviour {
 
             index++;
         }
+        int activeCount = 0;
+        int inactiveCount = 0;
+
+        foreach (var body in BodyParts) {
+            if (body.activeSelf) {
+                activeCount++;
+            } else {
+                inactiveCount++;
+            }
+        }
+
+//Debug.Log("Active: " + activeCount + ", Inactive: " + inactiveCount);
+        if(activeCount == 0){
+            EndGame.Invoke();
+        }
     }
+    
 
     private void GrowSnake() {
         // Instantiate body instance and
