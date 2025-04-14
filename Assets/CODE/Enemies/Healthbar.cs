@@ -10,7 +10,7 @@ public class Healthbar : MonoBehaviour
     public float health = 10;
     private float lastDamageTime; // Timestamp of when damage was last taken (for regeneration control)
     private bool died; // Did this entity die? Used in adaptive enemy training
-    public bool active;
+    public bool active = true;
     public event Action OnDeath; // Event triggered when health reaches zero
     public UnityEvent Ragdoll;
     public Slider healthBarUI;
@@ -27,14 +27,18 @@ public class Healthbar : MonoBehaviour
         if (active) // If enemy is not blocking
         {
             health -= damage;
-            lastDamageTime = Time.time;
         }
+        else
+        {
+            health -= damage/10;
+        }
+        lastDamageTime = Time.time;
         //Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
             Die();
         }
-        if(healthBarUI.value != health){
+        if(healthBarUI != null && healthBarUI.value != health){
             healthBarUI.value = health;
         }
     }
@@ -47,7 +51,7 @@ public class Healthbar : MonoBehaviour
 
     public float GetHealth() 
     { 
-        return health; 
+        return health;
     }
 
     public void SetHealth(float newHealth)

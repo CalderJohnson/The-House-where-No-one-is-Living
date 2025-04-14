@@ -25,6 +25,11 @@ public class SnakeController : MonoBehaviour {
         GrowSnake();
         GrowSnake();
         GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
+        GrowSnake();
     }
 
     // Update is called once per frame

@@ -15,7 +15,7 @@ public class ZombieController : TrainableEnemy
 
         maxHealth = 50f;
         vision = 25f;
-        attackRangeClose = 2f;
+        attackRangeClose = 3f;
         speed = 9f;
 
         base.Start();
@@ -31,7 +31,7 @@ public class ZombieController : TrainableEnemy
             {
                 if (enemy.CompareTag("Player"))
                 {
-                    Debug.Log("Hit enemy: " + enemy.name);
+                    //Debug.Log("Hit enemy: " + enemy.name);
                     enemy.GetComponent<Healthbar>().TakeDamage(25 + (10 * (int)Math.Round(aggressiveness - 0.5))); // Aggressiveness modifies damage output (+/- 5 points)
                 }
             }

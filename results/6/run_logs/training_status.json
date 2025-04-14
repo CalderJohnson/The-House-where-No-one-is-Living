@@ -1,0 +1,29 @@
+{
+    "AdaptAgent": {
+        "checkpoints": [
+            {
+                "steps": 552,
+                "file_path": "results\\6\\AdaptAgent\\AdaptAgent-552.onnx",
+                "reward": null,
+                "creation_time": 1744597841.1082666,
+                "auxillary_file_paths": [
+                    "results\\6\\AdaptAgent\\AdaptAgent-552.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 552,
+            "file_path": "results\\6\\AdaptAgent.onnx",
+            "reward": null,
+            "creation_time": 1744597841.1082666,
+            "auxillary_file_paths": [
+                "results\\6\\AdaptAgent\\AdaptAgent-552.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.0+cu121"
+    }
+}

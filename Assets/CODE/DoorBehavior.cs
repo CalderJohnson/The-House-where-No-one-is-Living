@@ -64,6 +64,7 @@ public class DoorScript : MonoBehaviour
             // load the scene 
             if (loadNewScene && !string.IsNullOrEmpty(sceneName))
             {
+                GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
                 Debug.Log($"Loading scene: {sceneName}");
                 SceneManager.LoadScene(sceneName);
             }

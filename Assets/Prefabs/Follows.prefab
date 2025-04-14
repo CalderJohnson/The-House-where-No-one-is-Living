@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6140030403681075710}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: spider  targets (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5022470418013807882}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 R_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8707434495782239340}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.007.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1467094296193495043}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.009.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8565165348209271466}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 R_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5996296296980440983}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 R_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5274141257793738547}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Follows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3993265738483290406}
   - component: {fileID: 6893633931820070618}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 3933935482895089204}
   - component: {fileID: 8240294657428938886}
   - component: {fileID: 855043578464473931}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4415758551768404569}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.013.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1861741937251947295}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 L_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5303120330458794895}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.010.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2025265180135623210}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.011.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -532,7 +532,7 @@ GameObject:
   - component: {fileID: 1197280597843090385}
   - component: {fileID: 1146924213335243533}
   - component: {fileID: 3208540050584775039}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -636,7 +636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8053639049794291418}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.013.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -669,7 +669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 66716319655771922}
   - component: {fileID: 2185154734140253874}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5771802463849396622}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 L_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -800,7 +800,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8465562978905055745}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.014.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -832,7 +832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1265341029383318777}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 L_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -863,7 +863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7727293002555945539}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.011.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1150205971822684810}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 L_target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -926,7 +926,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5433584016219591811}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.009.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,7 +958,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5546166601014514290}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.010.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +992,7 @@ GameObject:
   - component: {fileID: 6457531796618466335}
   - component: {fileID: 325563293263619062}
   - component: {fileID: 3017280620289403572}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 2 L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1095,7 +1095,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2087740028746552741}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig folder (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1133,7 @@ GameObject:
   - component: {fileID: 1337166733171220035}
   - component: {fileID: 9183661554986992317}
   - component: {fileID: 1446121766244494610}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1246,7 +1246,7 @@ GameObject:
   - component: {fileID: 8057430713220794662}
   - component: {fileID: 8738466141002352096}
   - component: {fileID: 5403901232249123786}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: spidersmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1327,9 +1327,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 10
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
+  healthBarUI: {fileID: 0}
 --- !u!65 &1917940278794656127
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1368,9 +1370,9 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 4.49, y: 2.87, z: 3.99}
+  m_Size: {x: 2.14, y: 1.61, z: 3.03}
   m_Center: {x: 0, y: 2.14, z: 0}
 --- !u!195 &1268321289889852371
 NavMeshAgent:
@@ -1461,7 +1463,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7078204993719631446}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9910aec4c84c7054d89b9b5633c4b51e, type: 3}
   m_Name: 
@@ -1476,7 +1478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4430528382156757123}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1515,7 +1517,7 @@ GameObject:
   - component: {fileID: 3021508492418373005}
   - component: {fileID: 3652503585171963609}
   - component: {fileID: 8277440174060059664}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1619,7 +1621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6953223152090744734}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.014.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1653,7 +1655,7 @@ GameObject:
   - component: {fileID: 4023869086587859672}
   - component: {fileID: 5622656858801593431}
   - component: {fileID: 8082263534544397171}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1757,7 +1759,7 @@ GameObject:
   - component: {fileID: 1662741077445023397}
   - component: {fileID: 2504072734091545937}
   - component: {fileID: 7001061317614525458}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1862,7 +1864,7 @@ GameObject:
   - component: {fileID: 6403979063120937689}
   - component: {fileID: 8046371502135178526}
   - component: {fileID: 5720845663705423853}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1966,7 +1968,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1561734410421945648}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bone.007.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1998,7 +2000,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3033787275330278558}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2030,7 +2032,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1947911244899505483}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rig 3 R_hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
