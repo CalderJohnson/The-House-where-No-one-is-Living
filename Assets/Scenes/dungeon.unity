@@ -13851,6 +13851,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1299057076}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 43b05910b7ccfe040944701e5bafb9b7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1299057079}
   m_SourcePrefab: {fileID: 100100000, guid: 43b05910b7ccfe040944701e5bafb9b7, type: 3}
 --- !u!4 &691642728 stripped
 Transform:
@@ -22884,6 +22888,7 @@ MonoBehaviour:
         m_CallState: 2
   dialogueFileName: 
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 0}
   interactionIcon: {fileID: 1344232617}
   enableBlinkEffect: 1
@@ -28967,6 +28972,7 @@ MonoBehaviour:
         m_CallState: 2
   dialogueFileName: SylviaIgnore
   firstTimeDialogueFileName: 
+  freeDialogueFileName: SylviaFree
   DialogueCanvas: {fileID: 1520825609}
   interactionIcon: {fileID: 1395863316}
   enableBlinkEffect: 1
@@ -28979,6 +28985,20 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 688317695}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1299057079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299057073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c16e33a4983564eaad686205b141c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectsDecisionTree: 0
+  possibleDecisionNodeIDs: []
 --- !u!4 &1301369536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 32184c617bf8b624d8d54af843ec427c,
@@ -40668,6 +40688,7 @@ MonoBehaviour:
         m_CallState: 2
   dialogueFileName: Prisoner
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1520825609}
   interactionIcon: {fileID: 989313732}
   enableBlinkEffect: 1

@@ -16,6 +16,7 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
     public string dialogueFileName;
     [Tooltip("If set, this file will be used only on the very first interaction.")]
     public string firstTimeDialogueFileName;
+    public string freeDialogueFileName;
     public GameObject DialogueCanvas;
 
     [Header("Icon Settings")]
@@ -81,10 +82,16 @@ public class ObjectInteract : MonoBehaviour, IDataPersistence
         {
             // default to the normal file
             string toLoad = dialogueFileName;
+            bool node = DecisionManager.Instance.HasPassedNode("Free");
 
             // if this is the very first interaction AND a special file is assigned, use it
             if (interactionCount == 1 && !string.IsNullOrEmpty(firstTimeDialogueFileName))
                 toLoad = firstTimeDialogueFileName;
+            
+            if(node)
+            {
+                toLoad = freeDialogueFileName;
+            }
 
             if (!string.IsNullOrEmpty(toLoad))
             {
