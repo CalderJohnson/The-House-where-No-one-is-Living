@@ -592,7 +592,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1789477825705201820, guid: 66d10ff59db174d0bb308c0319b018a7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1520825615}
   m_SourcePrefab: {fileID: 100100000, guid: 66d10ff59db174d0bb308c0319b018a7, type: 3}
 --- !u!1 &35170080
 GameObject:
@@ -6410,6 +6414,16 @@ PrefabInstance:
         type: 3}
       propertyPath: affectsDecisionTree
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: Level1Boss
       objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -13670,6 +13684,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door To hallway
       objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: affectsDecisionTree
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: possibleDecisionNodeIDs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749466714125926772, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
+      propertyPath: 'possibleDecisionNodeIDs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3724265194251445253, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: interactionDirection.x
@@ -19047,6 +19076,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
+      propertyPath: sceneName
+      value: EndScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
+        type: 3}
       propertyPath: linkedDoor
       value: 
       objectReference: {fileID: 698119178}
@@ -19063,7 +19097,7 @@ PrefabInstance:
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: requiredItem
-      value: 
+      value: Key2
       objectReference: {fileID: 0}
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -23903,6 +23937,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 31599000}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1520825615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520825609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70c16e33a4983564eaad686205b141c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectsDecisionTree: 1
+  possibleDecisionNodeIDs:
+  - Free
+  - Ignore
 --- !u!1 &1520924911
 GameObject:
   m_ObjectHideFlags: 0
@@ -25501,7 +25551,6 @@ MonoBehaviour:
   - {fileID: 2089952751}
   - {fileID: 300579311}
   - {fileID: 831551590}
-  - {fileID: 1087370378}
   - {fileID: 1087370378}
   - {fileID: 1268798844}
 --- !u!4 &1645775938 stripped
@@ -28582,7 +28631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74df40284c8e29f45885d4f0382d6e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetNodeID: level1SavePrisoner
+  targetNodeID: Free
   objectsToSwapIn:
   - {fileID: 1010494041}
   objectsToSwapOut:
