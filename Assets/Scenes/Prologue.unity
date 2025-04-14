@@ -6532,7 +6532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionLimit: 1
-  isRepeatable: 1
+  isRepeatable: 0
   Object_Action:
     m_PersistentCalls:
       m_Calls:
@@ -6562,11 +6562,12 @@ MonoBehaviour:
         m_CallState: 2
   dialogueFileName: Knife
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 338243719}
   enableBlinkEffect: 1
   useDirectionalInteraction: 0
-  interactionDirection: {x: 0, y: 0, z: 1}
+  interactionDirection: {x: 0, y: 0, z: 0}
   objectID: 
 --- !u!4 &480214519 stripped
 Transform:
@@ -7699,6 +7700,7 @@ MonoBehaviour:
         m_CallState: 2
   dialogueFileName: 
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 0}
   interactionIcon: {fileID: 0}
   enableBlinkEffect: 1
@@ -18336,6 +18338,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: PrologueCampfire
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 276769502}
   enableBlinkEffect: 1
@@ -18667,6 +18670,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: PrologueTent
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 694120328}
   enableBlinkEffect: 1
@@ -20950,6 +20954,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: PrologueBench
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 434147021}
   enableBlinkEffect: 1
@@ -23637,7 +23642,7 @@ PrefabInstance:
     - target: {fileID: 3802587910414568069, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
       propertyPath: requiredItem
-      value: 
+      value: combat_knife
       objectReference: {fileID: 0}
     - target: {fileID: 8520984159587631129, guid: 8bb94eac89372be4b909a4e2d768a7fc,
         type: 3}
@@ -24046,6 +24051,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: PrologueWaterTower
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 1092692713}
   enableBlinkEffect: 1
@@ -24144,6 +24150,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: ProloguePondDock
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 1445884168}
   enableBlinkEffect: 1
@@ -27972,6 +27979,7 @@ MonoBehaviour:
       m_Calls: []
   dialogueFileName: PrologueSign
   firstTimeDialogueFileName: 
+  freeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 640380139}
   enableBlinkEffect: 1
