@@ -33,11 +33,11 @@ public class DecisionManager : MonoBehaviour, IDataPersistence
 
         // Room 2
         DecisionNode level1KillSpider = new DecisionNode("Level1KillSpider", new string[] { "Level1Room2Door" });
-        DecisionNode level1Room2Door = new DecisionNode("Level1Room2Door", new string[] { "Level1SavePrisoner", "Level1KillPrisoner", "Level1Boss" });
+        DecisionNode level1Room2Door = new DecisionNode("Level1Room2Door", new string[] { "Free", "Ignore", "Level1Boss" });
 
         // Prisoner Room
-        DecisionNode level1SavePrisoner = new DecisionNode("Level1SavePrisoner", new string[] { "Level1Exit1" });
-        DecisionNode level1KillPrisoner = new DecisionNode("Level1KillPrisoner", new string[] { "Level1Boss" });
+        DecisionNode level1SavePrisoner = new DecisionNode("Free", new string[] { "Level1Exit1" });
+        DecisionNode level1KillPrisoner = new DecisionNode("Ignore", new string[] { "Level1Boss" });
 
         // Boss and ending
         DecisionNode level1Boss = new DecisionNode("Level1Boss", new string[] { "Level1Exit2" });
