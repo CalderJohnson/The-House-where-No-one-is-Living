@@ -5,19 +5,15 @@ using UnityEngine.AI;
 
 public abstract class TrainableEnemy : BaseEnemy
 {
-    public float setHealth;
-    public float setSpeed;
     public bool training; // Training mode toggle
     public GameObject floor = null; // For training, set floor colour to indicate win/loss
     private int deathCount;
 
     protected override void Start()
     {
-        speed = setSpeed != 0 ? setSpeed : 5f;
         acceleration = 8f;
-        maxHealth = setHealth != 0 ? setHealth : 80f;
         vision = 25f;
-        attackRangeClose = 2f;
+        attackRangeClose = 3f;
 
         deathCount = 0;
 
@@ -28,7 +24,7 @@ public abstract class TrainableEnemy : BaseEnemy
     {
         // Reset health
         System.Random rng = new System.Random();
-        int rand1 = rng.Next(10, 80);
+        int rand1 = rng.Next(10, (int)maxHealth);
 
         health = rand1;
         //Debug.Log($"Health set to {health}");
@@ -36,13 +32,13 @@ public abstract class TrainableEnemy : BaseEnemy
 
         // Reset position to a random NavMesh point within bounds
         Vector3 spawnPoint;
-        if (GetRandomPointOnNavMesh(Vector3.zero, new Vector3(10, 0, 10), out spawnPoint))
+        if (GetRandomPointOnNavMesh(transform.position, new Vector3(12, 0, 12), out spawnPoint))
         {
             GetComponent<NavMeshAgent>().Warp(spawnPoint);
         }
         else
         {
-            Debug.LogWarning("Failed to find a valid spawn point on the NavMesh.");
+            // Debug.LogWarning("Failed to find a valid spawn point on the NavMesh.");
         }
 
         // Reset to default stats every 10 deaths

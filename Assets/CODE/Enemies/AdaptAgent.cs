@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -12,6 +14,9 @@ public class AdaptAgent : Agent
     private Healthbar playerHealthbar;
     private PlayerTracker playerTracker;
 
+    // Only print logs in inference mode
+    private bool training;
+
     // Health tracking used for observations (for one-step updates)
     private float lastPlayerHealth;
     private float lastEnemyHealth;
@@ -21,15 +26,16 @@ public class AdaptAgent : Agent
     private float baselineEnemyHealth;
 
     // Variables to control the fight phase
-    private bool isFighting = true;
+    private bool isFighting = false;
     private float fightTimer = 0f;
-    private readonly float fightDuration = 3.0f; // Fight phase lasts 3 seconds
+    private readonly float fightDuration = 5.0f; // Fight phase lasts 3 seconds
 
     public override void Initialize()
     {
         baseEnemy = GetComponent<BaseEnemy>();
         player = baseEnemy.GetTargetRef();
         playerTracker = GetComponent<PlayerTracker>();
+        training = Academy.Instance.IsCommunicatorOn;
 
         if (baseEnemy != null)
         {
@@ -44,7 +50,7 @@ public class AdaptAgent : Agent
         lastPlayerHealth = GetPlayerHealth();
         lastEnemyHealth = GetEnemyHealth();
 
-        Debug.Log("Training Initialized");
+        //Debug.Log("Training Initialized");
     }
 
     public override void OnEpisodeBegin()
@@ -57,7 +63,8 @@ public class AdaptAgent : Agent
         isFighting = false;
         fightTimer = 0f;
 
-        Debug.Log("Episode Begins");
+        //Debug.Log("Episode Begins");
+        RequestDecision();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -70,9 +77,9 @@ public class AdaptAgent : Agent
         // Player and enemy metrics
         float playerAggression = GetPlayerAggression();
         float playerDefensiveness = GetPlayerDefensiveness();
-        float playerHealthLost = lastPlayerHealth - GetPlayerHealth();
-        float enemyHealthLost = lastEnemyHealth - GetEnemyHealth();
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        float playerHealthLost = (lastPlayerHealth - GetPlayerHealth()) / 80f;
+        float enemyHealthLost = (lastEnemyHealth - GetEnemyHealth()) / 80f;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position) / 80f;
 
         sensor.AddObservation(playerAggression);
         sensor.AddObservation(playerDefensiveness);
@@ -84,33 +91,42 @@ public class AdaptAgent : Agent
         sensor.AddObservation(baseEnemy.GetAggressiveness());
         sensor.AddObservation(distanceToPlayer);
 
-        Debug.Log($"Observed state {baseEnemy.GetCurrentState()}");
-        Debug.Log($"Observed player aggression: {playerAggression}");
-        Debug.Log($"Observed player defensiveness: {playerDefensiveness}");
-        Debug.Log($"Observed player hp lost: {playerHealthLost}");
-        Debug.Log($"Observed enemy hp lost: {enemyHealthLost}");
-        Debug.Log($"Observed retreat threshold {baseEnemy.GetRetreatThreshold()}");
-        Debug.Log($"Observed attack range ranged {baseEnemy.GetAttackRangeRanged()}");
-        Debug.Log($"Observed block rate {baseEnemy.GetBlockRate()}");
-        Debug.Log($"Observed enemy aggression {baseEnemy.GetAggressiveness()}");
-        Debug.Log($"Observed distance to player {distanceToPlayer}");
+        if (!training)
+        {
+            Debug.Log($"Observed state {baseEnemy.GetCurrentState()}");
+            Debug.Log($"Observed player aggression: {playerAggression}");
+            Debug.Log($"Observed player defensiveness: {playerDefensiveness}");
+            Debug.Log($"Observed player hp lost: {playerHealthLost}");
+            Debug.Log($"Observed enemy hp lost: {enemyHealthLost}");
+            Debug.Log($"Observed retreat threshold {baseEnemy.GetRetreatThreshold()}");
+            Debug.Log($"Observed attack range ranged {baseEnemy.GetAttackRangeRanged()}");
+            Debug.Log($"Observed block rate {baseEnemy.GetBlockRate()}");
+            Debug.Log($"Observed enemy aggression {baseEnemy.GetAggressiveness()}");
+            Debug.Log($"Observed distance to player {distanceToPlayer}");
+        }
 
         // Update health tracking for next observation cycle
         lastPlayerHealth = GetPlayerHealth();
         lastEnemyHealth = GetEnemyHealth();
+
+        // Fight for 5s with updated config before calculating reward
+        StartCoroutine(FightPhaseCoroutine());
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Debug purposes
-        Debug.Log($"Retreat threshold altered by: {actions.ContinuousActions[0]}");
-        Debug.Log($"Ranged attack threshold altered by: {actions.ContinuousActions[1]}");
-        Debug.Log($"Block rate altered by: {actions.ContinuousActions[2]}");
-        Debug.Log($"Aggressiveness altered by: {actions.ContinuousActions[3]}");
+        if (!training)
+        {
+            Debug.Log($"Retreat threshold altered by: {actions.ContinuousActions[0]}");
+            Debug.Log($"Ranged attack threshold altered by: {actions.ContinuousActions[1]}");
+            Debug.Log($"Block rate altered by: {actions.ContinuousActions[2]}");
+            Debug.Log($"Aggressiveness altered by: {actions.ContinuousActions[3]}");
+        }
 
-        baseEnemy.SetRetreatThreshold(Mathf.Clamp(baseEnemy.GetRetreatThreshold() + actions.ContinuousActions[0], 0.1f, 0.8f));
-        baseEnemy.SetAttackRangeRanged(Mathf.Clamp(baseEnemy.GetAttackRangeRanged() + actions.ContinuousActions[1], 1f, 10f));
-        baseEnemy.SetBlockRate(Mathf.Clamp(baseEnemy.GetBlockRate() + actions.ContinuousActions[2], 0f, 1f));
+        // Update the FSM
+        baseEnemy.SetRetreatThreshold(Mathf.Clamp(baseEnemy.GetRetreatThreshold() + actions.ContinuousActions[0], 0f, 80f));
+        baseEnemy.SetAttackRangeRanged(Mathf.Clamp(baseEnemy.GetAttackRangeRanged() + actions.ContinuousActions[1], 3f, 20f));
+        baseEnemy.SetBlockRate(Mathf.Clamp(baseEnemy.GetBlockRate() + actions.ContinuousActions[2], 0f, 0.5f));
         baseEnemy.SetAggressiveness(Mathf.Clamp(baseEnemy.GetAggressiveness() + actions.ContinuousActions[3], 0f, 1f));
 
         baselinePlayerHealth = GetPlayerHealth();
@@ -118,24 +134,17 @@ public class AdaptAgent : Agent
 
         // Begin the fight phase (3 seconds of fighting using updated configuration)
         isFighting = true;
-        fightTimer = 0f;
+        float fightStartTime = Time.time;
+
+        StartCoroutine(FightPhaseCoroutine());
     }
 
-    void Update()
+    private IEnumerator FightPhaseCoroutine()
     {
-        // If in fight phase, accumulate time until 3 seconds have elapsed
-        //Debug.Log($"Update Ocurred, is fighting: {isFighting}");
-        if (isFighting)
-        {
-            fightTimer += Time.deltaTime;
-            if (fightTimer >= fightDuration)
-            {
-                // End of the fight phase, calculate reward for the action taken 3 seconds ago
-                CalculateReward();
-                EndEpisode();
-                isFighting = false;
-            }
-        }
+        isFighting = true;
+        yield return new WaitForSeconds(fightDuration);
+        CalculateReward();
+        EndEpisode();
     }
 
     private void CalculateReward()
@@ -159,7 +168,10 @@ public class AdaptAgent : Agent
             reward += 0.5f;
         }
 
-        Debug.Log($"Reward calculated {reward}");
+        if (!training)
+        {
+            Debug.Log($"Reward calculated {reward}");
+        }
         SetReward(reward);
     }
 

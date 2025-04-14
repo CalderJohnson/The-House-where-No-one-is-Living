@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected float lastShotTime = -1;
     protected float lastWanderTime = -1; // Prevent enemy from trying to wander somewhere it can't go
+    protected float lastAttackTime = -1;
     protected float blockStartTime;
 
     protected StateMachine fsm = new StateMachine();
@@ -63,7 +65,12 @@ public abstract class BaseEnemy : MonoBehaviour
             health = healthbar.GetHealth();
             fsm.OnLogic();
             RegenerateHealth();
+            if (pathfindingAgent.speed != speed + (4 * (int)Math.Round(aggressiveness - 0.5))) // Higher aggressiveness means higher speed (+/- 2 units)
+            {
+                pathfindingAgent.speed = speed + (4 * (int)Math.Round(aggressiveness - 0.5));
+            }
         }
+        //Debug.Log(GetCurrentState());
     }
 
     // Interface for ML agent to update FSM
@@ -89,7 +96,8 @@ public abstract class BaseEnemy : MonoBehaviour
         fsm.AddState("Retreat", new State(onLogic: (s) => RetreatBehavior()));
         fsm.AddState("Block", new State(
             onLogic: (s) => BlockBehavior(),
-            onEnter: (s) => blockStartTime = Time.time
+            onEnter: (s) => blockStartTime = Time.time,
+            onExit: (s) => healthbar.active = true
         ));
 
         // Define the edges of the FSM
@@ -103,7 +111,7 @@ public abstract class BaseEnemy : MonoBehaviour
         fsm.AddTransition(new Transition("AttackClose", "Retreat", (t) => healthbar.GetHealth() <= retreatThreshold));
 
         // Random chance to block
-        fsm.AddTransition(new Transition("Chase", "Block", (t) => Random.value < blockRate));
+        fsm.AddTransition(new Transition("Chase", "Block", (t) => UnityEngine.Random.value < blockRate));
         fsm.AddTransition(new Transition("Block", "Chase", (t) => 1 < Time.time - blockStartTime));
     }
 
@@ -121,6 +129,10 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void ChaseBehavior()
     {
         pathfindingAgent.Resume();
+        if (!healthbar.active) // Block ends
+        {
+            healthbar.active = true;
+        }
         if (target != null)
         {
             pathfindingAgent.SetDestination(target.position);
@@ -140,6 +152,10 @@ public abstract class BaseEnemy : MonoBehaviour
         //Debug.Log("Blocking!");
         pathfindingAgent.Stop();
         transform.LookAt(target);
+        if (healthbar.active) // Can't take damage while blocking
+        {
+            healthbar.active = false;
+        }
     }
 
     protected virtual void AttackRangedBehavior()
@@ -163,15 +179,15 @@ public abstract class BaseEnemy : MonoBehaviour
     // Utility Functions
     protected virtual void SetWanderTarget()
     {
-        wanderTarget = transform.position + new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
+        wanderTarget = transform.position + new Vector3(UnityEngine.Random.Range(-10f, 10f), 0, UnityEngine.Random.Range(-10f, 10f));
         pathfindingAgent.SetDestination(wanderTarget);
     }
 
     protected virtual void RegenerateHealth()
     {
-        if (healthbar.GetLastDamageTime() > 0 && Time.time - healthbar.GetLastDamageTime() >= 5f && health < maxHealth)
+        if (healthbar.GetLastDamageTime() > 0 && Time.time - healthbar.GetLastDamageTime() >= 4f && health < maxHealth)
         {
-            healthbar.SetHealth(health + 1);
+            healthbar.SetHealth(health + 1 - (int)Math.Round((aggressiveness - 0.5) * 2)); // Higher aggressiveness means lower regeneration (+/- 1hp/second)
         }
     }
 

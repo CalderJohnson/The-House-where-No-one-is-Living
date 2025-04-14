@@ -2,19 +2,18 @@ behaviors:
   AdaptAgent:
     trainer_type: sac # SAC algorithm for training
     hyperparameters:
-      # Hyperparameters common to PPO and SAC
-      batch_size: 1024
-      buffer_size: 10240
+      # Training Hyperparameters
+      batch_size: 256
+      buffer_size: 2560
       learning_rate: 0.0003
       learning_rate_schedule: linear
 
-      # SAC-specific hyperparameters
       buffer_init_steps: 0
       tau: 0.005
-      steps_per_update: 1
+      steps_per_update: 48.0 # Steps equal to number of agents in training scene x2 (24*2=48)
       save_replay_buffer: false
       init_entcoef: 0.5
-      reward_signal_steps_per_update: 150.0
+      reward_signal_steps_per_update: 48.0
 
     # Neural network config
     network_settings:
@@ -28,6 +27,12 @@ behaviors:
         strength: 1.0
         gamma: 0.99
 
+    keep_checkpoints: 5
+    even_checkpoints: True
+    max_steps: 50000
+    time_horizon: 64
+    summary_freq: 5000
+
 engine_settings:
-  time_scale: 1
+  time_scale: 10
   no_graphics: false
