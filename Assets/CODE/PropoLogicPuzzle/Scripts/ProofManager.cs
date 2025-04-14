@@ -13,13 +13,16 @@ public class ProofController : MonoBehaviour
     public PuzzleSO currentPuzzle; // Assign your PuzzleSO asset in the Inspector
 
     [Header("UI References")]
+    public GameObject bookCover;  // Reference to the PropoLogicBook
+    public GameObject puzzleContent;  // Reference to the PropoLogicPuzzle (the content part)
     public Transform givensPanel;       // Left panel: container for facts and given rules.
-    public Transform proofPanel;        // Right panel: container for proof lines.
+    public RectTransform proofPanel;        // Right panel: container for proof lines.
     public GameObject proofLinePrefab;  // Prefab for proof lines.
     public GameObject ruleOptionsPanel; // Pop-up panel for rule options.
     public GameObject SubmitArea; // Where the submission button to end the puzzle appears.
     public TextMeshProUGUI thingToProveText;       // At top of proof page (displays the conclusion).
     public GameObject ruleOptionButtonPrefab; // Prefab for a rule option button.
+    public ScrollRect proofScrollRect;
     public float factYOffset = 10f; // Set in Inspector: vertical gap between Facts
     public float ruleYOffset = 15f; // Set in Inspector: vertical gap between Given Rules
     public float proofLineYOffset = 10f; // Set in Inspector: vertical gap between Proof Lines
@@ -30,6 +33,11 @@ public class ProofController : MonoBehaviour
     private bool combineMode = false;
     private ProofLine combineLine1 = null;
     private ProofLine combineLine2 = null;
+    // Keep track of clones to delete
+    private List<GameObject> factObjects = new List<GameObject>();
+    private List<GameObject> ruleObjects = new List<GameObject>();
+    private List<GameObject> ruleOptionObjects = new List<GameObject>();
+
 
     Animator Book;
 
@@ -37,51 +45,66 @@ public class ProofController : MonoBehaviour
         Book = propoBook.GetComponent<Animator>();
     }
 
-    void Start()
-    {       
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!isPaused)
+            {
+                OpenPuzzle(currentPuzzle);
+            }
+            else
+            {
+                EndPuzzle();
+            }
+        }
+    }
+
+
+    public void OpenPuzzle(PuzzleSO puzzleToLoad)
+    {
+        // Set the current puzzle to be played.
+        currentPuzzle = puzzleToLoad;
+        
+        // (Re)initialize any necessary translators or caches.
         EnglishTranslator.GetRawFactText = (varName) =>
         {
-            // First check the facts
+            // Check facts from the puzzle
             foreach (var fact in currentPuzzle.facts)
             {
                 if (fact.factID == varName)
                     return fact.rawFactText;
             }
 
-            // Then check the conclusion (if it's not already in the facts list)
+            // Check the conclusion if needed.
             if (currentPuzzle.conclusion != null && currentPuzzle.conclusion.factID == varName)
             {
                 return currentPuzzle.conclusion.rawFactText;
             }
-
-            // Fallback
             return varName;
         };
 
-        isPaused = true;
-        propoBook.SetActive(true); // Show the pause menu
-        Time.timeScale = 0f;
-        Book.SetBool("Tab2Close", false);
-        // Display the conclusion at the top.
+        // Set up conclusion text, etc.
         if (thingToProveText != null && currentPuzzle.conclusion != null)
             thingToProveText.text = currentPuzzle.conclusion.englishSentence;
         
+        // Load facts/given rules onto your UI panels.
         LoadGivens();
-    }
 
-    void Update()
-    {
-        // Check if Tab is pressed
-        if (Input.GetKeyDown(KeyCode.P) && isPaused)
-        {
-            EndPuzzle();
-        }
-    }
+        // Activate the proof book UI and pause game time.
+        propoBook.SetActive(true);
+        puzzleContent.SetActive(false); // Don't want the options to display before the book
 
-    private IEnumerator HideAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        TooltipManager.Instance.HideTooltip();
+        Time.timeScale = 0f;
+        isPaused = true;
+
+        // Reset animation parameters
+        Book.SetBool("Tab2Close", false);
+
+        // Wait for the opening animation to finish before showing the puzzle content
+        StartCoroutine(WaitForOpenAnimation());
+
+        Debug.Log("Proof puzzle opened and paused.");
     }
 
     /// <summary>
@@ -89,6 +112,8 @@ public class ProofController : MonoBehaviour
     /// </summary>
     private void LoadGivens()
     {
+        factObjects.Clear();
+        ruleObjects.Clear();
         // We'll use these as our base positions.
         Vector3 baseFactPos = Vector3.zero;
         Vector3 baseRulePos = Vector3.zero;
@@ -104,6 +129,8 @@ public class ProofController : MonoBehaviour
             FactDisplay fd = factGO.GetComponent<FactDisplay>();
             if (fd != null)
                 fd.Setup(fact);
+            
+            factObjects.Add(factGO);
             
             // If this is the first fact, store its default anchored position.
             RectTransform rt = factGO.GetComponent<RectTransform>();
@@ -128,6 +155,8 @@ public class ProofController : MonoBehaviour
             GivenRuleDisplay grd = ruleGO.GetComponent<GivenRuleDisplay>();
             if (grd != null)
                 grd.Setup(rule);
+            
+            ruleObjects.Add(ruleGO);
             
             // If this is the first rule, store its default anchored position.
             RectTransform rt = ruleGO.GetComponent<RectTransform>();
@@ -180,35 +209,35 @@ public class ProofController : MonoBehaviour
         float newY;
         if (proofLines.Count == 1)
         {
-            // Get the initial y-position of the proofLinePrefab
-            newY = proofLinePrefab.GetComponent<RectTransform>().anchoredPosition.y;
+            // first line: use prefab’s default Y
+            newY = proofLinePrefab
+                .GetComponent<RectTransform>()
+                .anchoredPosition.y;
         }
         else
         {
-            // Get the y-position of the last proofLine and adjust by offset
-            newY = proofLines[proofLines.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - proofLineYOffset;
+            // always compute the next Y based on the previous line
+            var prevRT = proofLines[proofLines.Count - 2]
+                .GetComponent<RectTransform>();
+            newY = prevRT.anchoredPosition.y - proofLineYOffset;
+
+            // once we hit 10 lines, grow the content panel
+            if (proofLines.Count >= 10)
+            {
+                proofPanel.sizeDelta = new Vector2(
+                    proofPanel.sizeDelta.x,
+                    proofPanel.sizeDelta.y + 20
+                );
+            }
         }
         
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, newY);
 
-        string proofResult = CheckProofValidity();
+        // ScrollRect’s verticalNormalizedPosition: 1 = top, 0 = bottom
+        proofScrollRect.verticalNormalizedPosition = 0f;
+
+        ToggleSubmitArea(CheckProofValidity());
         
-        if (proofResult != "No")
-        {
-            // Find the child named "successText" and get its TMP component
-            TextMeshProUGUI successText = SubmitArea.transform.Find("SuccessText")?.GetComponent<TextMeshProUGUI>();
-
-            if (successText != null)
-            {
-                successText.text = proofResult; // Set the text
-            }
-            else
-            {
-                Debug.LogWarning("successText not found in SubmitArea!");
-            }
-
-            SubmitArea.SetActive(true);
-        }
     }
 
     /// <summary>
@@ -228,6 +257,26 @@ public class ProofController : MonoBehaviour
         return "No";
     }
 
+    private void ToggleSubmitArea(string proofResult)
+    {
+        if (proofResult != "No")
+        {
+            // Find the child named "successText" and get its TMP component
+            TextMeshProUGUI successText = SubmitArea.transform.Find("SuccessText")?.GetComponent<TextMeshProUGUI>();
+
+            if (successText != null)
+            {
+                successText.text = proofResult; // Set the text
+            }
+            else
+            {
+                Debug.LogWarning("successText not found in SubmitArea!");
+            }
+
+            SubmitArea.SetActive(true); 
+        }
+    }
+
     /// <summary>
     /// Called when the user clicks an Undo button.
     /// </summary>
@@ -237,6 +286,16 @@ public class ProofController : MonoBehaviour
         {
             ProofLine lastLine = proofHistory.Pop();
             proofLines.Remove(lastLine);
+
+            // only shrink the panel if we had previously grown it
+            if (lastLine.lineNumber >= 10)
+            {
+                proofPanel.sizeDelta = new Vector2(
+                    proofPanel.sizeDelta.x,
+                    proofPanel.sizeDelta.y - 20
+                );
+            }
+
             Destroy(lastLine.gameObject);
         }
     }
@@ -265,6 +324,7 @@ public class ProofController : MonoBehaviour
                     // Pass the option and the first combined line (or both if needed) and controller reference.
                     optionButton.Setup(option, selectedLine, this);
                 }
+                ruleOptionObjects.Add(optionButtonGO);
             }
             // Optionally force a layout update to arrange the buttons.
             LayoutRebuilder.ForceRebuildLayoutImmediate(ruleOptionsPanel.GetComponent<RectTransform>());
@@ -666,8 +726,15 @@ public class ProofController : MonoBehaviour
     {
         Debug.Log($"Applying rule: {option.ruleName} to line {proofLine.lineNumber}");
 
-        // Create the new proof line based on the rule application
-        AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
+        if (option.ruleName.StartsWith("E9") || option.ruleName.StartsWith("E10")){
+            // No need to waste a proof line on switching options around.
+            proofLine.UpdateLine(option.resultingEnglish, option.resultingLogic);
+            ToggleSubmitArea(CheckProofValidity());
+
+        } else {
+            // Create the new proof line based on the rule application
+            AddProofLine(option.resultingEnglish, option.resultingLogic, option.justification);
+        }
 
         // Hide rule options panel after a rule is selected
         ruleOptionsPanel.SetActive(false);
@@ -677,9 +744,43 @@ public class ProofController : MonoBehaviour
         }
     }
 
+    private void DestroyAllClones()
+    {
+        // Destroy all fact objects
+        foreach (GameObject factGO in factObjects)
+        {
+            Destroy(factGO);
+        }
+        factObjects.Clear();
+
+        // Destroy all rule objects
+        foreach (GameObject ruleGO in ruleObjects)
+        {
+            Destroy(ruleGO);
+        }
+        ruleObjects.Clear();
+
+        // Destroy all proof line objects (if any)
+        foreach (ProofLine Line in proofLines)
+        {
+            Destroy(Line);
+        }
+        proofLines.Clear();
+
+        // Destroy all rule option objects (if any)
+        foreach (GameObject ruleOptionGO in ruleOptionObjects)
+        {
+            Destroy(ruleOptionGO);
+        }
+        ruleOptionObjects.Clear();
+
+        Debug.Log("All dynamically created objects have been destroyed.");
+    }
 
     public void EndPuzzle()
-    {
+    {   
+        DestroyAllClones();
+        puzzleContent.SetActive(false);
         // Enable the closing animation to be played
         Book.SetBool("Tab2Close", true);
 
@@ -691,8 +792,23 @@ public class ProofController : MonoBehaviour
         StartCoroutine(CloseBookAndExit());
     }
 
-    private IEnumerator CloseBookAndExit()
+    private IEnumerator WaitForOpenAnimation()
     {
+        // Wait until the "Open" animation has finished
+        AnimatorStateInfo stateInfo = Book.GetCurrentAnimatorStateInfo(0);
+
+        while (stateInfo.IsName("Book Open") || stateInfo.normalizedTime >= 1f)
+        {
+            yield return null;
+            stateInfo = Book.GetCurrentAnimatorStateInfo(0);
+        }
+
+        // Once the book is open, show the puzzle content
+        puzzleContent.SetActive(true);
+    }
+
+    private IEnumerator CloseBookAndExit()
+    {  
         while (true)
         {
             AnimatorStateInfo currentState = Book.GetCurrentAnimatorStateInfo(0);

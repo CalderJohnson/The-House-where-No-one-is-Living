@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
         {
             collision.gameObject.GetComponent<Healthbar>().TakeDamage(damage);
             // Debug.Log("Ranged hit enemy");
+            
             Destroy(gameObject); // Destroy the projectile on impact
         }
     }

@@ -15,17 +15,10 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     public AudioClip openSound;
 
     [Header("Decision System Settings")]
-    [Tooltip("Check this if the wardrobe affects the decision tree.")]
-    public bool affectsDecisionTree = false;
-
-    [Tooltip("The decision node that will be updated when interacting.")]
-    public string decisionNodeID = ""; // Node to set when interacted with
-
-    [Tooltip("Check this to update the decision node when the item is collected instead of when the wardrobe is opened.")]
     public bool updateOnItemCollection = false; // If true, update decision tree when item is collected
 
     private bool isOpen = false;
-    private bool itemCollected = false; // Tracks if the item was taken
+    private bool itemCollected = false; 
 
     private void Awake()
     {
@@ -40,15 +33,12 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (!isOpen)
         {
-            // Re-enable Animator before playing animations
             leftDoorAnimator.enabled = true;
             rightDoorAnimator.enabled = true;
 
-            // Play animations for opening the doors
             leftDoorAnimator.Play("DoorOpen_Left");
             rightDoorAnimator.Play("DoorOpen_Right");
 
-            // Play sound effect if available
             if (audioSource != null && openSound != null)
             {
                 audioSource.PlayOneShot(openSound);
@@ -57,10 +47,10 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
             isOpen = true;
             Debug.Log($"Wardrobe {wardrobeID} opened.");
 
-            // Update decision tree **if we are NOT waiting for item collection**
+            // Update decision tree if NOT waiting for item collection
             if (!updateOnItemCollection)
             {
-                UpdateDecisionNode();
+                GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
             }
         }
         else if (!itemCollected) // If the wardrobe is already open, allow collecting the item
@@ -73,33 +63,16 @@ public class WardrobeDoors : MonoBehaviour, IDataPersistence
     {
         if (storedItem != null)
         {
-            Inventory.Instance.AddItem(storedItem.name); // Add item to inventory
+            Inventory.Instance.AddItem(storedItem.name);
             itemCollected = true;
-            storedItem.SetActive(false); // Hide item instead of destroying it
+            storedItem.SetActive(false);
             Debug.Log($"Item collected from wardrobe {wardrobeID}!");
 
-            // Update decision tree **if waiting for item collection**
+            // Update decision tree if waiting for item collection
             if (updateOnItemCollection)
             {
-                UpdateDecisionNode();
+                GetComponent<UpdateNode>()?.TryUpdateDecisionNode();
             }
-        }
-    }
-
-    private void UpdateDecisionNode()
-    {
-        if (!affectsDecisionTree) return;
-
-        bool success = DecisionManager.Instance.SetCurrentNode(decisionNodeID);
-
-        if (success)
-        {
-            DataPersistenceManager.Instance.SaveGame();
-            Debug.Log($"Decision node updated successfully to: {decisionNodeID}");
-        }
-        else
-        {
-            Debug.LogWarning($"Failed to update decision node to: {decisionNodeID}");
         }
     }
 
