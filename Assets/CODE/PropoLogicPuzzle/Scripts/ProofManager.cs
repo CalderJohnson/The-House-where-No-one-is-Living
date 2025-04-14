@@ -105,9 +105,6 @@ public class ProofController : MonoBehaviour
         Debug.Log("Proof puzzle opened and paused.");
     }
 
-    /// <summary>
-    /// Loads all facts and given rules into the givens panel.
-    /// </summary>
     private void LoadGivens()
     {
         factObjects.Clear();
@@ -178,9 +175,6 @@ public class ProofController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called by a drop handler when a fact or given rule is dropped into the proof area.
-    /// </summary>
     public void AddProofLine(string englishText, string logicText, string justification)
     {
         if (proofLines.Count >= currentPuzzle.maxProofLines)
@@ -243,10 +237,6 @@ public class ProofController : MonoBehaviour
         
     }
 
-    /// <summary>
-    /// Checks whether the current proof is valid.
-    /// (For example: if the last line matches the conclusion’s factID or equals "false" for contradiction.)
-    /// </summary>
     private string CheckProofValidity()
     {
         if (proofLines.Count > 0)
@@ -303,9 +293,6 @@ public class ProofController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Displays a pop-up with available rule options for the selected proof line.
-    /// </summary>
     public void ShowRuleOptions(ProofLine selectedLine)
     {
         // Clear previous options.
@@ -725,9 +712,6 @@ public class ProofController : MonoBehaviour
         CleanupCombineMode();
     }
 
-    /// <summary>
-    /// Called when a rule option is selected from the pop-up.
-    /// </summary>
     public void ApplyRuleOption(ProofLine proofLine, RuleOption option)
     {
         Debug.Log($"Applying rule: {option.ruleName} to line {proofLine.lineNumber}");
