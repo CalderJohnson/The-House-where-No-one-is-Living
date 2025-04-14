@@ -70,6 +70,7 @@ public class AdaptAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // Encode FSM state as one-hot
+        if (player == null) return;
         string[] states = { "Wander", "Chase", "AttackClose", "AttackRanged", "Retreat", "Block" };
         foreach (var state in states)
             sensor.AddObservation(baseEnemy.GetCurrentState() == state ? 1.0f : 0.0f);
@@ -163,7 +164,7 @@ public class AdaptAgent : Agent
         {
             reward -= 0.5f;
         }
-        else if (playerHealthbar != null && playerHealthbar.DiedRecently())
+        else if (player != null && playerHealthbar != null && playerHealthbar.DiedRecently())
         {
             reward += 0.5f;
         }
@@ -186,7 +187,7 @@ public class AdaptAgent : Agent
 
     private float GetPlayerHealth()
     {
-        return playerHealthbar != null ? playerHealthbar.GetHealth() : 100f;
+        return playerHealthbar != null && player != null ? playerHealthbar.GetHealth() : 100f;
     }
 
     private float GetEnemyHealth()
