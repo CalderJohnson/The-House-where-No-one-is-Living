@@ -201,6 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5274141257793738547}
+  - component: {fileID: 7766853644481558742}
   m_Layer: 2
   m_Name: Follows
   m_TagString: Untagged
@@ -225,6 +226,18 @@ Transform:
   - {fileID: 6140030403681075710}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7766853644481558742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875682999858344089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf9444aeef6c984387bb0c85d520a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2012290659250633191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,9 +1259,10 @@ GameObject:
   - component: {fileID: 8057430713220794662}
   - component: {fileID: 8738466141002352096}
   - component: {fileID: 5403901232249123786}
+  - component: {fileID: 31937272054866907}
   m_Layer: 2
   m_Name: spidersmall
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1327,10 +1341,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505d766d1038cf442821e361c38816f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 50
+  active: 1
   Ragdoll:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1875682999858344089}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   healthBarUI: {fileID: 0}
 --- !u!65 &1917940278794656127
 BoxCollider:
@@ -1421,7 +1448,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!114 &8738466141002352096
 MonoBehaviour:
@@ -1469,6 +1496,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!114 &31937272054866907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078204993719631446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f7888e3afdb964a9eedb5665308790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7125006245927752241
 GameObject:
   m_ObjectHideFlags: 0

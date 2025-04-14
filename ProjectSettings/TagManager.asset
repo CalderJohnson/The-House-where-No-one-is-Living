@@ -10,6 +10,11 @@ TagManager:
   - Canvas
   - Box
   - Sprite
+  - Wall
+  - BackWall
+  - FrontWall
+  - LeftWall
+  - RightWall
   layers:
   - Default
   - TransparentFX
