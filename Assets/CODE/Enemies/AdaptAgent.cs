@@ -159,11 +159,11 @@ public class AdaptAgent : Agent
         reward += playerHealthLost * 0.01f;
         reward -= enemyHealthLost * 0.01f;
 
-        if (enemyHealthbar.DiedRecently())
+        if (enemyHealthbar != null && enemyHealthbar.DiedRecently())
         {
             reward -= 0.5f;
         }
-        else if (playerHealthbar.DiedRecently())
+        else if (playerHealthbar != null && playerHealthbar.DiedRecently())
         {
             reward += 0.5f;
         }
