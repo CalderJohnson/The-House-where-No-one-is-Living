@@ -15,7 +15,7 @@ public class ZombieController : TrainableEnemy
 
         maxHealth = 50f;
         vision = 25f;
-        attackRangeClose = 2f;
+        attackRangeClose = 3f;
         speed = 9f;
 
         base.Start();

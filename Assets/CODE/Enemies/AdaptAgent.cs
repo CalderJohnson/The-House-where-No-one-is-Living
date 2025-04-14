@@ -26,9 +26,7 @@ public class AdaptAgent : Agent
     private float baselineEnemyHealth;
 
     // Variables to control the fight phase
-    private bool isFighting = false;
-    private float fightTimer = 0f;
-    private readonly float fightDuration = 5.0f; // Fight phase lasts 3 seconds
+    private readonly float fightDuration = 5.0f; // Fight phase lasts 5 seconds
 
     public override void Initialize()
     {
