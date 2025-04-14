@@ -15,10 +15,10 @@ public class SpiderController : TrainableEnemy
         aggressiveness = 0.5f;
         blockRate = 0.001f;
 
-        maxHealth = 80f;
+        maxHealth = 90f;
         vision = 25f;
         attackRangeClose = 2f;
-        speed = 7f;
+        speed = 6f;
 
         // Spider has a long ranged attack
         slingshot = GetComponentInChildren<Slingshot>();
@@ -44,6 +44,24 @@ public class SpiderController : TrainableEnemy
             }
 
             lastShotTime = Time.time;
+        }
+    }
+
+    protected override void AttackCloseBehavior()
+    {
+        base.AttackCloseBehavior();
+        if (lastAttackTime < 0 || (Time.time - lastAttackTime) >= 2f)
+        {
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRangeClose);
+            foreach (Collider enemy in hitEnemies)
+            {
+                if (enemy.CompareTag("Player"))
+                {
+                    Debug.Log("Hit enemy: " + enemy.name);
+                    enemy.GetComponent<Healthbar>().TakeDamage(20 + (10 * (int)Math.Round(aggressiveness - 0.5))); // Aggressiveness modifies damage output (+/- 5 points)
+                }
+            }
+            lastAttackTime = Time.time;
         }
     }
 }

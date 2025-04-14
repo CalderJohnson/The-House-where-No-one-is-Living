@@ -1,7 +1,47 @@
 {
+    "AdaptAgent": {
+        "checkpoints": [
+            {
+                "steps": 7999,
+                "file_path": "results\\1\\AdaptAgent\\AdaptAgent-7999.onnx",
+                "reward": -0.0014285713966403688,
+                "creation_time": 1744583696.9616587,
+                "auxillary_file_paths": [
+                    "results\\1\\AdaptAgent\\AdaptAgent-7999.pt"
+                ]
+            },
+            {
+                "steps": 11999,
+                "file_path": "results\\1\\AdaptAgent\\AdaptAgent-11999.onnx",
+                "reward": 0.0,
+                "creation_time": 1744583724.6979775,
+                "auxillary_file_paths": [
+                    "results\\1\\AdaptAgent\\AdaptAgent-11999.pt"
+                ]
+            },
+            {
+                "steps": 12024,
+                "file_path": "results\\1\\AdaptAgent\\AdaptAgent-12024.onnx",
+                "reward": 0.0,
+                "creation_time": 1744583724.9399831,
+                "auxillary_file_paths": [
+                    "results\\1\\AdaptAgent\\AdaptAgent-12024.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 12024,
+            "file_path": "results\\1\\AdaptAgent.onnx",
+            "reward": 0.0,
+            "creation_time": 1744583724.9399831,
+            "auxillary_file_paths": [
+                "results\\1\\AdaptAgent\\AdaptAgent-12024.pt"
+            ]
+        }
+    },
     "metadata": {
         "stats_format_version": "0.3.0",
         "mlagents_version": "1.1.0",
-        "torch_version": "2.6.0+cpu"
+        "torch_version": "2.2.0+cu121"
     }
 }

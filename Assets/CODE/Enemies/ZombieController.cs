@@ -5,45 +5,37 @@ using UnityEngine;
 
 public class ZombieController : TrainableEnemy
 {
-    private Slingshot slingshot;
-
     protected override void Start()
     {
         // Zombie specific parameters
-        attackRangeRanged = 15f;
+        attackRangeRanged = -1f; // Zombie only has a melee attack
         retreatThreshold = 30f;
         aggressiveness = 0.5f;
         blockRate = 0.001f;
 
-        maxHealth = 80f;
+        maxHealth = 50f;
         vision = 25f;
         attackRangeClose = 2f;
-        speed = 7f;
+        speed = 9f;
 
-        // Zombie has a long ranged attack
-        slingshot = GetComponentInChildren<Slingshot>();
         base.Start();
     }
 
-    protected override void AttackRangedBehavior()
+    protected override void AttackCloseBehavior()
     {
-        base.AttackRangedBehavior();
-        if (lastShotTime < 0 || (Time.time - lastShotTime) >= 2f)
+        base.AttackCloseBehavior();
+        if (lastAttackTime < 0 || (Time.time - lastAttackTime) >= 2f)
         {
-            //Debug.Log("Attacking Ranged!");
-
-            if (target != null)
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRangeClose);
+            foreach (Collider enemy in hitEnemies)
             {
-                Vector3 pos = target.position;
-                //Debug.Log($"Shooting target Position: x={pos.x}, y={pos.y}, z={pos.z}");
-                slingshot.ShootProjectile();
+                if (enemy.CompareTag("Player"))
+                {
+                    Debug.Log("Hit enemy: " + enemy.name);
+                    enemy.GetComponent<Healthbar>().TakeDamage(25 + (10 * (int)Math.Round(aggressiveness - 0.5))); // Aggressiveness modifies damage output (+/- 5 points)
+                }
             }
-            else
-            {
-                //Debug.LogWarning("Target is null!");
-            }
-
-            lastShotTime = Time.time;
+            lastAttackTime = Time.time;
         }
     }
 }

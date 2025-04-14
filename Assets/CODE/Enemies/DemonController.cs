@@ -10,12 +10,12 @@ public class DemonController : TrainableEnemy
     protected override void Start()
     {
         // Demon specific parameters
-        attackRangeRanged = 15f;
+        attackRangeRanged = 12f;
         retreatThreshold = 30f;
         aggressiveness = 0.5f;
         blockRate = 0.001f;
 
-        maxHealth = 80f;
+        maxHealth = 70f;
         vision = 25f;
         attackRangeClose = 2f;
         speed = 7f;
@@ -44,6 +44,24 @@ public class DemonController : TrainableEnemy
             }
 
             lastShotTime = Time.time;
+        }
+    }
+
+    protected override void AttackCloseBehavior()
+    {
+        base.AttackCloseBehavior();
+        if (lastAttackTime < 0 || (Time.time - lastAttackTime) >= 2f)
+        {
+            Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRangeClose);
+            foreach (Collider enemy in hitEnemies)
+            {
+                if (enemy.CompareTag("Player"))
+                {
+                    Debug.Log("Hit enemy: " + enemy.name);
+                    enemy.GetComponent<Healthbar>().TakeDamage(20 + (10 * (int)Math.Round(aggressiveness - 0.5))); // Aggressiveness modifies damage output (+/- 5 points)
+                }
+            }
+            lastAttackTime = Time.time;
         }
     }
 }
