@@ -27,8 +27,12 @@ public class Healthbar : MonoBehaviour
         if (active) // If enemy is not blocking
         {
             health -= damage;
-            lastDamageTime = Time.time;
         }
+        else
+        {
+            health -= damage/10;
+        }
+        lastDamageTime = Time.time;
         //Debug.Log($"Health remaining: {health}");
         if (health <= 0)
         {
