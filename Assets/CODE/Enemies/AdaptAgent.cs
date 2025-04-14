@@ -137,7 +137,10 @@ public class AdaptAgent : Agent
         isFighting = true;
         float fightStartTime = Time.time;
 
-        StartCoroutine(FightPhaseCoroutine());
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(FightPhaseCoroutine());
+        }
     }
 
     private IEnumerator FightPhaseCoroutine()
