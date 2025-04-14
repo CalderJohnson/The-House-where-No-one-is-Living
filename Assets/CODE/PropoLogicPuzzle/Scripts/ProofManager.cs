@@ -38,7 +38,6 @@ public class ProofController : MonoBehaviour
     private List<GameObject> ruleObjects = new List<GameObject>();
     private List<GameObject> ruleOptionObjects = new List<GameObject>();
 
-
     Animator Book;
 
     private void Awake(){
@@ -59,7 +58,6 @@ public class ProofController : MonoBehaviour
             }
         }
     }
-
 
     public void OpenPuzzle(PuzzleSO puzzleToLoad)
     {
@@ -121,10 +119,15 @@ public class ProofController : MonoBehaviour
         bool baseRuleSet = false;
         float currentFactY = 0f;
         float currentRuleY = 0f;
-        
+                
         // Instantiate fact UI items.
         foreach (var fact in currentPuzzle.facts)
         {
+            if (fact.hideUntilUnlocked)
+            {
+                continue;
+            }
+
             GameObject factGO = Instantiate(Resources.Load<GameObject>("Prefabs/FactPrefab"), givensPanel);
             FactDisplay fd = factGO.GetComponent<FactDisplay>();
             if (fd != null)
@@ -554,6 +557,7 @@ public class ProofController : MonoBehaviour
             }
             string premise1Pattern = parts[0].Trim();
             string premise2Pattern = parts[1].Trim();
+            // Debug.Log($"Premise 1: {premise1Pattern}, Premise 2: {premise2Pattern}.");
 
             bool matchFirst = TryMatchPremise(expr1, premise1Pattern) && TryMatchPremise(expr2, premise2Pattern);
             bool matchSecond = TryMatchPremise(expr2, premise1Pattern) && TryMatchPremise(expr1, premise2Pattern);
@@ -602,8 +606,10 @@ public class ProofController : MonoBehaviour
                 }
                 else if (rule.ruleName.StartsWith("I4")) // Modus Tollens: (~q, p => q) => ~p
                 {
+                    string negatedLogicString = "~" + candidateA.ToLogicString();
+                    Debug.Log(negatedLogicString);
                     if (TryDecomposeImplication(candidateB, out ExpressionNode left, out ExpressionNode right)
-                        && right.ToLogicString() == candidateA.ToLogicString())
+                        && right.ToLogicString() == negatedLogicString)
                     {
                         p = left;
                         Debug.Log($"Modus Tollens detected: {left.ToLogicString()} => {right.ToLogicString()}");

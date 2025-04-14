@@ -9,6 +9,7 @@ public class Fact : ScriptableObject
     [TextArea]
     [Tooltip("The raw text of the english sentence, which generates the fact text and any negations needed.")]
     public string rawFactText;
+    public bool hideUntilUnlocked = false; 
     
     [TextArea]
     [Tooltip("The English sentence (without negation)")]

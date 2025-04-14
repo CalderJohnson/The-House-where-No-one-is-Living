@@ -1775,6 +1775,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3104359203762725175, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2009685101}
+    - target: {fileID: 3104359203762725175, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndPuzzle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088498247287464129, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2009685101}
+    - target: {fileID: 4088498247287464129, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UndoLastProofLine
+      objectReference: {fileID: 0}
     - target: {fileID: 4491738916282588434, guid: 02c67a5afecbe498c83f3c6848cde43c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1880,6 +1900,16 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1250140155}
+    - target: {fileID: 8171248461662965006, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2009685101}
+    - target: {fileID: 8171248461662965006, guid: 02c67a5afecbe498c83f3c6848cde43c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleCombineMode
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6767,9 +6797,25 @@ PrefabInstance:
       objectReference: {fileID: 229198943}
     - target: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
         type: 3}
+      propertyPath: factYOffset
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
+        type: 3}
       propertyPath: givensPanel
       value: 
       objectReference: {fileID: 820993133}
+    - target: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
+        type: 3}
+      propertyPath: ruleYOffset
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
+        type: 3}
+      propertyPath: currentPuzzle
+      value: 
+      objectReference: {fileID: 11400000, guid: 77f980cfb62d741499a339232c89afe1,
+        type: 2}
     - target: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
         type: 3}
       propertyPath: puzzleContent
@@ -30662,6 +30708,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 728373438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2009685101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2248249184946167740, guid: 8e421492da9654faaa8e25354afa2e52,
+    type: 3}
+  m_PrefabInstance: {fileID: 419258274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309825fecf81847d4bcf08c09ad5bab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2014777979
 GameObject:
   m_ObjectHideFlags: 0
