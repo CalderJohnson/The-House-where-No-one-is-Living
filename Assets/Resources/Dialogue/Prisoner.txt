@@ -1,0 +1,15 @@
+Rowan: Test moment! This is so you can implement the decision node!
+Prisoner: Also test moment!
+[Decision: Prisoner]
+Rowan: What should I do?
+- [Ignore] Sucks to be you, man.
+- [Free] I can't just leave him here!
+[Ignore]
+Prisoner: LMAO be like that
+Prisoner: Begoneee!
+[ChoiceEnd: Ignore]
+[Free]
+Rowan: Imma get ya out of here!
+Rowan: But I gotta have my nice logical moment first ;)
+[ChoiceEnd: Free]
+[EndDecision: Prisoner]
