@@ -34,7 +34,7 @@ public class Healthbar : MonoBehaviour
         {
             Die();
         }
-        if(healthBarUI.value != health){
+        if(healthBarUI != null && healthBarUI.value != health){
             healthBarUI.value = health;
         }
     }

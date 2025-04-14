@@ -616,7 +616,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 75f29e4ba3436c24cbf6ecf2a9969f73, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 26135c62fefda8547a3d84ff18c8cf84, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: AdaptAgent
@@ -764,8 +764,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  affectsDecisionTree: 0
-  decisionNodeID: 
+  healthBarUI: {fileID: 0}
 --- !u!195 &193475207
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3537,7 +3536,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.15
+      value: -55.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55,
         type: 3}
@@ -3547,7 +3546,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.51
+      value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81bb9eea30387e442899949a80011e55,
         type: 3}
@@ -3721,8 +3720,7 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 0
-  decisionNodeID: 
+  healthBarUI: {fileID: 0}
 --- !u!114 &1001418489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3767,6 +3765,8 @@ MonoBehaviour:
   RotationSpeed: 10
   Camera: {fileID: 1197969833}
   AccelerationTime: 0.5
+  Weapon1: {fileID: 0}
+  Weapon2: {fileID: 0}
   Right_Hand:
     m_PersistentCalls:
       m_Calls:
@@ -4770,7 +4770,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1197969836}
   - component: {fileID: 1197969833}
-  - component: {fileID: 1197969835}
   - component: {fileID: 1197969834}
   m_Layer: 0
   m_Name: RaytracingCamera
@@ -4874,14 +4873,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &1197969835
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197969832}
-  m_Enabled: 1
 --- !u!4 &1197969836
 Transform:
   m_ObjectHideFlags: 0
@@ -6120,7 +6111,7 @@ PrefabInstance:
     - target: {fileID: 8040791419769401482, guid: 942e55daae0a2364d8246e7545f3d098,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8040791419769401482, guid: 942e55daae0a2364d8246e7545f3d098,
         type: 3}
@@ -6404,7 +6395,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 75f29e4ba3436c24cbf6ecf2a9969f73, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 26135c62fefda8547a3d84ff18c8cf84, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: AdaptAgent
@@ -6526,8 +6517,7 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 0
-  decisionNodeID: 
+  healthBarUI: {fileID: 0}
 --- !u!114 &1402889055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10224,7 +10214,7 @@ PrefabInstance:
     - target: {fileID: 3490026887102114920, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3490026887102114920, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4,
         type: 3}
@@ -10409,7 +10399,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 75f29e4ba3436c24cbf6ecf2a9969f73, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 26135c62fefda8547a3d84ff18c8cf84, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: AdaptAgent
@@ -10519,8 +10509,7 @@ MonoBehaviour:
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
-  affectsDecisionTree: 0
-  decisionNodeID: 
+  healthBarUI: {fileID: 0}
 --- !u!1001 &2134524058
 PrefabInstance:
   m_ObjectHideFlags: 0

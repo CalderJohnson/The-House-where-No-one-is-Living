@@ -15,10 +15,10 @@ public class FakePlayer : TrainableEnemy
         aggressiveness = 0.5f;
         blockRate = 0.001f; // Chance to block each frame
 
-        maxHealth = 80f;
+        maxHealth = 70f;
         vision = 25f;
-        attackRangeClose = 2f;
-        speed = 7f;
+        attackRangeClose = 3f;
+        speed = 6f;
 
         // Ranged attacking
         slingshot = GetComponentInChildren<Slingshot>();
@@ -57,7 +57,7 @@ public class FakePlayer : TrainableEnemy
             {
                 if (enemy.CompareTag("Player"))
                 {
-                    Debug.Log("Hit enemy: " + enemy.name);
+                    //Debug.Log("Hit enemy: " + enemy.name);
                     enemy.GetComponent<Healthbar>().TakeDamage(20 + (10 * (int)Math.Round(aggressiveness - 0.5))); // Aggressiveness modifies damage output (+/- 5 points)
                 }
             }
