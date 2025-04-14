@@ -16,12 +16,13 @@ public class ProofController : MonoBehaviour
     public GameObject bookCover;  // Reference to the PropoLogicBook
     public GameObject puzzleContent;  // Reference to the PropoLogicPuzzle (the content part)
     public Transform givensPanel;       // Left panel: container for facts and given rules.
-    public Transform proofPanel;        // Right panel: container for proof lines.
+    public RectTransform proofPanel;        // Right panel: container for proof lines.
     public GameObject proofLinePrefab;  // Prefab for proof lines.
     public GameObject ruleOptionsPanel; // Pop-up panel for rule options.
     public GameObject SubmitArea; // Where the submission button to end the puzzle appears.
     public TextMeshProUGUI thingToProveText;       // At top of proof page (displays the conclusion).
     public GameObject ruleOptionButtonPrefab; // Prefab for a rule option button.
+    public ScrollRect proofScrollRect;
     public float factYOffset = 10f; // Set in Inspector: vertical gap between Facts
     public float ruleYOffset = 15f; // Set in Inspector: vertical gap between Given Rules
     public float proofLineYOffset = 10f; // Set in Inspector: vertical gap between Proof Lines
@@ -208,16 +209,32 @@ public class ProofController : MonoBehaviour
         float newY;
         if (proofLines.Count == 1)
         {
-            // Get the initial y-position of the proofLinePrefab
-            newY = proofLinePrefab.GetComponent<RectTransform>().anchoredPosition.y;
+            // first line: use prefab’s default Y
+            newY = proofLinePrefab
+                .GetComponent<RectTransform>()
+                .anchoredPosition.y;
         }
         else
         {
-            // Get the y-position of the last proofLine and adjust by offset
-            newY = proofLines[proofLines.Count - 2].GetComponent<RectTransform>().anchoredPosition.y - proofLineYOffset;
+            // always compute the next Y based on the previous line
+            var prevRT = proofLines[proofLines.Count - 2]
+                .GetComponent<RectTransform>();
+            newY = prevRT.anchoredPosition.y - proofLineYOffset;
+
+            // once we hit 10 lines, grow the content panel
+            if (proofLines.Count >= 10)
+            {
+                proofPanel.sizeDelta = new Vector2(
+                    proofPanel.sizeDelta.x,
+                    proofPanel.sizeDelta.y + 20
+                );
+            }
         }
         
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, newY);
+
+        // ScrollRect’s verticalNormalizedPosition: 1 = top, 0 = bottom
+        proofScrollRect.verticalNormalizedPosition = 0f;
 
         ToggleSubmitArea(CheckProofValidity());
         
@@ -269,6 +286,16 @@ public class ProofController : MonoBehaviour
         {
             ProofLine lastLine = proofHistory.Pop();
             proofLines.Remove(lastLine);
+
+            // only shrink the panel if we had previously grown it
+            if (lastLine.lineNumber >= 10)
+            {
+                proofPanel.sizeDelta = new Vector2(
+                    proofPanel.sizeDelta.x,
+                    proofPanel.sizeDelta.y - 20
+                );
+            }
+
             Destroy(lastLine.gameObject);
         }
     }

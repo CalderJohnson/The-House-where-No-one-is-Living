@@ -37,5 +37,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e95f42309170946c9957b0808e43e9dd, type: 2}
   - {fileID: 11400000, guid: 300ef366e8cd04534865e830a03d81d3, type: 2}
   conclusion: {fileID: 11400000, guid: 929fe7c8ffe764b36a1b991673bf327f, type: 2}
-  maxProofLines: 11
+  maxProofLines: 15
   useProofByContradiction: 0
