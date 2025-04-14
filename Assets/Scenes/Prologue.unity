@@ -7443,6 +7443,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   dialogueFileName: 
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 0}
   interactionIcon: {fileID: 0}
   enableBlinkEffect: 1
@@ -12157,6 +12158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  active: 0
   Ragdoll:
     m_PersistentCalls:
       m_Calls: []
@@ -12249,8 +12251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetRef: {fileID: 1880867317}
   healthbar: {fileID: 872695774}
-  setHealth: 0
-  setSpeed: 0
   training: 0
   floor: {fileID: 0}
 --- !u!4 &874847085 stripped
@@ -18075,6 +18075,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: PrologueCampfire
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 276769502}
   enableBlinkEffect: 1
@@ -18405,6 +18406,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: PrologueTent
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 694120328}
   enableBlinkEffect: 1
@@ -20718,6 +20720,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: TestDecision
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 434147021}
   enableBlinkEffect: 1
@@ -23678,6 +23681,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: PrologueWaterTower
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 1092692713}
   enableBlinkEffect: 1
@@ -23775,6 +23779,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: ProloguePondDock
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 1445884168}
   enableBlinkEffect: 1
@@ -27602,6 +27607,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   dialogueFileName: PrologueSign
+  firstTimeDialogueFileName: 
   DialogueCanvas: {fileID: 1102039429}
   interactionIcon: {fileID: 640380139}
   enableBlinkEffect: 1
@@ -32905,6 +32911,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1789477825705201820, guid: 66d10ff59db174d0bb308c0319b018a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
